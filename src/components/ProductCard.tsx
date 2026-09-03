@@ -56,6 +56,10 @@ export default function ProductCard({ product }: { product: Product }) {
               Star Seller
             </span>
           )}
+          <span className="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+            <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Factory Direct
+          </span>
         </div>
       </div>
     </Link>
