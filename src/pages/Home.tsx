@@ -35,7 +35,6 @@ export default function Home() {
         </div>
         <div className="relative max-w-screen-xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-          <div>
             <p className="text-orange-300 text-sm font-semibold mb-2 font-outfit tracking-wide uppercase">Limited Time Offer</p>
             <h1 className="font-outfit font-black text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-3">
               Up to 90% Off<br />Everything
