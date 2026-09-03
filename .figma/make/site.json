@@ -1,0 +1,10 @@
+{
+  "description": "Create stunning mobile-responsive websites effortlessly with a focus on clean design, perfect for businesses and individuals seeking an impactful online presence.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

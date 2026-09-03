@@ -1,0 +1,503 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// Core Tables
+// -----------------------------------------------------------------------------
+
+model User {
+  id                 String    @id @default(uuid())
+  email              String    @unique
+  passwordHash       String?   @map("password_hash")
+  phone              String?
+  name               String?
+  emailVerified      Boolean   @default(false) @map("email_verified")
+  phoneVerified      Boolean   @default(false) @map("phone_verified")
+  status             String    @default("active") // active, suspended, banned
+  twoFactorSecret    String?   @map("2fa_secret")
+  twoFactorEnabled   Boolean   @default(false) @map("2fa_enabled")
+  preferredCurrency  String    @default("USD") @map("preferred_currency")
+  preferredLocale    String    @default("en") @map("preferred_locale")
+  referralCode       String    @unique @default(uuid()) @map("referral_code")
+  referredBy         String?   @map("referred_by")
+  walletBalance      Decimal   @default(0.00) @map("wallet_balance")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  sessions           UserSession[]
+  addresses          UserAddress[]
+  orders             Order[]
+  reviews            Review[]
+  supportTickets     SupportTicket[]
+  chatThreads        ChatThread[]
+  priceAlerts        PriceAlert[]
+  walletTransactions WalletTransaction[]
+  wishlist           Wishlist[]
+  recentlyViewed     RecentlyViewed[]
+  abandonedCart      AbandonedCart?
+
+  @@map("users")
+}
+
+model UserSession {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  refreshTokenHash String   @map("refresh_token_hash")
+  deviceInfo       String?  @map("device_info")
+  ipAddress        String?  @map("ip_address")
+  expiresAt        DateTime @map("expires_at")
+  revoked          Boolean  @default(false)
+
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
+}
+
+model UserAddress {
+  id        String  @id @default(uuid())
+  userId    String  @map("user_id")
+  label     String? // e.g., Home, Office
+  name      String
+  address   String
+  city      String
+  state     String?
+  zip       String
+  country   String
+  isDefault Boolean @default(false) @map("is_default")
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_addresses")
+}
+
+model Product {
+  id                Int      @id @default(autoincrement())
+  title             String
+  slug              String   @unique
+  description       String
+  basePriceUsd      Decimal  @map("base_price_usd")
+  originalPrice     Decimal? @map("original_price")
+  category          String
+  subcategory       String?
+  brand             String?
+  images            Json     // Array of strings
+  specs             Json     // Record<string, string>
+  badge             String?
+  stock             Int      @default(0)
+  rating            Decimal  @default(0.0)
+  reviewCount       Int      @default(0) @map("review_count")
+  soldCount         String?  @map("sold_count") // Stored as string like "2.4k+" for display, or could be Int
+  sellerId          String   @map("seller_id")
+  sourceType        String   @default("catalog") @map("source_type") // catalog, global-sourcing
+  supplierProductId String?  @map("supplier_product_id")
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  variants          ProductVariant[]
+  reviews           Review[]
+  wishlistedBy      Wishlist[]
+  recentlyViewedBy  RecentlyViewed[]
+  priceAlerts       PriceAlert[]
+  supplierProduct   SupplierProduct?
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id            String  @id @default(uuid())
+  productId     Int     @map("product_id")
+  sku           String  @unique
+  size          String?
+  color         String?
+  colorHex      String? @map("color_hex")
+  priceOverride Decimal? @map("price_override")
+  stock         Int     @default(0)
+  images        Json?   // Array of strings
+
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  orderItems    OrderItem[]
+
+  @@map("product_variants")
+}
+
+model Order {
+  id                 String   @id @default(uuid())
+  userId             String   @map("user_id")
+  orderNumber        String   @unique @map("order_number")
+  status             String   @default("Processing") // Processing, In Transit, Out for delivery, Delivered, Cancelled
+  subtotal           Decimal
+  shippingCost       Decimal  @default(0.00) @map("shipping_cost")
+  tax                Decimal  @default(0.00)
+  total              Decimal
+  currency           String   @default("USD")
+  paymentMethodLabel String   @map("payment_method_label")
+  shippingAddress    Json     @map("shipping_address")
+  notes              String?
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  user               User     @relation(fields: [userId], references: [id])
+  items              OrderItem[]
+  payments           Payment[]
+  procurementOrders  ProcurementOrder[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String   @map("order_id")
+  productId   Int      @map("product_id")
+  variantId   String?  @map("variant_id")
+  title       String
+  image       String?
+  unitPrice   Decimal  @map("unit_price")
+  quantity    Int
+  shipmentKey String?  @map("shipment_key")
+
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant     ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  @@map("order_items")
+}
+
+model Payment {
+  id                    String   @id @default(uuid())
+  orderId               String   @map("order_id")
+  provider              String   // paystack, flutterwave, stripe
+  providerTransactionId String?  @unique @map("provider_transaction_id")
+  amount                Decimal
+  currency              String
+  status                String   // pending, success, failed
+  metadata              Json?
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  order                 Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Review {
+  id               String   @id @default(uuid())
+  productId        Int      @map("product_id")
+  userId           String   @map("user_id")
+  rating           Int
+  title            String?
+  body             String
+  isVerifiedBuyer  Boolean  @default(true) @map("is_verified_buyer")
+  status           String   @default("approved") // pending, approved, rejected
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model Coupon {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  type      String   // percent, fixed
+  value     Decimal
+  minOrder  Decimal  @default(0.00) @map("min_order")
+  maxUses   Int?     @map("max_uses")
+  usedCount Int      @default(0) @map("used_count")
+  validFrom DateTime? @map("valid_from")
+  validTo   DateTime? @map("valid_to")
+  isActive  Boolean  @default(true) @map("is_active")
+
+  @@map("coupons")
+}
+
+model SupportTicket {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  subject    String
+  status     String   @default("open") // open, pending, resolved, closed
+  priority   String   @default("normal") // low, normal, high, urgent
+  assignedTo String?  @map("assigned_to") // admin_user_id
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("support_tickets")
+}
+
+model ChatThread {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  type            String   // support, seller
+  subject         String?
+  status          String   @default("open")
+  assignedAgentId String?  @map("assigned_agent_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages        ChatMessage[]
+
+  @@map("chat_threads")
+}
+
+model ChatMessage {
+  id             String   @id @default(uuid())
+  threadId       String   @map("thread_id")
+  senderType     String   @map("sender_type") // customer, agent, bot, system
+  senderId       String   @map("sender_id") // userId or adminUserId
+  body           String
+  attachments    Json?    // Array of URLs
+  isInternalNote Boolean  @default(false) @map("is_internal_note")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  thread         ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@map("chat_messages")
+}
+
+model AdminUser {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  passwordHash     String   @map("password_hash")
+  name             String
+  role             String   @default("support_agent") // super_admin, product_manager, support_agent, finance
+  twoFactorSecret  String?  @map("2fa_secret")
+  twoFactorEnabled Boolean  @default(true) @map("2fa_enabled")
+  status           String   @default("active")
+  lastLoginAt      DateTime? @map("last_login_at")
+
+  sessions         AdminSession[]
+  auditLogs        AuditLog[]
+
+  @@map("admin_users")
+}
+
+model AdminSession {
+  id               String   @id @default(uuid())
+  adminUserId      String   @map("admin_user_id")
+  refreshTokenHash String   @map("refresh_token_hash")
+  deviceInfo       String?  @map("device_info")
+  ipAddress        String?  @map("ip_address")
+  expiresAt        DateTime @map("expires_at")
+  revoked          Boolean  @default(false)
+
+  adminUser        AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  @@map("admin_sessions")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  adminUserId String   @map("admin_user_id")
+  action      String
+  entityType  String   @map("entity_type")
+  entityId    String?  @map("entity_id")
+  details     Json?
+  ipAddress   String?  @map("ip_address")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id])
+
+  @@map("audit_log")
+}
+
+// -----------------------------------------------------------------------------
+// Sourcing Tables
+// -----------------------------------------------------------------------------
+
+model SourcingProvider {
+  id                       String   @id @default(uuid())
+  name                     String
+  key                      String   @unique
+  apiCredentialsEncrypted  String?  @map("api_credentials_encrypted")
+  baseUrl                  String?  @map("base_url")
+  markupRules              Json?    @map("markup_rules")
+  isActive                 Boolean  @default(true) @map("is_active")
+
+  supplierProducts         SupplierProduct[]
+  catalogSyncJobs          CatalogSyncJob[]
+  procurementOrders        ProcurementOrder[]
+
+  @@map("sourcing_providers")
+}
+
+model SupplierProduct {
+  id                 String   @id @default(uuid())
+  sourcingProviderId String   @map("sourcing_provider_id")
+  providerProductId  String   @unique @map("provider_product_id")
+  supplierId         String   @map("supplier_id")
+  supplierName       String   @map("supplier_name")
+  rawTitle           String   @map("raw_title")
+  rawCurrency        String   @default("CNY") @map("raw_currency")
+  rawWholesalePrice  Decimal  @map("raw_wholesale_price")
+  moq                Int      @default(1)
+  tierPricing        Json?    @map("tier_pricing")
+  rawAttributes      Json?    @map("raw_attributes")
+  imageSet           Json     @map("image_set") // Array of strings
+  sourceUrl          String?  @map("source_url")
+  categoryHint       String?  @map("category_hint")
+  landedCost         Decimal? @map("landed_cost")
+  markupAmount       Decimal? @map("markup_amount")
+  publicProductId    Int?     @unique @map("public_product_id")
+  lastSyncedAt       DateTime @default(now()) @map("last_synced_at")
+
+  sourcingProvider   SourcingProvider @relation(fields: [sourcingProviderId], references: [id])
+  publicProduct      Product?         @relation(fields: [publicProductId], references: [id], onDelete: SetNull)
+
+  @@map("supplier_products")
+}
+
+model ProcurementOrder {
+  id                      String   @id @default(uuid())
+  orderId                 String   @map("order_id")
+  sourcingProviderKey     String   @map("sourcing_provider_key")
+  providerOrderId         String   @unique @map("provider_order_id")
+  providerTrackingId      String?  @map("provider_tracking_id")
+  publicTrackingRef       String?  @map("public_tracking_ref")
+  supplierId              String   @map("supplier_id")
+  supplierName            String   @map("supplier_name")
+  shipmentLabel           String   @map("shipment_label")
+  providerStatus          String   @map("provider_status")
+  customerStatus          String   @map("customer_status") // Enum mapping
+  costPaid                Decimal  @map("cost_paid")
+  estimatedDeliveryWindow String?  @map("estimated_delivery_window")
+  itemProductIds          Json     @map("item_product_ids") // Array of Product IDs
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  order                   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  sourcingProvider        SourcingProvider @relation(fields: [sourcingProviderKey], references: [key])
+
+  @@map("procurement_orders")
+}
+
+model CatalogSyncJob {
+  id                  String   @id @default(uuid())
+  sourcingProviderKey String   @map("sourcing_provider_key")
+  status              String   // running, success, failed
+  startedAt           DateTime @default(now()) @map("started_at")
+  endedAt             DateTime? @map("ended_at")
+  productsAdded       Int      @default(0) @map("products_added")
+  productsUpdated     Int      @default(0) @map("products_updated")
+  productsRemoved     Int      @default(0) @map("products_removed")
+  errors              Json?    // Array of error messages
+
+  sourcingProvider    SourcingProvider @relation(fields: [sourcingProviderKey], references: [key])
+
+  @@map("catalog_sync_jobs")
+}
+
+// -----------------------------------------------------------------------------
+// Personalization & Retention Tables
+// -----------------------------------------------------------------------------
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  productId Int      @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("wishlists")
+}
+
+model RecentlyViewed {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  productId Int      @map("product_id")
+  viewedAt  DateTime @default(now()) @map("viewed_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("recently_viewed")
+}
+
+model PriceAlert {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  productId   Int      @map("product_id")
+  alertType   String   @map("alert_type") // back_in_stock, price_drop
+  targetPrice Decimal? @map("target_price")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("price_alerts")
+}
+
+model Referral {
+  id           String   @id @default(uuid())
+  referrerId   String   @map("referrer_id")
+  refereeId    String   @map("referee_id")
+  rewardAmount Decimal  @map("reward_amount")
+  status       String   @default("pending") // pending, completed, cancelled
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("referrals")
+}
+
+model WalletTransaction {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  amount      Decimal
+  type        String   // credit, debit
+  reason      String
+  referenceId String?  @map("reference_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("wallet_transactions")
+}
+
+model AbandonedCart {
+  id                 String   @id @default(uuid())
+  userId             String   @unique @map("user_id")
+  items              Json     // Array of CartItem objects
+  recoveryEmailSent  Boolean  @default(false) @map("recovery_email_sent")
+  recoveryPushSent   Boolean  @default(false) @map("recovery_push_sent")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("abandoned_carts")
+}
+
+// -----------------------------------------------------------------------------
+// Currency & Localization Tables
+// -----------------------------------------------------------------------------
+
+model ExchangeRate {
+  id           String   @id @default(uuid())
+  fromCurrency String   @map("from_currency")
+  toCurrency   String   @map("to_currency")
+  rate         Decimal
+  fetchedAt    DateTime @default(now()) @map("fetched_at")
+
+  @@unique([fromCurrency, toCurrency])
+  @@map("exchange_rates")
+}
+
+model FeatureFlag {
+  id                String   @id @default(uuid())
+  key               String   @unique
+  enabled           Boolean  @default(false)
+  rolloutPercentage Int      @default(0) @map("rollout_percentage")
+  description       String?
+
+  @@map("feature_flags")
+}
