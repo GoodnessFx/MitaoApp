@@ -6,7 +6,7 @@ import ProductCard from "../components/ProductCard";
 function PolicyLayout({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-[#2563EB] text-white py-10 px-6">
+      <div className="bg-[#0A1931] text-white py-10 px-6">
         <div className="max-w-3xl mx-auto">
           <h1 className="font-outfit font-black text-3xl">{title}</h1>
           <p className="text-blue-200 text-sm mt-1">Last updated: September 2026</p>
@@ -54,13 +54,13 @@ export function Privacy() {
         We use cookies and similar technologies to maintain sessions, remember preferences, analyze traffic, and serve relevant advertisements. Manage preferences via our Cookie Settings page.
       </Section>
       <Section title="5. Your Rights">
-        Depending on your location, you may have rights to access, correct, delete, or port your personal data. Contact <a href="mailto:privacy@mitao.com" className="text-[#2563EB]">privacy@mitao.com</a> to exercise these rights.
+        Depending on your location, you may have rights to access, correct, delete, or port your personal data. Contact <a href="mailto:privacy@mitao.com" className="text-[#0A1931]">privacy@mitao.com</a> to exercise these rights.
       </Section>
       <Section title="6. Data Retention">
         We retain personal data as long as necessary to provide services and meet legal obligations. Order records are retained for 7 years.
       </Section>
       <Section title="7. Contact">
-        Questions? Contact us at <a href="mailto:privacy@mitao.com" className="text-[#2563EB]">privacy@mitao.com</a> or our <Link to="/support" className="text-[#2563EB]">support center</Link>.
+        Questions? Contact us at <a href="mailto:privacy@mitao.com" className="text-[#0A1931]">privacy@mitao.com</a> or our <Link to="/support" className="text-[#0A1931]">support center</Link>.
       </Section>
     </PolicyLayout>
   );
@@ -112,7 +112,7 @@ export function Safety() {
         ))}
       </div>
       <Section title="Reporting Suspicious Activity">
-        If you encounter a suspicious seller or listing, report it via <a href="mailto:safety@mitao.com" className="text-[#2563EB]">safety@mitao.com</a>. We investigate all reports within 24 hours.
+        If you encounter a suspicious seller or listing, report it via <a href="mailto:safety@mitao.com" className="text-[#0A1931]">safety@mitao.com</a>. We investigate all reports within 24 hours.
       </Section>
       <Section title="Scam Awareness">
         Mitao will never ask for your password or payment card details outside of our official platform. Be cautious of emails or messages requesting sensitive information.
@@ -140,7 +140,7 @@ export function Support() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-[#2563EB] text-white py-10 px-6">
+      <div className="bg-[#0A1931] text-white py-10 px-6">
         <div className="max-w-3xl mx-auto">
           <h1 className="font-outfit font-black text-3xl mb-2">Support Center</h1>
           <p className="text-blue-200 text-sm mb-4">Find answers fast or chat with our team.</p>
@@ -185,7 +185,7 @@ export function Support() {
         <div className="bg-[#EFF6FF] rounded-2xl p-6 text-center border border-blue-100">
           <p className="font-outfit font-bold text-gray-900 mb-1">Still need help?</p>
           <p className="text-sm text-gray-600 mb-4">Our support team is available 24/7.</p>
-          <Link to="/chat" className="inline-flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm">
+          <Link to="/chat" className="inline-flex items-center gap-2 bg-[#0A1931] hover:bg-[#061021] text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
             Chat with us now
           </Link>
@@ -282,7 +282,7 @@ export function NewIn() {
   const newProducts = [...PRODUCTS].reverse().slice(0, 10);
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-gradient-to-r from-[#2563EB] to-[#3B82F6] text-white py-8 px-6 mb-4">
+      <div className="bg-gradient-to-r from-[#0A1931] to-[#3B82F6] text-white py-8 px-6 mb-4">
         <div className="max-w-screen-xl mx-auto">
           <h1 className="font-outfit font-black text-3xl">New In</h1>
           <p className="text-blue-200 text-sm mt-1">Fresh arrivals updated daily</p>
@@ -338,7 +338,7 @@ export function TopRated() {
 export function NotFound() {
   return (
     <div className="min-h-screen bg-[#F5F5F5] flex flex-col items-center justify-center gap-4">
-      <div className="text-8xl font-outfit font-black text-[#2563EB]">404</div>
+      <div className="text-8xl font-outfit font-black text-[#0A1931]">404</div>
       <h1 className="font-outfit font-bold text-2xl text-gray-900">Page not found</h1>
       <p className="text-gray-400">The page you're looking for doesn't exist.</p>
       <Link to="/" className="bg-[#F97316] hover:bg-[#EA580C] text-white font-bold px-8 py-3 rounded-xl transition-colors font-outfit">
@@ -368,7 +368,7 @@ export function CookieSettings() {
         In this demo build, cookie preferences are not persisted across browsers. In production, these toggles should be stored server-side and applied to analytics/ads SDK initialization.
       </Section>
       <Section title="Need help?">
-        Visit our <Link to="/support" className="text-[#2563EB]">support center</Link> or contact <a className="text-[#2563EB]" href="mailto:privacy@mitao.com">privacy@mitao.com</a>.
+        Visit our <Link to="/support" className="text-[#0A1931]">support center</Link> or contact <a className="text-[#0A1931]" href="mailto:privacy@mitao.com">privacy@mitao.com</a>.
       </Section>
     </PolicyLayout>
   );
@@ -390,7 +390,7 @@ export function About() {
         />
       </Section>
       <Section title="Contact">
-        For press or partnerships, use <a className="text-[#2563EB]" href="mailto:hello@mitao.com">hello@mitao.com</a>. For order help, use the <Link to="/support" className="text-[#2563EB]">support center</Link>.
+        For press or partnerships, use <a className="text-[#0A1931]" href="mailto:hello@mitao.com">hello@mitao.com</a>. For order help, use the <Link to="/support" className="text-[#0A1931]">support center</Link>.
       </Section>
     </PolicyLayout>
   );
@@ -412,7 +412,7 @@ export function Affiliate() {
         />
       </Section>
       <Section title="Apply">
-        Email <a className="text-[#2563EB]" href="mailto:affiliates@mitao.com">affiliates@mitao.com</a> with your social links and audience stats.
+        Email <a className="text-[#0A1931]" href="mailto:affiliates@mitao.com">affiliates@mitao.com</a> with your social links and audience stats.
       </Section>
     </PolicyLayout>
   );
@@ -425,7 +425,7 @@ export function Careers() {
         We’re building a marketplace where shoppers can move fast without losing confidence. If you care about craftsmanship, performance, and clean UX, you’ll fit in.
       </Section>
       <Section title="How to apply">
-        Send your portfolio/LinkedIn and role interests to <a className="text-[#2563EB]" href="mailto:careers@mitao.com">careers@mitao.com</a>.
+        Send your portfolio/LinkedIn and role interests to <a className="text-[#0A1931]" href="mailto:careers@mitao.com">careers@mitao.com</a>.
       </Section>
     </PolicyLayout>
   );
@@ -435,7 +435,7 @@ export function Press() {
   return (
     <PolicyLayout title="Press">
       <Section title="Media enquiries">
-        For media requests, interviews, or brand assets, contact <a className="text-[#2563EB]" href="mailto:press@mitao.com">press@mitao.com</a>.
+        For media requests, interviews, or brand assets, contact <a className="text-[#0A1931]" href="mailto:press@mitao.com">press@mitao.com</a>.
       </Section>
       <Section title="Brand assets">
         Use our name as “Mitao” (no extra punctuation). Don’t alter the wordmark colors in a way that reduces readability.
@@ -464,7 +464,7 @@ export function IPPolicy() {
         Mitao does not allow listings that infringe trademarks, copyrights, patents, or trade dress. We investigate valid notices and remove infringing listings quickly.
       </Section>
       <Section title="How to report">
-        Send reports to <a className="text-[#2563EB]" href="mailto:ip@mitao.com">ip@mitao.com</a> with evidence of ownership and links to the listings.
+        Send reports to <a className="text-[#0A1931]" href="mailto:ip@mitao.com">ip@mitao.com</a> with evidence of ownership and links to the listings.
       </Section>
       <Section title="Repeat violations">
         Sellers who repeatedly violate IP rules may be suspended or permanently banned.
@@ -486,7 +486,7 @@ export function ReportSuspicious() {
         />
       </Section>
       <Section title="How to report">
-        Email <a className="text-[#2563EB]" href="mailto:safety@mitao.com">safety@mitao.com</a> with screenshots and order IDs. You can also start a thread in <Link to="/chat" className="text-[#2563EB]">chat</Link>.
+        Email <a className="text-[#0A1931]" href="mailto:safety@mitao.com">safety@mitao.com</a> with screenshots and order IDs. You can also start a thread in <Link to="/chat" className="text-[#0A1931]">chat</Link>.
       </Section>
     </PolicyLayout>
   );
@@ -499,7 +499,7 @@ export function Partner() {
         We partner with suppliers, logistics providers, creators, and brands that can meet quality, consistency, and customer-care expectations.
       </Section>
       <Section title="Get in touch">
-        Contact <a className="text-[#2563EB]" href="mailto:partners@mitao.com">partners@mitao.com</a> with your company profile and the kind of partnership you’re proposing.
+        Contact <a className="text-[#0A1931]" href="mailto:partners@mitao.com">partners@mitao.com</a> with your company profile and the kind of partnership you’re proposing.
       </Section>
     </PolicyLayout>
   );
@@ -512,10 +512,10 @@ export function AdChoices() {
         Mitao may use optional marketing cookies to measure performance and show more relevant promotions. We do not sell personal data as a product.
       </Section>
       <Section title="Control your preferences">
-        You can manage marketing cookies in <Link to="/cookie-settings" className="text-[#2563EB]">Cookie Settings</Link>. If you turn marketing cookies off, you may still see ads, but they will be less relevant.
+        You can manage marketing cookies in <Link to="/cookie-settings" className="text-[#0A1931]">Cookie Settings</Link>. If you turn marketing cookies off, you may still see ads, but they will be less relevant.
       </Section>
       <Section title="Questions">
-        Contact <a className="text-[#2563EB]" href="mailto:privacy@mitao.com">privacy@mitao.com</a>.
+        Contact <a className="text-[#0A1931]" href="mailto:privacy@mitao.com">privacy@mitao.com</a>.
       </Section>
     </PolicyLayout>
   );

@@ -50,7 +50,7 @@ export default function AdminProducts() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-[#2563EB] hover:text-[#1D4ED8]">Edit</button>
+                    <button className="text-[#0A1931] hover:text-[#061021]">Edit</button>
                   </td>
                 </tr>
               ))}

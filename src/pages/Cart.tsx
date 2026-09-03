@@ -43,7 +43,7 @@ export default function Cart() {
             <div className="lg:col-span-2 flex flex-col gap-3">
               <div className="bg-white rounded-xl p-4 flex items-center justify-between">
                 <label className="flex items-center gap-2 text-sm text-gray-700 font-medium cursor-pointer">
-                  <input type="checkbox" defaultChecked className="accent-[#2563EB]" />
+                  <input type="checkbox" defaultChecked className="accent-[#0A1931]" />
                   Select all ({cartProducts.length})
                 </label>
                 <button onClick={() => cartStore.clearCart()} className="text-xs text-red-500 hover:text-red-700 transition-colors">
@@ -53,16 +53,16 @@ export default function Cart() {
 
               {cartProducts.map(({ item, product }) => (
                 <div key={`${item.productId}-${item.size}`} className="bg-white rounded-xl p-4 flex gap-4">
-                  <input type="checkbox" defaultChecked className="accent-[#2563EB] mt-1 flex-shrink-0" />
+                  <input type="checkbox" defaultChecked className="accent-[#0A1931] mt-1 flex-shrink-0" />
                   <Link to={`/product/${product!.id}`} className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                     <img src={product!.image} alt={product!.title} className="w-full h-full object-cover" />
                   </Link>
                   <div className="flex-1 min-w-0">
-                    <Link to={`/product/${product!.id}`} className="text-sm text-gray-800 font-medium line-clamp-2 hover:text-[#2563EB] transition-colors">{product!.title}</Link>
+                    <Link to={`/product/${product!.id}`} className="text-sm text-gray-800 font-medium line-clamp-2 hover:text-[#0A1931] transition-colors">{product!.title}</Link>
                     {item.size && <p className="text-xs text-gray-400 mt-0.5">Size: {item.size}</p>}
                     <div className="flex items-center justify-between mt-2">
                       <div>
-                        <span className="text-[#2563EB] font-bold font-outfit text-base">${product!.price.toFixed(2)}</span>
+                        <span className="text-[#0A1931] font-bold font-outfit text-base">${product!.price.toFixed(2)}</span>
                         <span className="text-gray-400 line-through text-xs ml-2">${product!.originalPrice.toFixed(2)}</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -111,7 +111,7 @@ export default function Cart() {
                 <div className="border-t border-gray-100 pt-3 mb-4">
                   <div className="flex justify-between font-outfit font-bold text-lg">
                     <span>Total</span>
-                    <span className="text-[#2563EB]">${subtotal.toFixed(2)}</span>
+                    <span className="text-[#0A1931]">${subtotal.toFixed(2)}</span>
                   </div>
                 </div>
                 <button onClick={() => navigate("/checkout")} className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white font-outfit font-bold py-3.5 rounded-xl transition-colors text-base">
@@ -127,8 +127,8 @@ export default function Cart() {
               <div className="bg-white rounded-xl p-4">
                 <p className="text-sm font-semibold text-gray-700 mb-2">Have a coupon?</p>
                 <div className="flex gap-2">
-                  <input type="text" placeholder="Enter code" className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#2563EB]" />
-                  <button className="bg-[#2563EB] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#1D4ED8] transition-colors">Apply</button>
+                  <input type="text" placeholder="Enter code" className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#0A1931]" />
+                  <button className="bg-[#0A1931] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#061021] transition-colors">Apply</button>
                 </div>
               </div>
 

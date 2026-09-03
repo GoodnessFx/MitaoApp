@@ -10,7 +10,7 @@ const MOCK_ORDERS = [
 
 const STATUS_COLORS: Record<string, string> = {
   Delivered: "bg-green-50 text-green-700",
-  "In Transit": "bg-blue-50 text-[#2563EB]",
+  "In Transit": "bg-blue-50 text-[#0A1931]",
   Processing: "bg-orange-50 text-orange-700",
   Cancelled: "bg-red-50 text-red-700",
 };
@@ -53,7 +53,7 @@ export default function Orders() {
           <div className="flex border-b border-gray-100">
             {([["all","All Orders"],["processing","Processing"],["transit","In Transit"],["delivered","Delivered"]] as const).map(([tab, label]) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === tab ? "text-[#2563EB] border-b-2 border-[#2563EB]" : "text-gray-500 hover:text-gray-700"}`}>
+                className={`flex-1 py-3 text-sm font-medium transition-colors ${activeTab === tab ? "text-[#0A1931] border-b-2 border-[#0A1931]" : "text-gray-500 hover:text-gray-700"}`}>
                 {label}
               </button>
             ))}
@@ -65,7 +65,7 @@ export default function Orders() {
             <div className="flex flex-col items-center justify-center py-16 gap-3">
               <svg className="w-16 h-16 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
               <p className="text-gray-400">No orders in this category</p>
-              <Link to="/" className="text-[#2563EB] text-sm hover:underline">Start shopping</Link>
+              <Link to="/" className="text-[#0A1931] text-sm hover:underline">Start shopping</Link>
             </div>
           )}
           {filtered.map((order) => {
@@ -76,7 +76,7 @@ export default function Orders() {
                   <div className="flex flex-wrap gap-4 text-sm">
                     <div><p className="text-xs text-gray-400">Order ID</p><p className="font-semibold text-gray-800">{order.id}</p></div>
                     <div><p className="text-xs text-gray-400">Placed on</p><p className="font-semibold text-gray-800">{order.date}</p></div>
-                    <div><p className="text-xs text-gray-400">Total</p><p className="font-semibold text-[#2563EB] font-outfit">${order.total.toFixed(2)}</p></div>
+                    <div><p className="text-xs text-gray-400">Total</p><p className="font-semibold text-[#0A1931] font-outfit">${order.total.toFixed(2)}</p></div>
                   </div>
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full ${STATUS_COLORS[order.status]}`}>{order.status}</span>
                 </div>
@@ -89,7 +89,7 @@ export default function Orders() {
                           <img src={product!.image} alt={product!.title} className="w-full h-full object-cover" />
                         </Link>
                         <div className="flex-1 min-w-0">
-                          <Link to={`/product/${product!.id}`} className="text-sm text-gray-800 hover:text-[#2563EB] transition-colors line-clamp-1">{product!.title}</Link>
+                          <Link to={`/product/${product!.id}`} className="text-sm text-gray-800 hover:text-[#0A1931] transition-colors line-clamp-1">{product!.title}</Link>
                           <p className="text-xs text-gray-400">Qty: {qty} · ${product!.price.toFixed(2)} each</p>
                         </div>
                       </div>
@@ -98,16 +98,16 @@ export default function Orders() {
 
                   {order.tracking && (
                     <div className="bg-blue-50 rounded-lg p-3 flex items-center gap-3 mb-3">
-                      <svg className="w-4 h-4 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
+                      <svg className="w-4 h-4 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
                       <div>
                         <p className="text-xs text-gray-500">Tracking number</p>
-                        <p className="text-sm font-mono font-semibold text-[#2563EB]">{order.tracking}</p>
+                        <p className="text-sm font-mono font-semibold text-[#0A1931]">{order.tracking}</p>
                       </div>
                     </div>
                   )}
 
                   <div className="flex gap-2 flex-wrap">
-                    <Link to={`/chat`} className="text-xs border border-[#2563EB] text-[#2563EB] hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors font-semibold">
+                    <Link to={`/chat`} className="text-xs border border-[#0A1931] text-[#0A1931] hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors font-semibold">
                       Contact Support
                     </Link>
                     {order.status === "Delivered" && (

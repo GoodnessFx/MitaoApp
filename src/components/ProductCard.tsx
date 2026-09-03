@@ -15,7 +15,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="relative aspect-square bg-gray-100 overflow-hidden">
         <img src={product.image} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         {product.badge && (
-          <span className="absolute top-2 left-2 bg-[#2563EB] text-white text-[10px] font-bold px-2 py-0.5 rounded-sm font-outfit">{product.badge}</span>
+          <span className="absolute top-2 left-2 bg-[#0A1931] text-white text-[10px] font-bold px-2 py-0.5 rounded-sm font-outfit">{product.badge}</span>
         )}
         {product.colors && (
           <div className="absolute bottom-2 left-2">
@@ -27,7 +27,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="text-[12px] leading-4 text-gray-800 line-clamp-2 mb-1.5">{product.title}</p>
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-1.5">
-            <span className="text-[#2563EB] font-bold text-[14px] font-outfit">${product.price.toFixed(2)}</span>
+            <span className="text-[#0A1931] font-bold text-[14px] font-outfit">${product.price.toFixed(2)}</span>
             <span className="text-gray-400 text-[11px] line-through">${product.originalPrice.toFixed(2)}</span>
           </div>
           <button onClick={handleAdd} className="w-7 h-7 bg-[#F97316] hover:bg-[#EA580C] text-white rounded-full flex items-center justify-center transition-colors flex-shrink-0">

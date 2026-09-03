@@ -6,8 +6,8 @@ html, body, #root {
 }
 
 @theme inline {
-  --color-brand-blue: #2563EB;
-  --color-brand-blue-dark: #1D4ED8;
+  --color-brand-blue: #0A1931;
+  --color-brand-blue-dark: #061021;
   --color-brand-blue-light: #EFF6FF;
   --color-brand-orange: #F97316;
   --color-brand-orange-dark: #EA580C;

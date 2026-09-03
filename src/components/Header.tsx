@@ -14,7 +14,7 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
             key={cat}
             onMouseEnter={() => setActive(cat)}
             onClick={() => { navigate(`/categories?cat=${encodeURIComponent(cat)}`); onClose(); }}
-            className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${active === cat ? "bg-gray-50 text-[#2563EB] font-semibold" : "text-gray-700 hover:bg-gray-50"}`}
+            className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${active === cat ? "bg-gray-50 text-[#0A1931] font-semibold" : "text-gray-700 hover:bg-gray-50"}`}
           >
             {cat}
           </button>
@@ -30,14 +30,14 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
               className="flex flex-col items-center gap-2 cursor-pointer group"
             >
               <div className="relative">
-                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-[#2563EB] transition-colors bg-gray-100">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-[#0A1931] transition-colors bg-gray-100">
                   <img src={sub.img} alt={sub.label} className="w-full h-full object-cover" />
                 </div>
                 {sub.hot && (
                   <span className="absolute -top-1 -right-1 bg-[#F97316] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm">HOT</span>
                 )}
               </div>
-              <span className="text-xs text-gray-700 text-center group-hover:text-[#2563EB] transition-colors">{sub.label}</span>
+              <span className="text-xs text-gray-700 text-center group-hover:text-[#0A1931] transition-colors">{sub.label}</span>
             </div>
           ))}
         </div>
@@ -96,20 +96,20 @@ function SignInPopover({ onClose }: { onClose: () => void }) {
         </div>
         <div className="p-4">
           <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 mb-4">
-            <div className="w-10 h-10 rounded-full bg-[#2563EB] flex items-center justify-center text-white font-bold text-sm">J</div>
+            <div className="w-10 h-10 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold text-sm">J</div>
             <div>
               <p className="text-sm font-medium text-gray-900">Jamie Chen</p>
               <p className="text-xs text-gray-500">jamie.chen@gmail.com</p>
             </div>
           </div>
           <button onClick={() => { navigate("/account"); onClose(); }}
-            className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-lg py-2.5 text-sm font-semibold transition-colors mb-3">
+            className="w-full bg-[#0A1931] hover:bg-[#061021] text-white rounded-lg py-2.5 text-sm font-semibold transition-colors mb-3">
             Continue as Jamie
           </button>
           <p className="text-[10px] text-gray-400 text-center leading-relaxed">
             To continue, google.com will share your name, email address, and profile picture with this site. See this site's{" "}
-            <Link to="/privacy" onClick={onClose} className="text-[#2563EB] underline">privacy policy</Link> and{" "}
-            <Link to="/terms" onClick={onClose} className="text-[#2563EB] underline">terms of service</Link>.
+            <Link to="/privacy" onClick={onClose} className="text-[#0A1931] underline">privacy policy</Link> and{" "}
+            <Link to="/terms" onClick={onClose} className="text-[#0A1931] underline">terms of service</Link>.
           </p>
         </div>
       </div>
@@ -135,8 +135,8 @@ function SignInPopover({ onClose }: { onClose: () => void }) {
       </button>
       <p className="text-[10px] text-gray-400 text-center leading-relaxed">
         By continuing, you agree to our{" "}
-        <Link to="/terms" onClick={onClose} className="text-[#2563EB]">Terms of Use</Link> and acknowledge that you have read our{" "}
-        <Link to="/privacy" onClick={onClose} className="text-[#2563EB]">Privacy Policy</Link>.
+        <Link to="/terms" onClick={onClose} className="text-[#0A1931]">Terms of Use</Link> and acknowledge that you have read our{" "}
+        <Link to="/privacy" onClick={onClose} className="text-[#0A1931]">Privacy Policy</Link>.
       </p>
     </div>
   );
@@ -193,7 +193,7 @@ export default function Header() {
           </div>
         </div>
       )}
-      <div className="bg-[#2563EB]">
+      <div className="bg-[#0A1931]">
         <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center gap-4">
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">

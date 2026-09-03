@@ -56,7 +56,7 @@ export default function Chat() {
       <div className="max-w-2xl mx-auto px-4 py-6">
         {/* Chat header */}
         <div className="bg-white rounded-t-xl border-b border-gray-100 p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#2563EB] flex items-center justify-center text-white font-bold">
+          <div className="w-10 h-10 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold">
             {isSupport ? "M" : sellerName[0]}
           </div>
           <div>
@@ -67,7 +67,7 @@ export default function Chat() {
             </div>
           </div>
           <div className="ml-auto flex gap-2">
-            <div className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#2563EB] cursor-pointer rounded-lg hover:bg-gray-50 transition-colors">
+            <div className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#0A1931] cursor-pointer rounded-lg hover:bg-gray-50 transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
             </div>
           </div>
@@ -78,11 +78,11 @@ export default function Chat() {
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} gap-2`}>
               {msg.from !== "user" && (
-                <div className="w-7 h-7 rounded-full bg-[#2563EB] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-auto">
+                <div className="w-7 h-7 rounded-full bg-[#0A1931] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-auto">
                   {isSupport ? "M" : sellerName[0]}
                 </div>
               )}
-              <div className={`max-w-xs rounded-2xl px-4 py-2.5 ${msg.from === "user" ? "bg-[#2563EB] text-white rounded-br-sm" : "bg-gray-100 text-gray-800 rounded-bl-sm"}`}>
+              <div className={`max-w-xs rounded-2xl px-4 py-2.5 ${msg.from === "user" ? "bg-[#0A1931] text-white rounded-br-sm" : "bg-gray-100 text-gray-800 rounded-bl-sm"}`}>
                 <p className="text-sm leading-relaxed">{msg.text}</p>
                 <p className={`text-[10px] mt-1 ${msg.from === "user" ? "text-blue-200" : "text-gray-400"}`}>{msg.time}</p>
               </div>
@@ -90,7 +90,7 @@ export default function Chat() {
           ))}
           {isTyping && (
             <div className="flex items-end gap-2">
-              <div className="w-7 h-7 rounded-full bg-[#2563EB] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">{isSupport ? "M" : sellerName[0]}</div>
+              <div className="w-7 h-7 rounded-full bg-[#0A1931] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">{isSupport ? "M" : sellerName[0]}</div>
               <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
                 <div className="flex gap-1">
                   {[0,1,2].map((i)=>(
@@ -108,7 +108,7 @@ export default function Chat() {
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
             {QUICK_REPLIES.map((r) => (
               <button key={r} onClick={() => sendMessage(r)}
-                className="flex-shrink-0 text-xs border border-[#2563EB] text-[#2563EB] px-3 py-1.5 rounded-full hover:bg-blue-50 transition-colors">
+                className="flex-shrink-0 text-xs border border-[#0A1931] text-[#0A1931] px-3 py-1.5 rounded-full hover:bg-blue-50 transition-colors">
                 {r}
               </button>
             ))}
@@ -117,7 +117,7 @@ export default function Chat() {
 
         {/* Input */}
         <div className="bg-white rounded-b-xl border-t border-gray-100 p-3 flex gap-2">
-          <button className="text-gray-400 hover:text-[#2563EB] transition-colors">
+          <button className="text-gray-400 hover:text-[#0A1931] transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
           </button>
           <input
@@ -129,7 +129,7 @@ export default function Chat() {
             className="flex-1 text-sm outline-none text-gray-800 placeholder-gray-400"
           />
           <button onClick={() => sendMessage(input)} disabled={!input.trim()}
-            className="bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-40 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+            className="bg-[#0A1931] hover:bg-[#061021] disabled:opacity-40 text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
           </button>
         </div>

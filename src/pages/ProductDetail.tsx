@@ -31,7 +31,7 @@ export default function ProductDetail() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <p className="text-gray-400 text-lg">Product not found</p>
-        <Link to="/" className="text-[#2563EB] underline">Return home</Link>
+        <Link to="/" className="text-[#0A1931] underline">Return home</Link>
       </div>
     );
   }
@@ -59,9 +59,9 @@ export default function ProductDetail() {
       {/* Breadcrumb */}
       <div className="max-w-screen-xl mx-auto px-4 py-3">
         <div className="flex items-center gap-2 text-xs text-gray-500">
-          <Link to="/" className="hover:text-[#2563EB]">Home</Link>
+          <Link to="/" className="hover:text-[#0A1931]">Home</Link>
           <span>/</span>
-          <Link to={`/categories?cat=${encodeURIComponent(product.category)}`} className="hover:text-[#2563EB]">{product.category}</Link>
+          <Link to={`/categories?cat=${encodeURIComponent(product.category)}`} className="hover:text-[#0A1931]">{product.category}</Link>
           <span>/</span>
           <span className="text-gray-800 truncate max-w-xs">{product.title}</span>
         </div>
@@ -74,7 +74,7 @@ export default function ProductDetail() {
             <div className="flex flex-col gap-2">
               {product.images.map((img, i) => (
                 <button key={i} onClick={() => setSelectedImg(i)}
-                  className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors bg-gray-100 flex-shrink-0 ${selectedImg === i ? "border-[#2563EB]" : "border-transparent"}`}>
+                  className={`w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors bg-gray-100 flex-shrink-0 ${selectedImg === i ? "border-[#0A1931]" : "border-transparent"}`}>
                   <img src={img} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
@@ -88,7 +88,7 @@ export default function ProductDetail() {
           <div className="bg-white rounded-xl p-5">
             {/* Title & badges */}
             <div className="flex flex-wrap gap-1.5 mb-2">
-              {product.badge && <span className="text-[11px] bg-[#2563EB] text-white px-2 py-0.5 rounded-sm font-bold font-outfit">{product.badge}</span>}
+              {product.badge && <span className="text-[11px] bg-[#0A1931] text-white px-2 py-0.5 rounded-sm font-bold font-outfit">{product.badge}</span>}
               <span className="text-[11px] bg-[#FEF3C7] text-orange-700 px-2 py-0.5 rounded-sm font-semibold">-{discount}% OFF</span>
               <span className="text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded-sm font-semibold flex items-center gap-1">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -103,7 +103,7 @@ export default function ProductDetail() {
                   href={sourceLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[11px] text-[#2563EB] hover:underline truncate max-w-[320px]"
+                  className="text-[11px] text-[#0A1931] hover:underline truncate max-w-[320px]"
                   title={sourceLink}
                 >
                   View on 1688
@@ -114,7 +114,7 @@ export default function ProductDetail() {
             {/* Rating */}
             <div className="flex items-center gap-2 mb-4">
               <Stars rating={product.rating} size="md" />
-              <span className="text-[#2563EB] text-sm font-semibold">{product.rating}</span>
+              <span className="text-[#0A1931] text-sm font-semibold">{product.rating}</span>
               <span className="text-gray-400 text-sm">({product.reviews.toLocaleString()} reviews)</span>
               <span className="text-gray-300">|</span>
               <span className="text-[#F97316] text-sm font-medium">{product.sold}</span>
@@ -122,7 +122,7 @@ export default function ProductDetail() {
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-4 p-3 bg-blue-50 rounded-lg">
-              <span className="font-outfit font-black text-3xl text-[#2563EB]">${product.price.toFixed(2)}</span>
+              <span className="font-outfit font-black text-3xl text-[#0A1931]">${product.price.toFixed(2)}</span>
               <span className="text-gray-400 line-through text-base">${product.originalPrice.toFixed(2)}</span>
               <span className="text-green-600 font-semibold text-sm">Save ${(product.originalPrice - product.price).toFixed(2)}</span>
             </div>
@@ -148,7 +148,7 @@ export default function ProductDetail() {
                 <div className="flex gap-2 flex-wrap">
                   {product.colorOptions.map((c, i) => (
                     <button key={c} onClick={() => setSelectedColor(i)}
-                      className={`w-7 h-7 rounded-full border-2 transition-all ${selectedColor === i ? "border-[#2563EB] scale-110" : "border-transparent hover:border-gray-300"}`}
+                      className={`w-7 h-7 rounded-full border-2 transition-all ${selectedColor === i ? "border-[#0A1931] scale-110" : "border-transparent hover:border-gray-300"}`}
                       style={{ background: c }} />
                   ))}
                 </div>
@@ -162,7 +162,7 @@ export default function ProductDetail() {
                 <div className="flex gap-2 flex-wrap">
                   {SIZES.map((s) => (
                     <button key={s} onClick={() => setSelectedSize(s)}
-                      className={`px-3 py-1.5 border rounded-lg text-sm transition-colors ${selectedSize === s ? "border-[#2563EB] bg-[#2563EB] text-white" : "border-gray-200 text-gray-700 hover:border-[#2563EB]"}`}>
+                      className={`px-3 py-1.5 border rounded-lg text-sm transition-colors ${selectedSize === s ? "border-[#0A1931] bg-[#0A1931] text-white" : "border-gray-200 text-gray-700 hover:border-[#0A1931]"}`}>
                       {s}
                     </button>
                   ))}
@@ -190,7 +190,7 @@ export default function ProductDetail() {
                 className={`flex-1 py-3 rounded-xl font-outfit font-bold text-sm transition-all ${addedToCart ? "bg-green-500 text-white" : "bg-[#F97316] hover:bg-[#EA580C] text-white"}`}>
                 {addedToCart ? "✓ Added to Cart" : "Add to Cart"}
               </button>
-              <button onClick={handleBuyNow} className="flex-1 py-3 rounded-xl font-outfit font-bold text-sm bg-[#2563EB] hover:bg-[#1D4ED8] text-white transition-colors">
+              <button onClick={handleBuyNow} className="flex-1 py-3 rounded-xl font-outfit font-bold text-sm bg-[#0A1931] hover:bg-[#061021] text-white transition-colors">
                 Buy Now
               </button>
             </div>
@@ -210,7 +210,7 @@ export default function ProductDetail() {
         {/* Seller card */}
         <div className="bg-white rounded-xl p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[#2563EB] flex items-center justify-center text-white font-bold font-outfit text-lg">{product.seller.avatar}</div>
+            <div className="w-12 h-12 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold font-outfit text-lg">{product.seller.avatar}</div>
             <div>
               <p className="font-outfit font-bold text-gray-900">{product.seller.name}</p>
               <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -222,7 +222,7 @@ export default function ProductDetail() {
           </div>
           <div className="flex gap-2">
             <Link to={`/chat?seller=${encodeURIComponent(product.seller.name)}`}
-              className="flex items-center gap-2 border border-[#2563EB] text-[#2563EB] hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+              className="flex items-center gap-2 border border-[#0A1931] text-[#0A1931] hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               Chat with seller
             </Link>
@@ -237,7 +237,7 @@ export default function ProductDetail() {
           <div className="flex border-b border-gray-100">
             {(["description","specs","reviews"] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-3 text-sm font-semibold capitalize transition-colors ${activeTab === tab ? "text-[#2563EB] border-b-2 border-[#2563EB]" : "text-gray-500 hover:text-gray-700"}`}>
+                className={`flex-1 py-3 text-sm font-semibold capitalize transition-colors ${activeTab === tab ? "text-[#0A1931] border-b-2 border-[#0A1931]" : "text-gray-500 hover:text-gray-700"}`}>
                 {tab === "reviews" ? `Reviews (${product.reviews.toLocaleString()})` : tab}
               </button>
             ))}
@@ -262,7 +262,7 @@ export default function ProductDetail() {
               <div>
                 <div className="flex items-center gap-6 mb-6 p-4 bg-gray-50 rounded-xl">
                   <div className="text-center">
-                    <p className="font-outfit font-black text-5xl text-[#2563EB]">{product.rating}</p>
+                    <p className="font-outfit font-black text-5xl text-[#0A1931]">{product.rating}</p>
                     <Stars rating={product.rating} size="md" />
                     <p className="text-xs text-gray-500 mt-1">{product.reviews.toLocaleString()} reviews</p>
                   </div>
@@ -287,7 +287,7 @@ export default function ProductDetail() {
                     <div key={i} className="border-b border-gray-50 pb-4">
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-[#EFF6FF] text-[#2563EB] text-xs font-bold flex items-center justify-center">{r.name[0]}</div>
+                          <div className="w-8 h-8 rounded-full bg-[#EFF6FF] text-[#0A1931] text-xs font-bold flex items-center justify-center">{r.name[0]}</div>
                           <span className="text-sm font-semibold text-gray-800">{r.name}</span>
                           {r.verified && <span className="text-[10px] bg-green-50 text-green-600 px-1.5 py-0.5 rounded">Verified purchase</span>}
                         </div>

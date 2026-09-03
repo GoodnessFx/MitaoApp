@@ -29,7 +29,7 @@ export default function Categories() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
       {/* Hero */}
-      <div className="bg-[#2563EB] text-white py-8 px-6">
+      <div className="bg-[#0A1931] text-white py-8 px-6">
         <div className="max-w-screen-xl mx-auto">
           <h1 className="font-outfit font-black text-3xl mb-1">Shop by Category</h1>
           <p className="text-blue-200 text-sm">Explore thousands of products at unbeatable prices</p>
@@ -42,7 +42,7 @@ export default function Categories() {
           <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1">
             <div onClick={() => selectCat("All")}
               className={`flex flex-col items-center gap-1.5 cursor-pointer flex-shrink-0 ${selected === "All" ? "opacity-100" : "opacity-70 hover:opacity-100"} transition-opacity`}>
-              <div className={`w-14 h-14 rounded-full border-2 flex items-center justify-center bg-[#EFF6FF] ${selected === "All" ? "border-[#2563EB]" : "border-transparent"}`}>
+              <div className={`w-14 h-14 rounded-full border-2 flex items-center justify-center bg-[#EFF6FF] ${selected === "All" ? "border-[#0A1931]" : "border-transparent"}`}>
                 <span className="text-xl">🛍️</span>
               </div>
               <span className="text-[10px] text-gray-700">All</span>
@@ -50,7 +50,7 @@ export default function Categories() {
             {SUBCATEGORIES.map((sub) => (
               <div key={sub.label} onClick={() => selectCat(sub.label)}
                 className={`flex flex-col items-center gap-1.5 cursor-pointer flex-shrink-0 ${selected === sub.label ? "opacity-100" : "opacity-70 hover:opacity-100"} transition-opacity`}>
-                <div className={`relative w-14 h-14 rounded-full border-2 overflow-hidden bg-gray-100 ${selected === sub.label ? "border-[#2563EB]" : "border-transparent"}`}>
+                <div className={`relative w-14 h-14 rounded-full border-2 overflow-hidden bg-gray-100 ${selected === sub.label ? "border-[#0A1931]" : "border-transparent"}`}>
                   <img src={sub.img} alt={sub.label} className="w-full h-full object-cover" />
                   {sub.hot && <span className="absolute -top-0.5 -right-0.5 bg-[#F97316] text-white text-[7px] font-bold px-1 py-0.5 rounded-sm">HOT</span>}
                 </div>
@@ -68,7 +68,7 @@ export default function Categories() {
             <p className="px-3 py-2.5 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-50">Categories</p>
             {["All", ...CATEGORIES].map((cat) => (
               <button key={cat} onClick={() => selectCat(cat)}
-                className={`w-full text-left px-3 py-2.5 text-sm transition-colors ${selected === cat ? "bg-blue-50 text-[#2563EB] font-semibold" : "text-gray-600 hover:bg-gray-50"}`}>
+                className={`w-full text-left px-3 py-2.5 text-sm transition-colors ${selected === cat ? "bg-blue-50 text-[#0A1931] font-semibold" : "text-gray-600 hover:bg-gray-50"}`}>
                 {cat}
               </button>
             ))}
@@ -85,7 +85,7 @@ export default function Categories() {
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-500">Sort by:</span>
               <select value={sort} onChange={(e) => setSort(e.target.value)}
-                className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-[#2563EB]">
+                className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-[#0A1931]">
                 <option value="popular">Most Popular</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>

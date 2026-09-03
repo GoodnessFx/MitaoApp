@@ -41,14 +41,14 @@ export default function Search() {
                 value={importUrl}
                 onChange={(e) => setImportUrl(e.target.value)}
                 placeholder="https://detail.1688.com/offer/..."
-                className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]"
+                className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]"
               />
               <button
                 onClick={() => {
                   if (!importUrl.trim()) return;
                   navigate(`/import/1688?url=${encodeURIComponent(importUrl.trim())}`);
                 }}
-                className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-outfit font-bold px-4 py-2.5 rounded-xl transition-colors text-sm whitespace-nowrap"
+                className="bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold px-4 py-2.5 rounded-xl transition-colors text-sm whitespace-nowrap"
               >
                 Import
               </button>
@@ -66,7 +66,7 @@ export default function Search() {
           <div className="flex items-center gap-2">
             <span className="text-xs text-gray-500">Sort:</span>
             <select value={sort} onChange={(e) => setSort(e.target.value)}
-              className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-[#2563EB]">
+              className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 outline-none focus:border-[#0A1931]">
               <option value="popular">Most Popular</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>

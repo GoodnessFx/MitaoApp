@@ -30,8 +30,8 @@ export default function Home() {
             alt="Shopping banner"
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[#1D4ED8]/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1D4ED8]/95 via-[#2563EB]/75 to-transparent" />
+          <div className="absolute inset-0 bg-[#061021]/80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061021]/95 via-[#0A1931]/75 to-transparent" />
         </div>
         <div className="relative max-w-screen-xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
@@ -81,7 +81,7 @@ export default function Home() {
         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
           {filters.map((f) => (
             <button key={f} onClick={() => { setActiveFilter(f); setVisible(10); }}
-              className={`flex-shrink-0 text-xs px-4 py-2 rounded-full border transition-colors ${f === activeFilter ? "bg-[#2563EB] text-white border-[#2563EB]" : "bg-white text-gray-700 border-gray-200 hover:border-[#2563EB] hover:text-[#2563EB]"}`}>
+              className={`flex-shrink-0 text-xs px-4 py-2 rounded-full border transition-colors ${f === activeFilter ? "bg-[#0A1931] text-white border-[#0A1931]" : "bg-white text-gray-700 border-gray-200 hover:border-[#0A1931] hover:text-[#0A1931]"}`}>
               {f}
             </button>
           ))}
@@ -96,7 +96,7 @@ export default function Home() {
             {activeFilter === "All" ? "Best-Selling Items" : activeFilter}
           </h2>
         </div>
-        <Link to="/best-selling" className="text-[#2563EB] text-sm hover:underline">See all</Link>
+        <Link to="/best-selling" className="text-[#0A1931] text-sm hover:underline">See all</Link>
       </div>
 
       {/* Product grid */}
@@ -131,7 +131,7 @@ export default function Home() {
           <h3 className="font-outfit font-bold text-gray-900 text-sm mb-2">Privacy & cookie setting</h3>
           <p className="text-xs text-gray-600 leading-relaxed mb-4">
             We use cookies to improve your experience, personalize content and ads. By clicking "Accept All", you agree to our{" "}
-            <Link to="/privacy" className="text-[#2563EB] underline">Cookies Policy</Link>.
+            <Link to="/privacy" className="text-[#0A1931] underline">Cookies Policy</Link>.
           </p>
           <div className="flex items-center justify-between">
             <Link to="/privacy" className="text-xs text-gray-500 underline hover:text-gray-700">Customise Cookies</Link>

@@ -29,15 +29,15 @@ export default function Checkout() {
     <div className="min-h-screen bg-[#F5F5F5]">
       <div className="max-w-screen-xl mx-auto px-4 py-6">
         <div className="flex items-center gap-2 mb-6">
-          <Link to="/cart" className="text-[#2563EB] hover:underline text-sm">← Back to cart</Link>
+          <Link to="/cart" className="text-[#0A1931] hover:underline text-sm">← Back to cart</Link>
         </div>
 
         {/* Steps */}
         <div className="flex items-center gap-2 mb-8 justify-center">
           {(["info","payment","confirm"] as const).map((s, i) => (
             <div key={s} className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${step === s || (step === "payment" && i < 1) || (step === "confirm" && i < 2) ? "bg-[#2563EB] text-white" : "bg-gray-200 text-gray-500"}`}>{i + 1}</div>
-              <span className={`text-sm capitalize hidden sm:block ${step === s ? "text-[#2563EB] font-semibold" : "text-gray-400"}`}>{s === "info" ? "Shipping" : s}</span>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${step === s || (step === "payment" && i < 1) || (step === "confirm" && i < 2) ? "bg-[#0A1931] text-white" : "bg-gray-200 text-gray-500"}`}>{i + 1}</div>
+              <span className={`text-sm capitalize hidden sm:block ${step === s ? "text-[#0A1931] font-semibold" : "text-gray-400"}`}>{s === "info" ? "Shipping" : s}</span>
               {i < 2 && <div className="w-8 h-px bg-gray-200" />}
             </div>
           ))}
@@ -53,20 +53,20 @@ export default function Checkout() {
                     <div key={field} className={field === "address" ? "sm:col-span-2" : ""}>
                       <label className="block text-xs font-semibold text-gray-600 mb-1">{label}</label>
                       <input type={type} value={(form as any)[field]} onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2563EB] transition-colors" />
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931] transition-colors" />
                     </div>
                   ))}
                   <div>
                     <label className="block text-xs font-semibold text-gray-600 mb-1">Country</label>
                     <select value={form.country} onChange={(e) => setForm((f) => ({ ...f, country: e.target.value }))}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]">
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]">
                       {["United States","United Kingdom","Canada","Australia","Germany","France","Nigeria","South Africa","India","Brazil"].map((c)=>(
                         <option key={c}>{c}</option>
                       ))}
                     </select>
                   </div>
                 </div>
-                <button onClick={() => setStep("payment")} className="mt-6 w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
+                <button onClick={() => setStep("payment")} className="mt-6 w-full bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
                   Continue to Payment
                 </button>
               </div>
@@ -77,31 +77,31 @@ export default function Checkout() {
                 <h2 className="font-outfit font-bold text-xl text-gray-900 mb-5">Payment</h2>
                 <div className="flex gap-3 mb-5">
                   {["💳 Card","🍎 Apple Pay","🔵 PayPal"].map((m)=>(
-                    <button key={m} className={`flex-1 py-2.5 border rounded-lg text-sm transition-colors ${m.includes("Card") ? "border-[#2563EB] bg-blue-50 text-[#2563EB] font-semibold" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>{m}</button>
+                    <button key={m} className={`flex-1 py-2.5 border rounded-lg text-sm transition-colors ${m.includes("Card") ? "border-[#0A1931] bg-blue-50 text-[#0A1931] font-semibold" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>{m}</button>
                   ))}
                 </div>
                 <div className="flex flex-col gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-gray-600 mb-1">Card number</label>
                     <input type="text" placeholder="1234 5678 9012 3456" value={form.card} onChange={(e) => setForm((f) => ({ ...f, card: e.target.value }))}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]" />
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-semibold text-gray-600 mb-1">Expiry date</label>
                       <input type="text" placeholder="MM / YY" value={form.expiry} onChange={(e) => setForm((f) => ({ ...f, expiry: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]" />
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-gray-600 mb-1">CVV</label>
                       <input type="text" placeholder="123" value={form.cvv} onChange={(e) => setForm((f) => ({ ...f, cvv: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#2563EB]" />
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
                     </div>
                   </div>
                 </div>
                 <div className="flex gap-3 mt-6">
                   <button onClick={() => setStep("info")} className="px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>
-                  <button onClick={() => setStep("confirm")} className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
+                  <button onClick={() => setStep("confirm")} className="flex-1 bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
                     Review Order
                   </button>
                 </div>
@@ -159,7 +159,7 @@ export default function Checkout() {
                     <p className="text-xs text-gray-700 line-clamp-2">{product!.title}</p>
                     <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
                   </div>
-                  <span className="text-sm font-semibold text-[#2563EB] flex-shrink-0">${(product!.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-sm font-semibold text-[#0A1931] flex-shrink-0">${(product!.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -167,7 +167,7 @@ export default function Checkout() {
               <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
               <div className="flex justify-between text-green-600"><span>Shipping</span><span>FREE</span></div>
               <div className="flex justify-between font-outfit font-bold text-base pt-2 border-t border-gray-100 mt-1">
-                <span>Total</span><span className="text-[#2563EB]">${subtotal.toFixed(2)}</span>
+                <span>Total</span><span className="text-[#0A1931]">${subtotal.toFixed(2)}</span>
               </div>
             </div>
           </div>

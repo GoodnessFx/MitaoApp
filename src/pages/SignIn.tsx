@@ -47,10 +47,10 @@ export default function SignIn() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8">
         <div className="flex justify-center mb-6">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-[#2563EB] rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 bg-[#0A1931] rounded-xl flex items-center justify-center">
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
             </div>
-            <span className="font-outfit font-black text-2xl text-[#2563EB]">Mitao</span>
+            <span className="font-outfit font-black text-2xl text-[#0A1931]">Mitao</span>
           </Link>
         </div>
 
@@ -100,38 +100,38 @@ export default function SignIn() {
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Full name</label>
               <input type="text" required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#2563EB] transition-colors" placeholder="Jamie Chen" />
+                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0A1931] transition-colors" placeholder="Jamie Chen" />
             </div>
           )}
           <div>
             <label className="block text-xs font-semibold text-gray-600 mb-1">Email address</label>
             <input type="email" required value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#2563EB] transition-colors" placeholder="you@email.com" />
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0A1931] transition-colors" placeholder="you@email.com" />
           </div>
           <div>
             <label className="block text-xs font-semibold text-gray-600 mb-1">Password</label>
             <input type="password" required value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#2563EB] transition-colors" placeholder="••••••••" />
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0A1931] transition-colors" placeholder="••••••••" />
           </div>
           {mode === "register" && (
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Confirm password</label>
               <input type="password" required value={form.confirm} onChange={(e) => setForm((f) => ({ ...f, confirm: e.target.value }))}
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#2563EB] transition-colors" placeholder="••••••••" />
+                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0A1931] transition-colors" placeholder="••••••••" />
             </div>
           )}
           {mode === "signin" && (
-            <a href="#" className="text-xs text-[#2563EB] self-end hover:underline">Forgot password?</a>
+            <a href="#" className="text-xs text-[#0A1931] self-end hover:underline">Forgot password?</a>
           )}
-          <button type="submit" disabled={loading} className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-outfit font-bold py-3 rounded-xl transition-colors mt-1 disabled:opacity-70">
+          <button type="submit" disabled={loading} className="w-full bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold py-3 rounded-xl transition-colors mt-1 disabled:opacity-70">
             {loading ? "Please wait..." : (mode === "signin" ? "Sign In" : "Create Account")}
           </button>
         </form>
 
         <p className="text-[11px] text-gray-400 text-center mt-4 leading-relaxed">
           By continuing, you agree to our{" "}
-          <Link to="/terms" className="text-[#2563EB]">Terms of Use</Link> and{" "}
-          <Link to="/privacy" className="text-[#2563EB]">Privacy Policy</Link>.
+          <Link to="/terms" className="text-[#0A1931]">Terms of Use</Link> and{" "}
+          <Link to="/privacy" className="text-[#0A1931]">Privacy Policy</Link>.
         </p>
       </div>
     </div>

@@ -15,7 +15,7 @@ export default function Account() {
     <div className="min-h-screen bg-[#F5F5F5]">
       <div className="max-w-screen-xl mx-auto px-4 py-6">
         {/* Profile card */}
-        <div className="bg-gradient-to-r from-[#2563EB] to-[#3B82F6] rounded-2xl p-6 mb-6 flex items-center gap-4">
+        <div className="bg-gradient-to-r from-[#0A1931] to-[#3B82F6] rounded-2xl p-6 mb-6 flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-white font-outfit font-black text-2xl">J</div>
           <div>
             <p className="font-outfit font-black text-white text-xl">Jamie Chen</p>
@@ -32,7 +32,7 @@ export default function Account() {
         <div className="grid grid-cols-3 gap-3 mb-6">
           {[["$247.43","Total spent"],["12","Items ordered"],["4.8★","Avg. rating given"]].map(([v,l])=>(
             <div key={l} className="bg-white rounded-xl p-4 text-center">
-              <p className="font-outfit font-black text-xl text-[#2563EB]">{v}</p>
+              <p className="font-outfit font-black text-xl text-[#0A1931]">{v}</p>
               <p className="text-xs text-gray-400 mt-1">{l}</p>
             </div>
           ))}
@@ -44,7 +44,7 @@ export default function Account() {
             <Link key={item.label} to={item.path}
               className={`flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors ${i < menuItems.length - 1 ? "border-b border-gray-50" : ""}`}>
               <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                <svg className="w-5 h-5 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                   <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                 </svg>
               </div>

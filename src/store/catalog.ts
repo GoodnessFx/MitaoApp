@@ -152,7 +152,7 @@ function createImportRecords(url: string) {
     images: [img1, img2, img3],
     badge: "Global Source",
     colors: seededNumber(seed, 3, 8),
-    colorOptions: ["#111111", "#FFFFFF", "#2563EB", "#F97316", "#10B981", "#8B5CF6"],
+    colorOptions: ["#111111", "#FFFFFF", "#0A1931", "#F97316", "#10B981", "#8B5CF6"],
     merit: "Curated from Mitao's sourcing network",
     brand: "Mitao Global",
     starSeller: true,

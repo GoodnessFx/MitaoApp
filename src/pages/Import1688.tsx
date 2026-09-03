@@ -56,7 +56,7 @@ export default function Import1688() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://detail.1688.com/offer/..."
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2563EB]"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#0A1931]"
               />
               <p className="text-xs text-gray-400 mt-2 leading-relaxed">
                 This creates a Mitao-native product record so you can add to cart, checkout, track orders, and chat with the seller inside Mitao.
@@ -73,7 +73,7 @@ export default function Import1688() {
               <button
                 disabled={!canImport || loading}
                 onClick={() => void doImport()}
-                className="bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-40 text-white font-outfit font-bold px-6 py-3 rounded-xl transition-colors text-sm"
+                className="bg-[#0A1931] hover:bg-[#061021] disabled:opacity-40 text-white font-outfit font-bold px-6 py-3 rounded-xl transition-colors text-sm"
                 type="button"
               >
                 {loading ? "Importing…" : "Import product"}
@@ -107,14 +107,14 @@ export default function Import1688() {
             <div className="w-1 h-5 bg-[#F97316] rounded-full" />
             <h2 className="font-outfit font-bold text-gray-900 text-lg">Imported items</h2>
           </div>
-          <Link to="/search?q=1688" className="text-[#2563EB] text-sm hover:underline">
+          <Link to="/search?q=1688" className="text-[#0A1931] text-sm hover:underline">
             Browse Mitao catalog
           </Link>
         </div>
 
         {imports.length === 0 ? (
           <div className="bg-white rounded-2xl border border-gray-100 p-10 flex flex-col items-center text-center">
-            <div className="w-14 h-14 rounded-2xl bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center text-2xl font-bold mb-3">88</div>
+            <div className="w-14 h-14 rounded-2xl bg-[#EFF6FF] text-[#0A1931] flex items-center justify-center text-2xl font-bold mb-3">88</div>
             <p className="font-outfit font-bold text-gray-900">No imports yet</p>
             <p className="text-sm text-gray-500 mt-1 max-w-md">
               Paste a 1688 product link above. Once imported, it behaves like a normal product in Mitao: product page, add to cart, checkout, and chat.
