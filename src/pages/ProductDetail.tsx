@@ -90,6 +90,10 @@ export default function ProductDetail() {
             <div className="flex flex-wrap gap-1.5 mb-2">
               {product.badge && <span className="text-[11px] bg-[#2563EB] text-white px-2 py-0.5 rounded-sm font-bold font-outfit">{product.badge}</span>}
               <span className="text-[11px] bg-[#FEF3C7] text-orange-700 px-2 py-0.5 rounded-sm font-semibold">-{discount}% OFF</span>
+              <span className="text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded-sm font-semibold flex items-center gap-1">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Verified Factory Direct
+              </span>
             </div>
             <h1 className="font-outfit font-bold text-gray-900 text-xl leading-snug mb-3">{product.title}</h1>
             {sourceLink && (
