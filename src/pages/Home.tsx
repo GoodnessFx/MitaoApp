@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import ProductCard from "../components/ProductCard";
-import { useQuery } from '@tanstack/react-query';
-import { fetchApi } from '../lib/api';
-import type { Product } from '../data/products';
+import { catalogStore } from "../store/catalog";
 
 export default function Home() {
+  const [products, setProducts] = useState(catalogStore.getAll());
   const [visible, setVisible] = useState(10);
   const [cookieDismissed, setCookieDismissed] = useState(() => {
     return localStorage.getItem('mitao_cookie_consent') === 'true';
   });
   const [activeFilter, setActiveFilter] = useState("All");
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => fetchApi<{ data: Product[] }>('/products?limit=50'),
-  });
-
-  const products = data?.data || [];
   const filters = ["All", "Women's Fashion", "Men's Fashion", "Home & Kitchen", "Electronics", "Beauty", "Sports", "Toys", "Jewelry"];
+  useEffect(() => catalogStore.subscribe(() => setProducts(catalogStore.getAll())), []);
 
   const filtered =
     activeFilter === "All"
@@ -108,15 +102,9 @@ export default function Home() {
 
       {/* Product grid */}
       <div className="max-w-screen-xl mx-auto px-4">
-        {isLoading ? (
-          <div className="flex justify-center py-16">
-            <p className="text-gray-400">Loading products...</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {shown.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
-        )}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {shown.map((p) => <ProductCard key={p.id} product={p} />)}
+        </div>
 
         {shown.length < filtered.length && (
           <div className="flex justify-center mt-6 mb-8">
