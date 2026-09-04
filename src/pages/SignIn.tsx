@@ -46,10 +46,8 @@ export default function SignIn() {
     <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center px-4 py-12">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8">
         <div className="flex justify-center mb-6">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-[#0A1931] rounded-xl flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-            </div>
+          <Link to="/" className="flex flex-col items-center gap-3">
+            <img src="/logo.png" alt="Mitao" className="h-16 w-16 object-contain rounded-2xl shadow-sm" />
             <span className="font-outfit font-black text-2xl text-[#0A1931]">Mitao</span>
           </Link>
         </div>
