@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet } from "react-router";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FloatingToolbar from "../components/FloatingToolbar";
+import ScrollToTop from "../components/ScrollToTop";
 
 import Home from "../pages/Home";
 import ProductDetail from "../pages/ProductDetail";
@@ -30,6 +31,7 @@ import {
 function Root() {
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Header />
       <div className="pt-[104px] flex-1 flex flex-col">
         <Outlet />

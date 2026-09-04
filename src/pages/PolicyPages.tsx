@@ -102,7 +102,7 @@ export function Safety() {
           { icon: "🔒", title: "Secure Payments", desc: "All transactions encrypted with 256-bit SSL. We never store your full card number." },
           { icon: "✅", title: "Purchase Protection", desc: "Shop with confidence. If your item doesn't arrive, we'll refund you in full." },
           { icon: "↩️", title: "90-Day Returns", desc: "Not satisfied? Return any item within 90 days for a full refund." },
-          { icon: "🛡️", title: "Verified Sellers", desc: "Every seller is vetted and rated. Bad actors are removed immediately." },
+          { icon: "🛡️", title: "Verified sourcing", desc: "Mitao reviews suppliers and listings in our sourcing pipeline and removes items that fail checks." },
         ].map((card) => (
           <div key={card.title} className="border border-gray-100 rounded-xl p-4">
             <span className="text-2xl mb-2 block">{card.icon}</span>
@@ -112,7 +112,7 @@ export function Safety() {
         ))}
       </div>
       <Section title="Reporting Suspicious Activity">
-        If you encounter a suspicious seller or listing, report it via <a href="mailto:safety@mitao.com" className="text-[#0A1931]">safety@mitao.com</a>. We investigate all reports within 24 hours.
+        If you encounter a suspicious listing, message, or payment request, report it via <a href="mailto:safety@mitao.com" className="text-[#0A1931]">safety@mitao.com</a>. We investigate all reports within 24 hours.
       </Section>
       <Section title="Scam Awareness">
         Mitao will never ask for your password or payment card details outside of our official platform. Be cautious of emails or messages requesting sensitive information.
@@ -129,7 +129,7 @@ export function Support() {
     { q: "How do I track my order?", a: "Go to My Orders in your account dashboard. Click on any order to see real-time tracking and estimated delivery date." },
     { q: "What is Mitao's return policy?", a: "We offer a 90-day return window from purchase date. Items must be in original condition. Start a return from your Orders page." },
     { q: "How long does shipping take?", a: "Most orders ship within 1-2 business days. Delivery takes 5-15 business days depending on location. Express options available at checkout." },
-    { q: "How do I contact a seller?", a: "Go to the product page and click 'Chat with seller' to ask about the product, customizations, or shipping." },
+    { q: "How do I contact Mitao?", a: "Go to the product page and click “Chat with Mitao”, or open Chat from your account. Our team can help with product questions, shipping, returns, and order issues." },
     { q: "My order never arrived. What do I do?", a: "Visit your Orders page and click 'Contact Support'. We'll investigate and resolve within 48 hours." },
     { q: "How do I get a refund?", a: "Submit a refund request from your Orders page. Approved refunds are processed within 3-5 business days." },
     { q: "Can I change or cancel my order?", a: "Orders can be modified or cancelled within 1 hour. After that, wait for delivery and initiate a return." },
@@ -467,7 +467,7 @@ export function IPPolicy() {
         Send reports to <a className="text-[#0A1931]" href="mailto:ip@mitao.com">ip@mitao.com</a> with evidence of ownership and links to the listings.
       </Section>
       <Section title="Repeat violations">
-        Sellers who repeatedly violate IP rules may be suspended or permanently banned.
+        Repeat violations may result in listing removal and termination of supplier relationships.
       </Section>
     </PolicyLayout>
   );
@@ -479,7 +479,7 @@ export function ReportSuspicious() {
       <Section title="What to report">
         <BulletList
           items={[
-            "Suspicious sellers, fake tracking updates, or counterfeit claims.",
+            "Suspicious listings, fake tracking updates, or counterfeit claims.",
             "Requests to pay outside Mitao checkout.",
             "Phishing messages asking for passwords or card details.",
           ]}

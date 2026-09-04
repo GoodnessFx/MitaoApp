@@ -25,6 +25,15 @@ body {
   color: #111111;
 }
 
+:focus-visible {
+  outline: 2px solid var(--color-brand-orange);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(249, 115, 22, 0.25);
+}
+
 /* Hide scrollbar but allow scrolling */
 ::-webkit-scrollbar {
   width: 4px;

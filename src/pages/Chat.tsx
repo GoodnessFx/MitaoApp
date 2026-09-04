@@ -1,39 +1,42 @@
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router";
+import { PRODUCTS } from "../data/products";
+import { import1688Store } from "../store/import1688";
 
-interface Message { id: number; from: "user" | "support" | "seller"; text: string; time: string; }
+interface Message { id: number; from: "user" | "support"; text: string; time: string; }
 
-const SELLER_RESPONSES: Record<string, string[]> = {
-  default: [
-    "Hello! Thank you for reaching out. How can I help you today?",
-    "That's a great question! Our products come with a 90-day return guarantee.",
-    "We typically ship within 1-2 business days. You'll receive a tracking number via email.",
-    "Yes, we offer bulk discounts for orders over 10 units. Please send me your requirements.",
-    "I'm happy to help! Let me check that for you right away.",
-  ],
-  support: [
-    "Welcome to Mitao Support! How can I assist you today?",
-    "I can help with orders, returns, refunds, and account issues.",
-    "Your order is currently being processed and will ship within 2 business days.",
-    "For refunds, please submit a request through your Orders page. Refunds typically take 3-5 business days.",
-    "Is there anything else I can help you with?",
-  ],
-};
+const SUPPORT_RESPONSES = [
+  "Welcome to Mitao Support! How can I assist you today?",
+  "I can help with product questions, shipping, returns, refunds, and account issues.",
+  "Your order is currently being processed and will ship within 2 business days.",
+  "For refunds, please submit a request through your Orders page. Refunds typically take 3-5 business days.",
+  "If you share your order number, I can look into it right away.",
+  "Is there anything else I can help you with?",
+];
 
 const QUICK_REPLIES = ["Where is my order?","Can I return this?","Is this in stock?","Do you offer discounts?","What's the return policy?","How long does shipping take?"];
 
 export default function Chat() {
   const [searchParams] = useSearchParams();
-  const sellerName = searchParams.get("seller") || "Mitao Support";
-  const isSupport = !searchParams.get("seller");
+  const productParam = searchParams.get("product");
+  const productId = productParam ? Number(productParam) : null;
+  const product = Number.isFinite(productId) ? (PRODUCTS.find((p) => p.id === productId) ?? import1688Store.getById(productId!)) : null;
+
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, from: isSupport ? "support" : "seller", text: isSupport ? "Welcome to Mitao Support! I'm here to help you 24/7. How can I assist you today?" : `Hi! I'm the seller of the product you're interested in. Feel free to ask me anything about it!`, time: "now" },
+    {
+      id: 1,
+      from: "support",
+      text: product
+        ? `Hi! You're chatting with Mitao Support. I can help with questions about “${product.title}”, shipping, returns, or your order. What do you need?`
+        : "Welcome to Mitao Support! I'm here to help you 24/7. How can I assist you today?",
+      time: "now",
+    },
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const responseIdx = useRef(1);
-  const responses = SELLER_RESPONSES[isSupport ? "support" : "default"];
+  const responses = SUPPORT_RESPONSES;
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
@@ -46,7 +49,7 @@ export default function Chat() {
     setTimeout(() => {
       const reply = responses[responseIdx.current % responses.length];
       responseIdx.current++;
-      setMessages((m) => [...m, { id: Date.now() + 1, from: isSupport ? "support" : "seller", text: reply, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }]);
+      setMessages((m) => [...m, { id: Date.now() + 1, from: "support", text: reply, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }]);
       setIsTyping(false);
     }, 1200 + Math.random() * 800);
   };
@@ -57,13 +60,13 @@ export default function Chat() {
         {/* Chat header */}
         <div className="bg-white rounded-t-xl border-b border-gray-100 p-4 flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold">
-            {isSupport ? "M" : sellerName[0]}
+            M
           </div>
           <div>
-            <p className="font-outfit font-bold text-gray-900 text-sm">{isSupport ? "Mitao Support" : sellerName}</p>
+            <p className="font-outfit font-bold text-gray-900 text-sm">Mitao Support</p>
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-green-400" />
-              <span className="text-xs text-gray-400">{isSupport ? "Available 24/7" : "Typically responds in < 1 hour"}</span>
+              <span className="text-xs text-gray-400">{product ? `Regarding: ${product.title}` : "Available 24/7"}</span>
             </div>
           </div>
           <div className="ml-auto flex gap-2">
@@ -79,7 +82,7 @@ export default function Chat() {
             <div key={msg.id} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"} gap-2`}>
               {msg.from !== "user" && (
                 <div className="w-7 h-7 rounded-full bg-[#0A1931] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-auto">
-                  {isSupport ? "M" : sellerName[0]}
+                  M
                 </div>
               )}
               <div className={`max-w-xs rounded-2xl px-4 py-2.5 ${msg.from === "user" ? "bg-[#0A1931] text-white rounded-br-sm" : "bg-gray-100 text-gray-800 rounded-bl-sm"}`}>
@@ -90,7 +93,7 @@ export default function Chat() {
           ))}
           {isTyping && (
             <div className="flex items-end gap-2">
-              <div className="w-7 h-7 rounded-full bg-[#0A1931] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">{isSupport ? "M" : sellerName[0]}</div>
+              <div className="w-7 h-7 rounded-full bg-[#0A1931] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">M</div>
               <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
                 <div className="flex gap-1">
                   {[0,1,2].map((i)=>(

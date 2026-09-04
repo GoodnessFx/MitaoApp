@@ -59,7 +59,7 @@ export default function Import1688() {
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#0A1931]"
               />
               <p className="text-xs text-gray-400 mt-2 leading-relaxed">
-                This creates a Mitao-native product record so you can add to cart, checkout, track orders, and chat with the seller inside Mitao.
+                This creates a Mitao-native product record so you can add to cart, checkout, track orders, and chat with Mitao support inside the app.
               </p>
             </div>
             <div className="flex gap-2">
@@ -90,7 +90,7 @@ export default function Import1688() {
           <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               ["✅", "Mitao checkout", "Cart + payment stay inside your app"],
-              ["💬", "Chat & support", "Talk to seller/support in one thread"],
+              ["💬", "Chat & support", "Talk to Mitao support in one clean thread"],
               ["🧾", "Clear policies", "Purchase protection + returns flow"],
             ].map(([icon, title, desc]) => (
               <div key={title} className="bg-[#F5F5F5] rounded-xl p-4 border border-gray-100">
@@ -117,7 +117,7 @@ export default function Import1688() {
             <div className="w-14 h-14 rounded-2xl bg-[#EFF6FF] text-[#0A1931] flex items-center justify-center text-2xl font-bold mb-3">88</div>
             <p className="font-outfit font-bold text-gray-900">No imports yet</p>
             <p className="text-sm text-gray-500 mt-1 max-w-md">
-              Paste a 1688 product link above. Once imported, it behaves like a normal product in Mitao: product page, add to cart, checkout, and chat.
+              Paste a 1688 product link above. Once imported, it behaves like a normal product in Mitao: product page, add to cart, checkout, and support chat.
             </p>
           </div>
         ) : (

@@ -11,7 +11,7 @@ const REVIEWS = [
   { name: "James T.", rating: 4, date: "Aug 10, 2026", text: "Great product, fits well. Color is exactly as pictured. Would definitely order again.", verified: true },
   { name: "Priya K.", rating: 5, date: "Aug 5, 2026", text: "Incredible value. I bought two — one for myself and one as a gift. Both arrived quickly and packed well.", verified: true },
   { name: "David L.", rating: 4, date: "Jul 29, 2026", text: "Good quality overall. Slight difference in shade from the photo but still looks great.", verified: false },
-  { name: "Emma W.", rating: 5, date: "Jul 22, 2026", text: "This is my third purchase from this seller. Always reliable and top quality. Highly recommend!", verified: true },
+  { name: "Emma W.", rating: 5, date: "Jul 22, 2026", text: "This is my third purchase on Mitao. Always reliable and top quality. Highly recommend!", verified: true },
 ];
 
 export default function ProductDetail() {
@@ -207,28 +207,34 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* Seller card */}
+        {/* Fulfillment & support */}
         <div className="bg-white rounded-xl p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold font-outfit text-lg">{product.seller.avatar}</div>
+            <div className="w-12 h-12 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold font-outfit text-lg">
+              M
+            </div>
             <div>
-              <p className="font-outfit font-bold text-gray-900">{product.seller.name}</p>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Stars rating={product.seller.rating} />
-                <span>{product.seller.rating} · {product.seller.sales}</span>
-              </div>
-              <p className="text-xs text-gray-400 mt-0.5">Responds {product.seller.responseTime}</p>
+              <p className="font-outfit font-bold text-gray-900">Fulfilled by Mitao</p>
+              <p className="text-sm text-gray-500">
+                Sourced via 1688 · Procurement & quality checks handled by Mitao
+              </p>
+              <p className="text-xs text-gray-400 mt-0.5">Questions? Chat with our team. Typically responds in under 1 hour.</p>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Link to={`/chat?seller=${encodeURIComponent(product.seller.name)}`}
-              className="flex items-center gap-2 border border-[#0A1931] text-[#0A1931] hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+          <div className="flex gap-2 flex-wrap">
+            <Link
+              to={`/chat?product=${encodeURIComponent(String(product.id))}`}
+              className="flex items-center gap-2 border border-[#0A1931] text-[#0A1931] hover:bg-blue-50 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+            >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-              Chat with seller
+              Chat with Mitao
             </Link>
-            <button className="border border-gray-200 text-gray-600 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm transition-colors">
-              View store
-            </button>
+            <Link
+              to="/purchase-protection"
+              className="border border-gray-200 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+            >
+              Purchase protection
+            </Link>
           </div>
         </div>
 
