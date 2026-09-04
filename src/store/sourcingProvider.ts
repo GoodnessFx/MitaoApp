@@ -1,4 +1,4 @@
-export type SourcingProviderKey = "dsfulfill_sandbox";
+export type SourcingProviderKey = "cj_dropshipping_sandbox";
 
 export type ProcurementStatus =
   | "submitted"
@@ -127,8 +127,8 @@ export function mapProcurementStatusToCustomerStatus(status: ProcurementStatus):
   return PROCUREMENT_FLOW.find((entry) => entry.status === status)?.customerStatus ?? "Processing";
 }
 
-export class DsFulfillSandboxProvider implements SourcingProvider {
-  name: SourcingProviderKey = "dsfulfill_sandbox";
+export class CJDropshippingSandboxProvider implements SourcingProvider {
+  name: SourcingProviderKey = "cj_dropshipping_sandbox";
 
   constructor(private readonly readSupplierProducts: () => SupplierProduct[]) {}
 
@@ -148,7 +148,7 @@ export class DsFulfillSandboxProvider implements SourcingProvider {
   async placeOrder(cartItems: ProviderCartItem[], shippingAddress: ShippingAddress) {
     const firstItem = cartItems[0];
     const createdAtMs = Date.now();
-    const providerOrderId = `DSF-${createdAtMs}-${safeSlug(firstItem.supplierId)}`;
+    const providerOrderId = `CJ-${createdAtMs}-${safeSlug(firstItem.supplierId)}`;
     const providerTrackingId = `CN-${createdAtMs.toString().slice(-6)}-${safeSlug(shippingAddress.country)}`;
     const subtotal = cartItems.reduce((sum, item) => sum + item.unitCost * item.quantity, 0);
     const handling = subtotal * 0.06;

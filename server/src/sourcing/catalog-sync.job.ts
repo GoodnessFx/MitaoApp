@@ -1,9 +1,9 @@
 import cron from 'cron';
 import { PrismaClient } from '@prisma/client';
-import { DsFulfillSandboxProvider } from './dsfulfill-sandbox.provider';
+import { activeProvider } from './index';
 
 const prisma = new PrismaClient();
-const provider = new DsFulfillSandboxProvider();
+const provider = activeProvider;
 
 export class CatalogSyncJob {
   private job: cron.CronJob;

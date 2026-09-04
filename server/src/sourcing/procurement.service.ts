@@ -18,7 +18,7 @@ export class ProcurementService {
 
     // In a real system, you'd group order.items by sourcing provider.
     // For this implementation, we assume all come from our primary provider
-    const provider = sourcingProviderRegistry['dsfulfill_sandbox'];
+    const provider = sourcingProviderRegistry['cj_dropshipping_sandbox'];
     
     if (!provider) {
        console.error('Sourcing provider not configured');

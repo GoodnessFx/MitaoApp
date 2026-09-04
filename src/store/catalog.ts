@@ -1,5 +1,5 @@
 import { PRODUCTS, type Product } from "../data/products";
-import { DsFulfillSandboxProvider, type SupplierProduct, type SourcingProviderKey } from "./sourcingProvider";
+import { CJDropshippingSandboxProvider, type SupplierProduct, type SourcingProviderKey } from "./sourcingProvider";
 
 type Listener = () => void;
 
@@ -104,7 +104,7 @@ function createImportRecords(url: string) {
   const publicProductId = nowId();
   const supplierName = pick(SUPPLIER_NAMES, seed);
   const supplierId = `supplier-${seededNumber(seed, 1000, 9999)}`;
-  const providerProductId = `dsf-${seededNumber(seed, 100000, 999999)}`;
+  const providerProductId = `cj-${seededNumber(seed, 100000, 999999)}`;
   const rawWholesalePrice = Number((seededNumber(seed, 18, 180) + (seed % 7) * 0.35).toFixed(2));
   const price = buildRetailPrice(rawWholesalePrice, seed);
   const originalPrice = Number((price * (1.38 + (seed % 5) * 0.07)).toFixed(2));
@@ -116,7 +116,7 @@ function createImportRecords(url: string) {
   const supplierProduct: SupplierProduct = {
     id: `supplier-product-${publicProductId}`,
     publicProductId,
-    provider: "dsfulfill_sandbox",
+    provider: "cj_dropshipping_sandbox",
     providerProductId,
     supplierId,
     supplierName,
@@ -207,7 +207,7 @@ function persist() {
 }
 
 export const sourcingProviderRegistry = {
-  dsfulfill_sandbox: new DsFulfillSandboxProvider(() => supplierProducts),
+  cj_dropshipping_sandbox: new CJDropshippingSandboxProvider(() => supplierProducts),
 };
 
 export const catalogStore = {
@@ -246,7 +246,7 @@ export const catalogStore = {
       syncJobs = [
         {
           id: `sync-${Date.now()}`,
-          provider: "dsfulfill_sandbox",
+          provider: "cj_dropshipping_sandbox",
           startedAt: new Date().toISOString(),
           endedAt: new Date().toISOString(),
           status: "updated",
@@ -270,7 +270,7 @@ export const catalogStore = {
     syncJobs = [
       {
         id: `sync-${Date.now()}`,
-        provider: "dsfulfill_sandbox",
+        provider: "cj_dropshipping_sandbox",
         startedAt: new Date().toISOString(),
         endedAt: new Date().toISOString(),
         status: "success",
