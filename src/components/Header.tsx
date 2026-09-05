@@ -193,6 +193,7 @@ export default function Header() {
   const { t } = useTranslation();
 
   const { language, currency, setLanguage, setCurrency, applyLanguageToDom } = useLocaleStore();
+  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -243,7 +244,7 @@ export default function Header() {
       <div className="bg-[#0A1931]">
         <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center gap-4">
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src="/logo.png" alt="Mitao" className="h-9 rounded-lg object-contain" />
+            <img src={`${assetBase}logo.png`} alt="Mitao" className="h-9 rounded-lg object-contain" />
             <span className="font-outfit font-black text-white text-xl tracking-tight hidden sm:block">Mitao</span>
           </Link>
 

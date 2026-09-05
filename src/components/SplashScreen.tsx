@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export default function SplashScreen() {
   const [show, setShow] = useState(false);
   const [fade, setFade] = useState(false);
+  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
 
   useEffect(() => {
     const hasSeen = sessionStorage.getItem("mitao_splash_seen");
@@ -23,7 +24,7 @@ export default function SplashScreen() {
   return (
     <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0A1931] transition-opacity duration-500 ${fade ? "opacity-0" : "opacity-100"}`}>
       <div className="animate-bounce">
-        <img src="/logo.png" alt="Mitao" className="h-28 w-28 object-contain rounded-[2rem] shadow-2xl border-4 border-white/10" />
+        <img src={`${assetBase}logo.png`} alt="Mitao" className="h-28 w-28 object-contain rounded-[2rem] shadow-2xl border-4 border-white/10" />
       </div>
       <h1 className="text-white font-outfit font-black text-4xl mt-6 tracking-tight">Mitao</h1>
     </div>

@@ -20,7 +20,9 @@ if (typeof document !== "undefined") {
 // PWA: allow "Add to Home Screen" / install prompt (requires manifest + service worker).
 if (typeof window !== "undefined" && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {
+    const base = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
+    const swUrl = new URL(`${base}sw.js`, window.location.origin).toString();
+    navigator.serviceWorker.register(swUrl, { scope: base }).catch(() => {
       // Silent fail: PWA is optional.
     });
   });

@@ -10,6 +10,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +48,7 @@ export default function SignIn() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8">
         <div className="flex justify-center mb-6">
           <Link to="/" className="flex flex-col items-center gap-3">
-            <img src="/logo.png" alt="Mitao" className="h-16 w-16 object-contain rounded-2xl shadow-sm" />
+            <img src={`${assetBase}logo.png`} alt="Mitao" className="h-16 w-16 object-contain rounded-2xl shadow-sm" />
             <span className="font-outfit font-black text-2xl text-[#0A1931]">Mitao</span>
           </Link>
         </div>
