@@ -234,21 +234,28 @@ export default function Header() {
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" /></svg>
               Return within 90 days &nbsp;/&nbsp; Delivery guarantee
             </div>
-            <div className="flex items-center gap-1.5 text-gray-300">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("mitao:open-install"))}
+              className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors"
+              aria-label="Install MitaoApp"
+            >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-              Get the Mitao App
-            </div>
+              {language === "zh" ? "安装 MitaoApp" : "Get the Mitao App"}
+            </button>
           </div>
         </div>
       )}
       <div className="bg-[#0A1931]">
-        <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src={`${assetBase}logo.png`} alt="Mitao" className="h-9 rounded-lg object-contain" />
-            <span className="font-outfit font-black text-white text-xl tracking-tight hidden sm:block">Mitao</span>
-          </Link>
+        <div className="max-w-screen-xl mx-auto px-4 py-3">
+          <div className="grid grid-cols-[1fr_auto] grid-rows-[auto_auto] gap-3 lg:grid-cols-[auto_1fr_auto] lg:grid-rows-[auto] lg:items-center">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+                <img src={`${assetBase}logo.png`} alt="Mitao" className="h-9 w-9 rounded-lg object-contain bg-white/5" />
+                <span className="font-outfit font-black text-white text-xl tracking-tight hidden sm:block">Mitao</span>
+              </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
+              <nav className="hidden lg:flex items-center gap-1">
             <Link to="/best-selling" className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">Best-Selling Items</Link>
             <Link to="/top-rated" className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">5-Star Rated</Link>
             <Link to="/new-in" className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
@@ -259,25 +266,10 @@ export default function Header() {
               </button>
               {showMega && <MegaMenu onClose={() => setShowMega(false)} />}
             </div>
-          </nav>
-
-          <form onSubmit={handleSearch} className="flex-1 max-w-lg mx-auto">
-            <div className="flex items-center bg-white rounded-xl border border-white/15 shadow-sm overflow-hidden">
-              <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-                placeholder={t("search.placeholder")}
-                className="flex-1 px-4 py-2.5 text-sm text-gray-800 outline-none bg-transparent"
-              />
-              <button
-                type="submit"
-                className="bg-[#F97316] hover:bg-[#EA580C] px-4 py-2.5 transition-colors rounded-l-none rounded-r-xl"
-                aria-label={t("search.submit")}
-              >
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              </button>
+              </nav>
             </div>
-          </form>
 
-          <div className="flex items-center gap-1">
+            <div className="flex items-center justify-end gap-1">
             <div className="relative" ref={signInRef}>
               <button onClick={() => { setShowSignIn(!showSignIn); setShowSupport(false); }}
                 className="flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors">
@@ -359,7 +351,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("mitao:open-install"))}
-              className="hidden lg:flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors"
+              className="flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors"
               aria-label="Install MitaoApp"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -367,6 +359,28 @@ export default function Header() {
               </svg>
               <span className="text-[10px] hidden lg:block">{language === "zh" ? "安装" : "Install"}</span>
             </button>
+            </div>
+
+            <form onSubmit={handleSearch} className="col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1">
+              <div className="flex items-center bg-white rounded-xl border border-white/15 shadow-sm overflow-hidden">
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t("search.placeholder")}
+                  className="flex-1 px-4 py-2.5 text-sm text-gray-800 outline-none bg-transparent"
+                />
+                <button
+                  type="submit"
+                  className="bg-[#F97316] hover:bg-[#EA580C] px-4 py-2.5 transition-colors rounded-l-none rounded-r-xl"
+                  aria-label={t("search.submit")}
+                >
+                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
