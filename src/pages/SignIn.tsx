@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../lib/auth-context";
 import { fetchApi } from "../lib/api";
+import { brandLogoUrl } from "../lib/brandAssets";
 
 export default function SignIn() {
   const [mode, setMode] = useState<"signin" | "register">("signin");
@@ -10,8 +11,6 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (mode === "register" && form.password !== form.confirm) {
@@ -48,7 +47,7 @@ export default function SignIn() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8">
         <div className="flex justify-center mb-6">
           <Link to="/" className="flex flex-col items-center gap-3">
-            <img src={`${assetBase}logo.png`} alt="Mitao" className="h-16 w-16 object-contain rounded-2xl shadow-sm" />
+            <img src={brandLogoUrl} alt="Mitao" className="h-16 w-16 object-contain rounded-2xl shadow-sm" />
             <span className="font-outfit font-black text-2xl text-[#0A1931]">Mitao</span>
           </Link>
         </div>

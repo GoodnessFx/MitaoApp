@@ -5,6 +5,7 @@ import { CATEGORIES, SUBCATEGORIES } from "../data/products";
 import { useLocaleStore } from "../store/locale";
 import { useTranslation } from "react-i18next";
 import { getCategoryLabel, getSubcategoryLabel } from "../lib/productLocale";
+import { brandLogoUrl } from "../lib/brandAssets";
 
 function MegaMenu({ onClose }: { onClose: () => void }) {
   const [active, setActive] = useState("Featured");
@@ -29,15 +30,15 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
   const visibleSubs = SUBCATEGORIES.filter((s) => suggested.includes(s.label));
 
   return (
-    <div className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-gray-100 z-40 rounded-b-2xl overflow-hidden flex">
-      <div className="w-60 border-r border-gray-100 overflow-y-auto no-scrollbar bg-white flex-shrink-0 py-2">
+    <div className="absolute top-full left-0 right-0 mt-3 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.2)] border border-gray-200 z-40 rounded-3xl overflow-hidden flex">
+      <div className="w-64 border-r border-gray-100 overflow-y-auto no-scrollbar bg-[#f8fafc] flex-shrink-0 py-3">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             onMouseEnter={() => setActive(cat)}
             onClick={() => { navigate(`/categories?cat=${encodeURIComponent(cat)}`); onClose(); }}
             className={`w-full text-left px-4 py-2.5 text-sm transition-colors relative ${
-              active === cat ? "bg-blue-50 text-[#0A1931] font-semibold" : "text-gray-700 hover:bg-gray-50"
+              active === cat ? "bg-white text-[#0A1931] font-semibold shadow-sm" : "text-gray-700 hover:bg-white/80"
             }`}
           >
             {active === cat && <span className="absolute left-0 top-0 bottom-0 w-1 bg-[#F97316]" />}
@@ -45,15 +46,18 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
           </button>
         ))}
       </div>
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-7 bg-white">
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{getCategoryLabel(active, language)}</p>
           <button
             type="button"
             onClick={() => { navigate(`/categories?cat=${encodeURIComponent(active)}`); onClose(); }}
-            className="text-xs font-semibold text-[#0A1931] hover:underline"
+            className="inline-flex items-center gap-1 rounded-full border border-gray-200 px-3 py-1.5 text-xs font-semibold text-[#0A1931] transition-colors hover:bg-gray-50"
           >
             {language === "zh" ? "查看全部" : "View all"}
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -193,8 +197,6 @@ export default function Header() {
   const { t } = useTranslation();
 
   const { language, currency, setLanguage, setCurrency, applyLanguageToDom } = useLocaleStore();
-  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
-
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -252,7 +254,7 @@ export default function Header() {
             <div className="flex min-w-0 items-center gap-3 lg:gap-5">
               <Link to="/" className="flex min-w-0 items-center gap-2.5 flex-shrink-0">
                 <img
-                  src={`${assetBase}logo.png`}
+                  src={brandLogoUrl}
                   alt="Mitao"
                   className="h-11 w-11 object-contain rounded-lg shadow-[0_12px_28px_rgba(2,6,23,0.22)] border border-white/8"
                 />
@@ -269,9 +271,15 @@ export default function Header() {
             <Link to="/top-rated" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Top Rated</Link>
             <Link to="/new-in" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
             <div className="relative" onMouseEnter={() => setShowMega(true)} onMouseLeave={() => setShowMega(false)}>
-              <button className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors flex items-center gap-1 whitespace-nowrap">
+              <button className={`text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 whitespace-nowrap ${
+                showMega ? "bg-white/14 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]" : "hover:bg-white/10"
+              }`}>
                 Categories
-                <svg className={`w-3.5 h-3.5 transition-transform ${showMega ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                <span className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
+                  showMega ? "border-white/15 bg-white/10" : "border-white/10 bg-white/5"
+                }`}>
+                  <svg className={`w-3 h-3 transition-transform ${showMega ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </span>
               </button>
               {showMega && <MegaMenu onClose={() => setShowMega(false)} />}
             </div>
@@ -391,10 +399,10 @@ export default function Header() {
                 />
                 <button
                   type="submit"
-                  className="mr-1.5 bg-[#F97316] hover:bg-[#EA580C] px-4 py-2.5 transition-colors rounded-xl shadow-sm"
+                  className="mr-1.5 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-b from-[#fb923c] to-[#f97316] text-white shadow-[0_8px_18px_rgba(249,115,22,0.28)] transition-all hover:from-[#f97316] hover:to-[#ea580c] hover:shadow-[0_10px_22px_rgba(249,115,22,0.34)]"
                   aria-label={t("search.submit")}
                 >
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </button>

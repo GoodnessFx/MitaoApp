@@ -5,13 +5,13 @@ import { catalogStore } from "../store/catalog";
 import { useTranslation } from "react-i18next";
 import { useLocaleStore } from "../store/locale";
 import { getProductTitle } from "../lib/productLocale";
+import { heroBannerUrl } from "../lib/brandAssets";
 
 export default function Home() {
   const [products, setProducts] = useState(catalogStore.getAll());
   const [visible, setVisible] = useState(10);
   const { t } = useTranslation();
   const language = useLocaleStore((s) => s.language);
-  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
   const [cookieDismissed, setCookieDismissed] = useState(() => {
     return localStorage.getItem('mitao_cookie_consent') === 'true';
   });
@@ -42,7 +42,7 @@ export default function Home() {
       <div className="relative overflow-hidden" style={{ minHeight: 320 }}>
         <div className="absolute inset-0">
           <img
-            src={`${assetBase}hero-china-sourcing.jpg`}
+            src={heroBannerUrl}
             alt="China sourcing and warehouse operations"
             className="w-full h-full object-cover object-center"
           />

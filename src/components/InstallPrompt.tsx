@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocaleStore } from "../store/locale";
+import { brandLogoUrl } from "../lib/brandAssets";
 
 declare global {
   interface WindowEventMap {
@@ -39,7 +40,6 @@ export default function InstallPrompt() {
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [toast, setToast] = useState<string>("");
   const openedByUserRef = useRef(false);
-  const assetBase = (import.meta as any).env?.BASE_URL?.toString?.() || "/";
   const language = useLocaleStore((s) => s.language);
 
   const platform = useMemo(() => {
@@ -161,7 +161,7 @@ export default function InstallPrompt() {
       <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
         <div className="p-5 flex items-start gap-4">
           <div className="w-12 h-12 rounded-2xl bg-[#0A1931] flex items-center justify-center overflow-hidden flex-shrink-0">
-            <img src={`${assetBase}logo.png`} alt="MitaoApp" className="w-10 h-10 object-contain" />
+            <img src={brandLogoUrl} alt="MitaoApp" className="w-10 h-10 object-contain" />
           </div>
           <div className="min-w-0">
             <p className="text-gray-900 font-outfit font-black text-lg leading-tight">
