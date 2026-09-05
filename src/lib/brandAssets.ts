@@ -1,5 +1,5 @@
-import logoUrl from "../../public/logo.png";
-import heroChinaSourcingUrl from "../../public/hero-china-sourcing.jpg";
+import logoUrl from "../assets/logo.png";
+import heroChinaSourcingUrl from "../assets/hero-china-sourcing.jpg";
 
 export const brandLogoUrl = logoUrl;
 export const heroBannerUrl = heroChinaSourcingUrl;
