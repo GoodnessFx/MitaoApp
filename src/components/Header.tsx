@@ -2,42 +2,78 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import { useCartCount } from "./shared";
 import { CATEGORIES, SUBCATEGORIES } from "../data/products";
+import { useLocaleStore } from "../store/locale";
+import { useTranslation } from "react-i18next";
+import { getCategoryLabel, getSubcategoryLabel } from "../lib/productLocale";
 
 function MegaMenu({ onClose }: { onClose: () => void }) {
   const [active, setActive] = useState("Featured");
   const navigate = useNavigate();
+  const language = useLocaleStore((s) => s.language);
+
+  const groups: Record<string, string[]> = {
+    Featured: ["Dresses", "Sneakers", "Skincare", "Watches", "Bags", "Storage"],
+    "Women's Clothing": ["Dresses", "Sundresses", "Sweaters"],
+    "Women's Shoes": ["Sneakers", "Running"],
+    "Men's Clothing": ["Shirts", "Flannel"],
+    "Men's Shoes": ["Sneakers", "Running"],
+    "Home & Kitchen": ["Cookware", "Bar Stools", "Storage"],
+    "Beauty & Personal Care": ["Skincare"],
+    "Jewelry & Accessories": ["Jewelry", "Watches", "Bags"],
+    "Sports & Outdoors": ["Running", "Sneakers"],
+    "Toys & Games": ["Stationery"],
+    Electronics: ["Electronics"],
+  };
+
+  const suggested = groups[active] ?? ["Dresses", "Sneakers", "Cookware", "Skincare", "Watches", "Storage"];
+  const visibleSubs = SUBCATEGORIES.filter((s) => suggested.includes(s.label));
+
   return (
-    <div className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-gray-100 z-40 flex" style={{ minHeight: 380 }}>
-      <div className="w-52 border-r border-gray-100 overflow-y-auto no-scrollbar bg-white flex-shrink-0">
+    <div className="absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-gray-100 z-40 rounded-b-2xl overflow-hidden flex">
+      <div className="w-60 border-r border-gray-100 overflow-y-auto no-scrollbar bg-white flex-shrink-0 py-2">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             onMouseEnter={() => setActive(cat)}
             onClick={() => { navigate(`/categories?cat=${encodeURIComponent(cat)}`); onClose(); }}
-            className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${active === cat ? "bg-gray-50 text-[#0A1931] font-semibold" : "text-gray-700 hover:bg-gray-50"}`}
+            className={`w-full text-left px-4 py-2.5 text-sm transition-colors relative ${
+              active === cat ? "bg-blue-50 text-[#0A1931] font-semibold" : "text-gray-700 hover:bg-gray-50"
+            }`}
           >
-            {cat}
+            {active === cat && <span className="absolute left-0 top-0 bottom-0 w-1 bg-[#F97316]" />}
+            <span className="block">{getCategoryLabel(cat, language)}</span>
           </button>
         ))}
       </div>
       <div className="flex-1 p-6">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">{active}</p>
-        <div className="grid grid-cols-5 gap-4">
-          {SUBCATEGORIES.map((sub) => (
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{getCategoryLabel(active, language)}</p>
+          <button
+            type="button"
+            onClick={() => { navigate(`/categories?cat=${encodeURIComponent(active)}`); onClose(); }}
+            className="text-xs font-semibold text-[#0A1931] hover:underline"
+          >
+            {language === "zh" ? "查看全部" : "View all"}
+          </button>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {visibleSubs.map((sub) => (
             <div
               key={sub.label}
               onClick={() => { navigate(`/categories?cat=${encodeURIComponent(sub.label)}`); onClose(); }}
               className="flex flex-col items-center gap-2 cursor-pointer group"
             >
               <div className="relative">
-                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-[#0A1931] transition-colors bg-gray-100">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden border border-gray-100 group-hover:border-[#0A1931] transition-colors bg-gray-100 shadow-sm">
                   <img src={sub.img} alt={sub.label} className="w-full h-full object-cover" />
                 </div>
                 {sub.hot && (
                   <span className="absolute -top-1 -right-1 bg-[#F97316] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm">HOT</span>
                 )}
               </div>
-              <span className="text-xs text-gray-700 text-center group-hover:text-[#0A1931] transition-colors">{sub.label}</span>
+              <span className="text-xs text-gray-700 text-center group-hover:text-[#0A1931] transition-colors">
+                {getSubcategoryLabel(sub.label, language)}
+              </span>
             </div>
           ))}
         </div>
@@ -147,11 +183,16 @@ export default function Header() {
   const [showMega, setShowMega] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [showLocale, setShowLocale] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const signInRef = useRef<HTMLDivElement>(null);
   const supportRef = useRef<HTMLDivElement>(null);
+  const localeRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
+
+  const { language, currency, setLanguage, setCurrency, applyLanguageToDom } = useLocaleStore();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -163,10 +204,16 @@ export default function Header() {
     const handler = (e: MouseEvent) => {
       if (signInRef.current && !signInRef.current.contains(e.target as Node)) setShowSignIn(false);
       if (supportRef.current && !supportRef.current.contains(e.target as Node)) setShowSupport(false);
+      if (localeRef.current && !localeRef.current.contains(e.target as Node)) setShowLocale(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  useEffect(() => {
+    // Keep <html lang=".."> in sync for accessibility and built-in translation tools.
+    applyLanguageToDom();
+  }, [applyLanguageToDom, language]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -214,10 +261,16 @@ export default function Header() {
           </nav>
 
           <form onSubmit={handleSearch} className="flex-1 max-w-lg mx-auto">
-            <div className="flex items-center bg-white rounded-lg overflow-hidden">
+            <div className="flex items-center bg-white rounded-xl border border-white/15 shadow-sm overflow-hidden">
               <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search for anything..." className="flex-1 px-4 py-2 text-sm text-gray-800 outline-none" />
-              <button type="submit" className="bg-[#F97316] hover:bg-[#EA580C] px-4 py-2 transition-colors">
+                placeholder={t("search.placeholder")}
+                className="flex-1 px-4 py-2.5 text-sm text-gray-800 outline-none bg-transparent"
+              />
+              <button
+                type="submit"
+                className="bg-[#F97316] hover:bg-[#EA580C] px-4 py-2.5 transition-colors rounded-l-none rounded-r-xl"
+                aria-label={t("search.submit")}
+              >
                 <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </button>
             </div>
@@ -242,10 +295,52 @@ export default function Header() {
               {showSupport && <SupportDropdown onClose={() => setShowSupport(false)} />}
             </div>
 
-            <button className="hidden md:flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors">
-              <span className="text-lg leading-5">🇺🇸</span>
-              <span className="text-[10px] hidden lg:block">EN / USD</span>
-            </button>
+            <div className="relative hidden md:block" ref={localeRef}>
+              <button
+                onClick={() => setShowLocale((v) => !v)}
+                className="flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors"
+                aria-label={t("locale.switch")}
+                type="button"
+              >
+                <span className="text-lg leading-5">{language === "zh" ? "🇨🇳" : "🇺🇸"}</span>
+                <span className="text-[10px] hidden lg:block">{language.toUpperCase()} / {currency}</span>
+              </button>
+
+              {showLocale && (
+                <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-xs text-gray-500">{t("locale.title")}</p>
+                    <p className="text-sm font-semibold text-gray-900">{t("locale.subtitle")}</p>
+                  </div>
+
+                  <div className="p-2">
+                    <button
+                      type="button"
+                      onClick={() => { setLanguage("zh"); setCurrency("CNY"); setShowLocale(false); }}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${language === "zh" && currency === "CNY" ? "bg-blue-50 text-[#0A1931]" : "hover:bg-gray-50 text-gray-700"}`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-base">🇨🇳</span>
+                        <span className="text-sm font-semibold">中文</span>
+                      </span>
+                      <span className="text-xs text-gray-500">¥ CNY</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => { setLanguage("en"); setCurrency("USD"); setShowLocale(false); }}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${language === "en" && currency === "USD" ? "bg-blue-50 text-[#0A1931]" : "hover:bg-gray-50 text-gray-700"}`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-base">🇺🇸</span>
+                        <span className="text-sm font-semibold">English</span>
+                      </span>
+                      <span className="text-xs text-gray-500">$ USD</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <Link to="/cart" className="relative flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -259,6 +354,18 @@ export default function Header() {
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
               <span className="text-[10px]">Orders</span>
             </Link>
+
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("mitao:open-install"))}
+              className="hidden lg:flex flex-col items-center text-white/90 hover:text-white px-2 py-1 rounded-lg hover:bg-white/10 transition-colors"
+              aria-label="Install MitaoApp"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 12l-4-4m4 4l4-4M4 20h16" />
+              </svg>
+              <span className="text-[10px] hidden lg:block">{language === "zh" ? "安装" : "Install"}</span>
+            </button>
           </div>
         </div>
       </div>

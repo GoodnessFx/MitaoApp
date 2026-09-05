@@ -5,6 +5,9 @@ import { cartStore } from "../store/cart";
 import { import1688Store } from "../store/import1688";
 import { Stars } from "../components/shared";
 import ProductCard from "../components/ProductCard";
+import { useLocaleStore } from "../store/locale";
+import { formatCurrency } from "../lib/currency";
+import { getCategoryLabel, getProductBadge, getProductDescription, getProductShipping, getProductSold, getProductTitle } from "../lib/productLocale";
 
 const REVIEWS = [
   { name: "Sarah M.", rating: 5, date: "Aug 14, 2026", text: "Absolutely love this! The quality exceeded my expectations for the price. Fast shipping too.", verified: true },
@@ -15,6 +18,8 @@ const REVIEWS = [
 ];
 
 export default function ProductDetail() {
+  const currency = useLocaleStore((s) => s.currency);
+  const language = useLocaleStore((s) => s.language);
   const { id } = useParams();
   const navigate = useNavigate();
   const pid = Number(id);
@@ -53,6 +58,12 @@ export default function ProductDetail() {
   };
 
   const discount = Math.round((1 - product.price / product.originalPrice) * 100);
+  const title = getProductTitle(product, language);
+  const badge = getProductBadge(product, language);
+  const sold = getProductSold(product, language);
+  const shipping = getProductShipping(product, language);
+  const description = getProductDescription(product, language);
+  const categoryLabel = getCategoryLabel(product.category, language);
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
@@ -61,9 +72,9 @@ export default function ProductDetail() {
         <div className="flex items-center gap-2 text-xs text-gray-500">
           <Link to="/" className="hover:text-[#0A1931]">Home</Link>
           <span>/</span>
-          <Link to={`/categories?cat=${encodeURIComponent(product.category)}`} className="hover:text-[#0A1931]">{product.category}</Link>
+          <Link to={`/categories?cat=${encodeURIComponent(product.category)}`} className="hover:text-[#0A1931]">{categoryLabel}</Link>
           <span>/</span>
-          <span className="text-gray-800 truncate max-w-xs">{product.title}</span>
+          <span className="text-gray-800 truncate max-w-xs">{title}</span>
         </div>
       </div>
 
@@ -80,7 +91,7 @@ export default function ProductDetail() {
               ))}
             </div>
             <div className="flex-1 aspect-square rounded-xl overflow-hidden bg-gray-100">
-              <img src={product.images[selectedImg]} alt={product.title} className="w-full h-full object-cover" />
+              <img src={product.images[selectedImg]} alt={title} className="w-full h-full object-cover" />
             </div>
           </div>
 
@@ -88,14 +99,14 @@ export default function ProductDetail() {
           <div className="bg-white rounded-xl p-5">
             {/* Title & badges */}
             <div className="flex flex-wrap gap-1.5 mb-2">
-              {product.badge && <span className="text-[11px] bg-[#0A1931] text-white px-2 py-0.5 rounded-sm font-bold font-outfit">{product.badge}</span>}
+              {badge && <span className="text-[11px] bg-[#0A1931] text-white px-2 py-0.5 rounded-sm font-bold font-outfit">{badge}</span>}
               <span className="text-[11px] bg-[#FEF3C7] text-orange-700 px-2 py-0.5 rounded-sm font-semibold">-{discount}% OFF</span>
               <span className="text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded-sm font-semibold flex items-center gap-1">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                Verified Factory Direct
+                {language === "zh" ? "认证 · 工厂直发" : "Verified Factory Direct"}
               </span>
             </div>
-            <h1 className="font-outfit font-bold text-gray-900 text-xl leading-snug mb-3">{product.title}</h1>
+            <h1 className="font-outfit font-bold text-gray-900 text-xl leading-snug mb-3">{title}</h1>
             {sourceLink && (
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-[10px] text-gray-400">Source:</span>
@@ -115,22 +126,22 @@ export default function ProductDetail() {
             <div className="flex items-center gap-2 mb-4">
               <Stars rating={product.rating} size="md" />
               <span className="text-[#0A1931] text-sm font-semibold">{product.rating}</span>
-              <span className="text-gray-400 text-sm">({product.reviews.toLocaleString()} reviews)</span>
+              <span className="text-gray-400 text-sm">({product.reviews.toLocaleString()} {language === "zh" ? "条评价" : "reviews"})</span>
               <span className="text-gray-300">|</span>
-              <span className="text-[#F97316] text-sm font-medium">{product.sold}</span>
+              <span className="text-[#F97316] text-sm font-medium">{sold}</span>
             </div>
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-4 p-3 bg-blue-50 rounded-lg">
-              <span className="font-outfit font-black text-3xl text-[#0A1931]">${product.price.toFixed(2)}</span>
-              <span className="text-gray-400 line-through text-base">${product.originalPrice.toFixed(2)}</span>
-              <span className="text-green-600 font-semibold text-sm">Save ${(product.originalPrice - product.price).toFixed(2)}</span>
+              <span className="font-outfit font-black text-3xl text-[#0A1931]">{formatCurrency(product.price, currency)}</span>
+              <span className="text-gray-400 line-through text-base">{formatCurrency(product.originalPrice, currency)}</span>
+              <span className="text-green-600 font-semibold text-sm">Save {formatCurrency(product.originalPrice - product.price, currency)}</span>
             </div>
 
             {/* Shipping */}
             <div className="flex items-center gap-2 mb-4 text-sm">
               <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
-              <span className="text-green-600 font-medium">{product.shipping}</span>
+              <span className="text-green-600 font-medium">{shipping}</span>
             </div>
 
             {/* Stock warning */}
@@ -250,7 +261,7 @@ export default function ProductDetail() {
           </div>
           <div className="p-5">
             {activeTab === "description" && (
-              <p className="text-sm text-gray-700 leading-relaxed">{product.description}</p>
+              <p className="text-sm text-gray-700 leading-relaxed">{description}</p>
             )}
             {activeTab === "specs" && (
               <table className="w-full text-sm">

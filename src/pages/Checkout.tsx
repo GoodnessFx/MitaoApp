@@ -3,11 +3,14 @@ import { Link, useNavigate } from "react-router";
 import { cartStore, type CartItem } from "../store/cart";
 import { PRODUCTS } from "../data/products";
 import { import1688Store } from "../store/import1688";
+import { useLocaleStore } from "../store/locale";
+import { formatCurrency } from "../lib/currency";
 
 export default function Checkout() {
   const [items, setItems] = useState<CartItem[]>(cartStore.getItems());
   const [step, setStep] = useState<"info" | "payment" | "confirm">("info");
   const [form, setForm] = useState({ name: "", email: "", address: "", city: "", zip: "", country: "United States", card: "", expiry: "", cvv: "" });
+  const currency = useLocaleStore((s) => s.currency);
   const navigate = useNavigate();
 
   useEffect(() => cartStore.subscribe(() => setItems([...cartStore.getItems()])), []);
@@ -124,7 +127,7 @@ export default function Checkout() {
                 <div className="flex gap-3">
                   <button onClick={() => setStep("payment")} className="px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>
                   <button onClick={handlePlaceOrder} className="flex-1 bg-[#F97316] hover:bg-[#EA580C] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
-                    Place Order — ${subtotal.toFixed(2)}
+                    Place Order — {formatCurrency(subtotal, currency)}
                   </button>
                 </div>
               </div>
@@ -159,15 +162,15 @@ export default function Checkout() {
                     <p className="text-xs text-gray-700 line-clamp-2">{product!.title}</p>
                     <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
                   </div>
-                  <span className="text-sm font-semibold text-[#0A1931] flex-shrink-0">${(product!.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-sm font-semibold text-[#0A1931] flex-shrink-0">{formatCurrency(product!.price * item.quantity, currency)}</span>
                 </div>
               ))}
             </div>
             <div className="border-t border-gray-100 pt-3 flex flex-col gap-1.5 text-sm">
-              <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
+              <div className="flex justify-between"><span className="text-gray-500">Subtotal</span><span>{formatCurrency(subtotal, currency)}</span></div>
               <div className="flex justify-between text-green-600"><span>Shipping</span><span>FREE</span></div>
               <div className="flex justify-between font-outfit font-bold text-base pt-2 border-t border-gray-100 mt-1">
-                <span>Total</span><span className="text-[#0A1931]">${subtotal.toFixed(2)}</span>
+                <span>Total</span><span className="text-[#0A1931]">{formatCurrency(subtotal, currency)}</span>
               </div>
             </div>
           </div>

@@ -119,7 +119,9 @@ export default function SignIn() {
             </div>
           )}
           {mode === "signin" && (
-            <a href="#" className="text-xs text-[#0A1931] self-end hover:underline">Forgot password?</a>
+            <Link to="/support" className="text-xs text-[#0A1931] self-end hover:underline">
+              Forgot password? Contact support
+            </Link>
           )}
           <button type="submit" disabled={loading} className="w-full bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold py-3 rounded-xl transition-colors mt-1 disabled:opacity-70">
             {loading ? "Please wait..." : (mode === "signin" ? "Sign In" : "Create Account")}

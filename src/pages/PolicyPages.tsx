@@ -76,7 +76,7 @@ export function Terms() {
         When you create an account, you must provide accurate and complete information. You are responsible for all activities under your account. Notify us immediately of any unauthorized use.
       </Section>
       <Section title="3. Purchases">
-        All purchases are subject to product availability. Prices are in USD and may change without notice. By placing an order, you represent you have the right to use your payment method.
+        All purchases are subject to product availability. Prices are shown in your selected currency and may change without notice. By placing an order, you represent you have the right to use your payment method.
       </Section>
       <Section title="4. Prohibited Activities">
         You may not use our platform to transmit unlawful or harmful content, impersonate others, violate applicable laws, or use automated scripts to collect information.

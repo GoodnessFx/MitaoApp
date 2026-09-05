@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import ProductCard from "../components/ProductCard";
 import { catalogStore } from "../store/catalog";
+import { buildSearchBlob } from "../lib/productLocale";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
@@ -13,12 +14,8 @@ export default function Search() {
 
   useEffect(() => catalogStore.subscribe(() => setProducts(catalogStore.getAll())), []);
 
-  let results = products.filter((p) =>
-    p.title.toLowerCase().includes(q.toLowerCase()) ||
-    p.category.toLowerCase().includes(q.toLowerCase()) ||
-    p.brand?.toLowerCase().includes(q.toLowerCase()) ||
-    p.description.toLowerCase().includes(q.toLowerCase())
-  );
+  const query = q.trim().toLowerCase();
+  let results = query ? products.filter((p) => buildSearchBlob(p).includes(query)) : products;
 
   if (sort === "price-asc") results = [...results].sort((a, b) => a.price - b.price);
   else if (sort === "price-desc") results = [...results].sort((a, b) => b.price - a.price);

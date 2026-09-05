@@ -2,16 +2,31 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import ProductCard from "../components/ProductCard";
 import { catalogStore } from "../store/catalog";
+import { useTranslation } from "react-i18next";
+import { useLocaleStore } from "../store/locale";
+import { getProductTitle } from "../lib/productLocale";
 
 export default function Home() {
   const [products, setProducts] = useState(catalogStore.getAll());
   const [visible, setVisible] = useState(10);
+  const { t } = useTranslation();
+  const language = useLocaleStore((s) => s.language);
   const [cookieDismissed, setCookieDismissed] = useState(() => {
     return localStorage.getItem('mitao_cookie_consent') === 'true';
   });
   const [activeFilter, setActiveFilter] = useState("All");
 
-  const filters = ["All", "Women's Fashion", "Men's Fashion", "Home & Kitchen", "Electronics", "Beauty", "Sports", "Toys", "Jewelry"];
+  const filters: Array<{ key: string; label: string }> = [
+    { key: "All", label: language === "zh" ? "全部" : "All" },
+    { key: "Women's Fashion", label: language === "zh" ? "女装时尚" : "Women's Fashion" },
+    { key: "Men's Fashion", label: language === "zh" ? "男装时尚" : "Men's Fashion" },
+    { key: "Home & Kitchen", label: language === "zh" ? "家居厨房" : "Home & Kitchen" },
+    { key: "Electronics", label: language === "zh" ? "数码家电" : "Electronics" },
+    { key: "Beauty", label: language === "zh" ? "美妆个护" : "Beauty" },
+    { key: "Sports", label: language === "zh" ? "运动户外" : "Sports" },
+    { key: "Toys", label: language === "zh" ? "玩具文具" : "Toys" },
+    { key: "Jewelry", label: language === "zh" ? "珠宝配饰" : "Jewelry" },
+  ];
   useEffect(() => catalogStore.subscribe(() => setProducts(catalogStore.getAll())), []);
 
   const filtered =
@@ -26,20 +41,20 @@ export default function Home() {
       <div className="relative overflow-hidden" style={{ minHeight: 320 }}>
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1511556820780-d912e42b4980?w=1920&h=500&fit=crop&auto=format"
-            alt="Shopping banner"
+            src="/hero-china-sourcing.jpg"
+            alt="China sourcing and warehouse operations"
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[#061021]/80" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#061021]/95 via-[#0A1931]/75 to-transparent" />
+          <div className="absolute inset-0 bg-[#061021]/65" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061021]/92 via-[#0A1931]/65 to-transparent" />
         </div>
         <div className="relative max-w-screen-xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <p className="text-orange-300 text-sm font-semibold mb-2 font-outfit tracking-wide uppercase">Limited Time Offer</p>
             <h1 className="font-outfit font-black text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-3">
-              Up to 90% Off<br />Everything
+              {t("home.hero.title")}
             </h1>
-            <p className="text-blue-200 text-sm mb-6 max-w-sm">Free shipping on every order. No minimums. No catch. Thousands of deals added daily.</p>
+            <p className="text-blue-200 text-sm mb-6 max-w-sm">{t("home.hero.subtitle")}</p>
             <div className="flex gap-3 flex-wrap">
               <Link to="/categories" className="bg-[#F97316] hover:bg-[#EA580C] text-white font-bold px-8 py-3 rounded-xl transition-colors font-outfit text-sm">
                 Shop Now
@@ -60,7 +75,7 @@ export default function Home() {
           <div className="hidden lg:flex gap-3 flex-shrink-0">
             {products.slice(0, 3).map((p) => (
               <Link key={p.id} to={`/product/${p.id}`} className="w-32 h-32 rounded-2xl overflow-hidden shadow-2xl bg-blue-400 hover:scale-105 transition-transform">
-                <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                <img src={p.image} alt={getProductTitle(p, language)} className="w-full h-full object-cover" />
               </Link>
             ))}
           </div>
@@ -80,9 +95,9 @@ export default function Home() {
       <div className="max-w-screen-xl mx-auto px-4 mt-4 mb-4">
         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
           {filters.map((f) => (
-            <button key={f} onClick={() => { setActiveFilter(f); setVisible(10); }}
-              className={`flex-shrink-0 text-xs px-4 py-2 rounded-full border transition-colors ${f === activeFilter ? "bg-[#0A1931] text-white border-[#0A1931]" : "bg-white text-gray-700 border-gray-200 hover:border-[#0A1931] hover:text-[#0A1931]"}`}>
-              {f}
+            <button key={f.key} onClick={() => { setActiveFilter(f.key); setVisible(10); }}
+              className={`flex-shrink-0 text-xs px-4 py-2 rounded-full border transition-colors ${f.key === activeFilter ? "bg-[#0A1931] text-white border-[#0A1931]" : "bg-white text-gray-700 border-gray-200 hover:border-[#0A1931] hover:text-[#0A1931]"}`}>
+              {f.label}
             </button>
           ))}
         </div>

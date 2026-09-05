@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router";
 import { cartStore, type CartItem } from "../store/cart";
 import { PRODUCTS } from "../data/products";
 import { import1688Store } from "../store/import1688";
+import { useLocaleStore } from "../store/locale";
+import { formatCurrency } from "../lib/currency";
 
 export default function Cart() {
   const [items, setItems] = useState<CartItem[]>(cartStore.getItems());
+  const currency = useLocaleStore((s) => s.currency);
   const navigate = useNavigate();
 
   useEffect(() => cartStore.subscribe(() => setItems([...cartStore.getItems()])), []);
@@ -62,8 +65,8 @@ export default function Cart() {
                     {item.size && <p className="text-xs text-gray-400 mt-0.5">Size: {item.size}</p>}
                     <div className="flex items-center justify-between mt-2">
                       <div>
-                        <span className="text-[#0A1931] font-bold font-outfit text-base">${product!.price.toFixed(2)}</span>
-                        <span className="text-gray-400 line-through text-xs ml-2">${product!.originalPrice.toFixed(2)}</span>
+                        <span className="text-[#0A1931] font-bold font-outfit text-base">{formatCurrency(product!.price, currency)}</span>
+                        <span className="text-gray-400 line-through text-xs ml-2">{formatCurrency(product!.originalPrice, currency)}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center border border-gray-200 rounded-lg">
@@ -97,11 +100,11 @@ export default function Cart() {
                 <div className="flex flex-col gap-2 text-sm mb-4">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Subtotal ({items.reduce((s,i)=>s+i.quantity,0)} items)</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                    <span className="font-semibold">{formatCurrency(subtotal, currency)}</span>
                   </div>
                   <div className="flex justify-between text-green-600">
                     <span>You save</span>
-                    <span className="font-semibold">-${savings.toFixed(2)}</span>
+                    <span className="font-semibold">-{formatCurrency(savings, currency)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Shipping</span>
@@ -111,7 +114,7 @@ export default function Cart() {
                 <div className="border-t border-gray-100 pt-3 mb-4">
                   <div className="flex justify-between font-outfit font-bold text-lg">
                     <span>Total</span>
-                    <span className="text-[#0A1931]">${subtotal.toFixed(2)}</span>
+                    <span className="text-[#0A1931]">{formatCurrency(subtotal, currency)}</span>
                   </div>
                 </div>
                 <button onClick={() => navigate("/checkout")} className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white font-outfit font-bold py-3.5 rounded-xl transition-colors text-base">

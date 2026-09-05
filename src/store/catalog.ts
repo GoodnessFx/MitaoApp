@@ -143,23 +143,29 @@ function createImportRecords(url: string) {
   const publicProduct: Product = {
     id: publicProductId,
     title: `${pick(["Premium", "Curated", "Popular", "Verified", "Fast-moving"], seed)} ${pick(["Global", "Warehouse", "Sourced", "Cross-border", "Wholesale"], seed + 1)} ${pick(["Find", "Listing", "Drop", "Selection", "Deal"], seed + 2)}`,
+    titleZh: `跨境精选${pick(["爆款", "好物", "热卖", "严选", "高性价比"], seed)}`,
     price,
     originalPrice,
     sold: `${seededNumber(seed, 1, 9)}.${seed % 10}k+ sold`,
+    soldZh: `已售 ${seededNumber(seed, 1, 9)}.${seed % 10}k+`,
     rating: 4.5 + (seed % 5) * 0.1,
     reviews: seededNumber(seed, 240, 4200),
     image: img1,
     images: [img1, img2, img3],
     badge: "Global Source",
+    badgeZh: "全球货源",
     colors: seededNumber(seed, 3, 8),
     colorOptions: ["#111111", "#FFFFFF", "#0A1931", "#F97316", "#10B981", "#8B5CF6"],
     merit: "Curated from Mitao's sourcing network",
+    meritZh: "来自 Mitao 跨境采购网络",
     brand: "Mitao Global",
     starSeller: true,
     tag: "Cross-border fulfillment by Mitao",
     category,
     description:
       "This item is sourced through Mitao's cross-border procurement network. Mitao handles supplier coordination, quality checks, checkout, shipping updates, and customer support inside the app.",
+    descriptionZh:
+      "该商品通过 Mitao 跨境采购网络精选上架。Mitao 负责供应商对接、质检、下单、物流更新以及售后支持，所有流程都在应用内完成。",
     specs: {
       Fulfillment: "Managed by Mitao Global",
       Inspection: "Pre-shipment quality check available",
@@ -174,6 +180,7 @@ function createImportRecords(url: string) {
       avatar: "MG",
     },
     shipping: `Mitao global shipping · Est. delivery ${seededNumber(seed, 7, 10)}-${seededNumber(seed, 11, 16)} business days`,
+    shippingZh: `Mitao 跨境物流 · 预计 ${seededNumber(seed, 7, 10)}–${seededNumber(seed, 11, 16)} 个工作日送达`,
     stock: seededNumber(seed, 40, 520),
     sourceType: "global-sourcing",
   };

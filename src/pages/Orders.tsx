@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PRODUCTS } from "../data/products";
+import { useLocaleStore } from "../store/locale";
+import { formatCurrency } from "../lib/currency";
 
 const MOCK_ORDERS = [
   { id: "MT-2026-8821", date: "Aug 15, 2026", status: "Delivered", items: [{ productId: 3, qty: 1 }, { productId: 6, qty: 2 }], total: 34.97, tracking: "1ZA23F890123456789" },
@@ -19,6 +21,7 @@ export default function Orders() {
   const [searchParams] = useSearchParams();
   const success = searchParams.get("success");
   const [activeTab, setActiveTab] = useState<"all" | "processing" | "transit" | "delivered">("all");
+  const currency = useLocaleStore((s) => s.currency);
 
   const filtered = MOCK_ORDERS.filter((o) => {
     if (activeTab === "all") return true;
@@ -76,7 +79,7 @@ export default function Orders() {
                   <div className="flex flex-wrap gap-4 text-sm">
                     <div><p className="text-xs text-gray-400">Order ID</p><p className="font-semibold text-gray-800">{order.id}</p></div>
                     <div><p className="text-xs text-gray-400">Placed on</p><p className="font-semibold text-gray-800">{order.date}</p></div>
-                    <div><p className="text-xs text-gray-400">Total</p><p className="font-semibold text-[#0A1931] font-outfit">${order.total.toFixed(2)}</p></div>
+                    <div><p className="text-xs text-gray-400">Total</p><p className="font-semibold text-[#0A1931] font-outfit">{formatCurrency(order.total, currency)}</p></div>
                   </div>
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full ${STATUS_COLORS[order.status]}`}>{order.status}</span>
                 </div>
@@ -90,7 +93,7 @@ export default function Orders() {
                         </Link>
                         <div className="flex-1 min-w-0">
                           <Link to={`/product/${product!.id}`} className="text-sm text-gray-800 hover:text-[#0A1931] transition-colors line-clamp-1">{product!.title}</Link>
-                          <p className="text-xs text-gray-400">Qty: {qty} · ${product!.price.toFixed(2)} each</p>
+                          <p className="text-xs text-gray-400">Qty: {qty} · {formatCurrency(product!.price, currency)} each</p>
                         </div>
                       </div>
                     ))}
