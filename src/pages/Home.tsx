@@ -50,7 +50,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#061021]/92 via-[#0A1931]/65 to-transparent" />
         </div>
         <div className="relative max-w-screen-xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
+          <div className="max-w-xl">
             <p className="text-orange-300 text-sm font-semibold mb-2 font-outfit tracking-wide uppercase">Limited Time Offer</p>
             <h1 className="font-outfit font-black text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-3">
               {t("home.hero.title")}
@@ -63,14 +63,6 @@ export default function Home() {
               <Link to="/best-selling" className="bg-white/20 hover:bg-white/30 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm border border-white/30">
                 Best Sellers
               </Link>
-            </div>
-            <div className="flex gap-6 mt-6">
-              {[["50M+","Happy shoppers"],["90%","Price savings"],["Free","Shipping always"]].map(([n,l])=>(
-                <div key={l}>
-                  <p className="text-white font-outfit font-black text-xl">{n}</p>
-                  <p className="text-blue-200 text-xs">{l}</p>
-                </div>
-              ))}
             </div>
           </div>
           <div className="hidden lg:flex gap-3 flex-shrink-0">

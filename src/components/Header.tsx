@@ -30,8 +30,8 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
   const visibleSubs = SUBCATEGORIES.filter((s) => suggested.includes(s.label));
 
   return (
-    <div className="absolute top-full left-0 right-0 mt-3 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.2)] border border-gray-200 z-40 rounded-3xl overflow-hidden flex">
-      <div className="w-64 border-r border-gray-100 overflow-y-auto no-scrollbar bg-[#f8fafc] flex-shrink-0 py-3">
+    <div className="absolute top-full left-0 mt-3 z-40 flex w-[min(980px,calc(100vw-2rem))] min-w-[760px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.2)]">
+      <div className="w-72 max-h-[min(72vh,560px)] border-r border-gray-100 overflow-y-auto no-scrollbar bg-[#f8fafc] flex-shrink-0 py-3">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
@@ -46,9 +46,14 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
           </button>
         ))}
       </div>
-      <div className="flex-1 p-7 bg-white">
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{getCategoryLabel(active, language)}</p>
+      <div className="flex min-w-0 flex-1 flex-col bg-white">
+        <div className="flex items-center justify-between border-b border-gray-100 px-7 py-5">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gray-400">
+              {language === "zh" ? "精选分类" : "Selected category"}
+            </p>
+            <p className="mt-1 text-lg font-semibold text-[#0A1931]">{getCategoryLabel(active, language)}</p>
+          </div>
           <button
             type="button"
             onClick={() => { navigate(`/categories?cat=${encodeURIComponent(active)}`); onClose(); }}
@@ -60,7 +65,16 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
             </svg>
           </button>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="max-h-[min(72vh,560px)] overflow-y-auto px-7 py-6">
+          <div className="mb-5 flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-600">
+              {language === "zh" ? "浏览热门子分类" : "Browse popular subcategories"}
+            </p>
+            <span className="text-xs text-gray-400">
+              {visibleSubs.length} {language === "zh" ? "个结果" : "results"}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
           {visibleSubs.map((sub) => (
             <div
               key={sub.label}
@@ -80,6 +94,7 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
               </span>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </div>
@@ -388,18 +403,18 @@ export default function Header() {
             </button>
             </div>
 
-            <form onSubmit={handleSearch} className="col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1 min-w-0">
-              <div className="flex items-center bg-white rounded-2xl border border-white/10 shadow-[0_14px_28px_rgba(3,7,18,0.18)] overflow-hidden">
+            <form onSubmit={handleSearch} className="col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1 min-w-0 lg:px-4">
+              <div className="flex items-center rounded-[22px] border border-white/12 bg-white shadow-[0_16px_34px_rgba(3,7,18,0.16)] overflow-hidden ring-1 ring-black/3">
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("search.placeholder")}
-                  className="flex-1 min-w-0 px-4 py-3 text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400"
+                  className="flex-1 min-w-0 px-5 py-3.5 text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400"
                 />
                 <button
                   type="submit"
-                  className="mr-1.5 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-b from-[#fb923c] to-[#f97316] text-white shadow-[0_8px_18px_rgba(249,115,22,0.28)] transition-all hover:from-[#f97316] hover:to-[#ea580c] hover:shadow-[0_10px_22px_rgba(249,115,22,0.34)]"
+                  className="mr-2 flex h-11 w-11 items-center justify-center rounded-[16px] bg-gradient-to-b from-[#fb923c] to-[#f97316] text-white shadow-[0_10px_22px_rgba(249,115,22,0.28)] transition-all hover:from-[#f97316] hover:to-[#ea580c] hover:shadow-[0_12px_24px_rgba(249,115,22,0.34)]"
                   aria-label={t("search.submit")}
                 >
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
