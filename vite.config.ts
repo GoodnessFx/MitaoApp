@@ -2,6 +2,7 @@ import { defineConfig, type HtmlTagDescriptor, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 
 import siteConfiguration from './.figma/make/site.json'
 
@@ -10,8 +11,43 @@ export default defineConfig(({ mode }) => {
   // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
   const emitSourcemaps = mode === 'development'
 
+  function inferGithubRepoName(): string | undefined {
+    const fromEnv = process.env.GITHUB_REPOSITORY?.split('/')?.[1]
+    if (fromEnv) return fromEnv
+
+    // When building locally for GitHub Pages (no Actions env vars), try to infer from git remote.
+    // Example: https://github.com/GoodnessFx/MitaoApp.git  -> MitaoApp
+    try {
+      const remote = execSync('git config --get remote.origin.url', {
+        stdio: ['ignore', 'pipe', 'ignore'],
+      })
+        .toString()
+        .trim()
+
+      const match = remote.match(/github\.com[:/](?<owner>[^/]+)\/(?<repo>[^/.]+)(?:\.git)?$/i)
+      return match?.groups?.repo
+    } catch {
+      return undefined
+    }
+  }
+
+  const githubRepo = inferGithubRepoName()
+  const isGithubPagesBuild =
+    process.env.GITHUB_ACTIONS === 'true' ||
+    process.env.GITHUB_PAGES === 'true' ||
+    process.env.DEPLOY_TARGET === 'github-pages'
+
+  // If this project is deployed under a sub-path (e.g. GitHub Pages: /<repo>/),
+  // Vite needs the correct base so static assets like /logo.png resolve correctly.
+  const base =
+    process.env.FIGMA_PUBLIC_URL
+      ? `${process.env.FIGMA_PUBLIC_URL.replace(/\/+$/, '')}/`
+      : isGithubPagesBuild && githubRepo
+        ? `/${githubRepo}/`
+        : '/'
+
   return {
-    base: process.env.FIGMA_PUBLIC_URL ? `${process.env.FIGMA_PUBLIC_URL}/` : '/',
+    base,
     build: {
       sourcemap: emitSourcemaps ? 'inline' : false,
       minify: !emitSourcemaps,
@@ -19,7 +55,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
-      figmaSiteConfiguration(siteConfiguration),
+      figmaSiteConfiguration(siteConfiguration, base),
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),
@@ -70,7 +106,7 @@ type FigmaSiteConfiguration = {
 }
 
 /** Applies /.figma/make/site.json to the generated document shell. */
-function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
+function figmaSiteConfiguration(config: FigmaSiteConfiguration, baseHref: string): Plugin {
   function sanitizeHtmlValue(value: string | undefined): string {
     return value?.replace(/[^a-zA-Z0-9_-]/g, '') || ''
   }
@@ -79,6 +115,16 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   }
   function replaceHtmlCommentSlot(html: string, slotName: string, content: string): string {
     return html.replace(`<!-- ${slotName} -->`, content)
+  }
+  function withBase(assetPath: string): string {
+    // Allow absolute URLs (https://...), protocol-relative, and data URIs as-is.
+    if (!assetPath) return assetPath
+    if (/^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(assetPath) || assetPath.startsWith('data:')) return assetPath
+    if (assetPath.startsWith('%BASE_URL%')) return assetPath
+
+    const normalizedBase = `${baseHref.replace(/\/+$/, '')}/`
+    const normalizedAsset = assetPath.replace(/^\/+/, '')
+    return `${normalizedBase}${normalizedAsset}`
   }
 
   const title = config.title ?? "Figma Make App"
@@ -131,7 +177,7 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
           tags.push({ tag: 'meta', attrs: { name: 'robots', content: 'noindex, nofollow' }, injectTo: 'head' })
         }
         if (favicon) {
-          tags.push({ tag: 'link', attrs: { rel: 'icon', href: favicon }, injectTo: 'head' })
+          tags.push({ tag: 'link', attrs: { rel: 'icon', href: withBase(favicon) }, injectTo: 'head' })
         }
         if (title) {
           tags.push({ tag: 'meta', attrs: { property: 'og:title', content: title }, injectTo: 'head' })
@@ -140,10 +186,11 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
           tags.push({ tag: 'meta', attrs: { property: 'og:description', content: description }, injectTo: 'head' })
         }
         if (socialImage) {
+          const imageUrl = withBase(socialImage)
           tags.push(
-            { tag: 'meta', attrs: { property: 'og:image', content: socialImage }, injectTo: 'head' },
+            { tag: 'meta', attrs: { property: 'og:image', content: imageUrl }, injectTo: 'head' },
             { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' }, injectTo: 'head' },
-            { tag: 'meta', attrs: { name: 'twitter:image', content: socialImage }, injectTo: 'head' },
+            { tag: 'meta', attrs: { name: 'twitter:image', content: imageUrl }, injectTo: 'head' },
           )
         }
 

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "node -e \"process.env.DEPLOY_TARGET='github-pages';require('child_process').spawnSync('vite',['build'],{stdio:'inherit',shell:true})\"",
     "preview": "vite preview",
     "format": "oxfmt"
   },
