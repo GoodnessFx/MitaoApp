@@ -249,25 +249,27 @@ export default function Header() {
       <div className="bg-[#08152a]/98 backdrop-blur-md border-b border-white/8 shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-3">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] grid-rows-[auto_auto] gap-3 lg:grid-cols-[auto_1fr_auto] lg:grid-rows-[auto] lg:items-center">
-            <div className="flex min-w-0 items-center gap-3 lg:gap-4">
-              <Link to="/" className="flex min-w-0 items-center gap-3 flex-shrink-0">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-white/15 overflow-hidden">
-                  <img src={`${assetBase}logo.png`} alt="Mitao" className="h-8 w-8 object-contain" />
-                </div>
+            <div className="flex min-w-0 items-center gap-3 lg:gap-5">
+              <Link to="/" className="flex min-w-0 items-center gap-2.5 flex-shrink-0">
+                <img
+                  src={`${assetBase}logo.png`}
+                  alt="Mitao"
+                  className="h-11 w-11 object-contain rounded-lg shadow-[0_12px_28px_rgba(2,6,23,0.22)] border border-white/8"
+                />
                 <div className="min-w-0">
                   <span className="font-outfit block truncate font-black text-white text-lg sm:text-xl tracking-tight">Mitao</span>
-                  <span className="hidden sm:block text-[11px] text-white/55 leading-none">
+                  <span className="hidden xl:block text-[11px] text-white/55 leading-none whitespace-nowrap">
                     {language === "zh" ? "1688 采购与跨境交付" : "1688 sourcing and delivery"}
                   </span>
                 </div>
               </Link>
 
-              <nav className="hidden lg:flex items-center gap-1">
-            <Link to="/best-selling" className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">Best-Selling Items</Link>
-            <Link to="/top-rated" className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">5-Star Rated</Link>
-            <Link to="/new-in" className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
+              <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+            <Link to="/best-selling" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Best Sellers</Link>
+            <Link to="/top-rated" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Top Rated</Link>
+            <Link to="/new-in" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
             <div className="relative" onMouseEnter={() => setShowMega(true)} onMouseLeave={() => setShowMega(false)}>
-              <button className="text-white/90 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-1">
+              <button className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors flex items-center gap-1 whitespace-nowrap">
                 Categories
                 <svg className={`w-3.5 h-3.5 transition-transform ${showMega ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
               </button>
@@ -378,14 +380,14 @@ export default function Header() {
             </button>
             </div>
 
-            <form onSubmit={handleSearch} className="col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1">
+            <form onSubmit={handleSearch} className="col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1 min-w-0">
               <div className="flex items-center bg-white rounded-2xl border border-white/10 shadow-[0_14px_28px_rgba(3,7,18,0.18)] overflow-hidden">
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t("search.placeholder")}
-                  className="flex-1 px-4 py-3 text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400"
+                  className="flex-1 min-w-0 px-4 py-3 text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400"
                 />
                 <button
                   type="submit"
