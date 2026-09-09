@@ -14,6 +14,8 @@ app.use(cors({
   origin: env.FRONTEND_URL,
   credentials: true,
 }));
+
+app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 app.use(globalLimiter);
 
