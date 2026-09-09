@@ -51,14 +51,14 @@ export class AuthService {
   static async generateTokens(userId: string, email: string) {
     const accessToken = jwt.sign(
       { userId, email },
-      env.JWT_ACCESS_SECRET,
-      { expiresIn: env.JWT_ACCESS_EXPIRY }
+      env.JWT_ACCESS_SECRET as jwt.Secret,
+      { expiresIn: env.JWT_ACCESS_EXPIRY as jwt.SignOptions['expiresIn'] }
     );
 
     const refreshToken = jwt.sign(
       { userId, email },
-      env.JWT_REFRESH_SECRET,
-      { expiresIn: env.JWT_REFRESH_EXPIRY }
+      env.JWT_REFRESH_SECRET as jwt.Secret,
+      { expiresIn: env.JWT_REFRESH_EXPIRY as jwt.SignOptions['expiresIn'] }
     );
 
     // Hash refresh token before saving

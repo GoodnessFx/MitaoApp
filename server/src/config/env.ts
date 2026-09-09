@@ -47,6 +47,11 @@ const envSchema = z.object({
   DSFULFILL_API_BASE_URL: z.string().url().optional(),
   DSFULFILL_API_KEY: z.string().optional(),
   DSFULFILL_API_SECRET: z.string().optional(),
+
+  CJ_API_KEY: z.string().optional(),
+  CJ_ACCESS_TOKEN: z.string().optional(),
+  CJ_REFRESH_TOKEN: z.string().optional(),
+  FLUTTERWAVE_ENCRYPTION_KEY: z.string().optional(),
 });
 
 const _env = envSchema.safeParse(process.env);

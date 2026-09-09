@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { SourcingProvider } from './sourcing-provider.interface';
 
 export class DsFulfillSandboxProvider implements SourcingProvider {
@@ -26,7 +27,7 @@ export class DsFulfillSandboxProvider implements SourcingProvider {
       providerProductId,
       rawTitle: 'Sandbox Product',
       rawCurrency: 'CNY',
-      rawWholesalePrice: 150.00,
+      rawWholesalePrice: new Prisma.Decimal('150.00'),
       moq: 1,
     };
   }

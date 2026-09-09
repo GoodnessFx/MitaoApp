@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { sourcingProviderRegistry } from './index';
+import { mapProcurementStatusToCustomerStatus } from '../utils/status-mapper';
 
 const prisma = new PrismaClient();
 
@@ -11,14 +12,30 @@ export class ProcurementService {
   static async processCustomerOrder(orderId: string) {
     const order = await prisma.order.findUnique({
       where: { id: orderId },
-      include: { items: true }
+      include: { items: true },
     });
 
     if (!order) throw new Error('Order not found');
 
+    const products = await prisma.product.findMany({
+      where: { id: { in: order.items.map((item) => item.productId) } },
+      include: {
+        supplierProduct: true,
+        variants: true,
+      },
+    });
+
+    const enrichedItems = order.items.map((item) => ({
+      ...item,
+      product: products.find((product) => product.id === item.productId),
+      variant: products
+        .find((product) => product.id === item.productId)
+        ?.variants.find((variant) => variant.id === item.variantId),
+    }));
+
     // In a real system, you'd group order.items by sourcing provider.
     // For this implementation, we assume all come from our primary provider
-    const provider = sourcingProviderRegistry['cj_dropshipping_sandbox'];
+    const provider = sourcingProviderRegistry['cj_dropshipping'];
     
     if (!provider) {
        console.error('Sourcing provider not configured');
@@ -26,31 +43,30 @@ export class ProcurementService {
     }
 
     try {
-      // Create internal procurement order record
-      const procurementOrder = await prisma.procurementOrder.create({
-        data: {
-          orderId: order.id,
-          providerKey: provider.key,
-          status: 'pending',
-          costPaid: 0, // Will update after placement
-        }
-      });
-
-      // Call the external provider
       const providerResponse = await provider.placeOrder(
-        procurementOrder.id,
-        order.items,
+        order.orderNumber,
+        enrichedItems,
         order.shippingAddress
       );
 
-      // Update local record with provider response
-      await prisma.procurementOrder.update({
-        where: { id: procurementOrder.id },
+      const firstSupplier = enrichedItems.find((item) => item.product?.supplierProduct)?.product?.supplierProduct;
+      const normalizedProviderStatus = 'submitted';
+
+      await prisma.procurementOrder.create({
         data: {
+          orderId: order.id,
+          sourcingProviderKey: provider.key,
           providerOrderId: providerResponse.providerOrderId,
-          status: 'placed',
+          providerTrackingId: null,
+          publicTrackingRef: null,
+          supplierId: firstSupplier?.supplierId || 'CJ',
+          supplierName: firstSupplier?.supplierName || 'CJ Dropshipping',
+          shipmentLabel: 'CJ Manual Payment Order',
+          providerStatus: normalizedProviderStatus,
+          customerStatus: mapProcurementStatusToCustomerStatus(normalizedProviderStatus as any),
           costPaid: providerResponse.costPaid,
-          estimatedDelivery: providerResponse.estimatedDeliveryWindow
+          estimatedDeliveryWindow: providerResponse.estimatedDeliveryWindow,
+          itemProductIds: order.items.map((item) => item.productId),
         }
       });
 
@@ -68,30 +84,45 @@ export class ProcurementService {
     console.log('🔄 Polling for procurement order updates...');
     const activeOrders = await prisma.procurementOrder.findMany({
       where: {
-        status: { notIn: ['delivered', 'cancelled'] },
-        providerOrderId: { not: null }
-      }
+        customerStatus: { notIn: ['Delivered', 'Cancelled'] },
+      },
+      include: {
+        order: true,
+      },
     });
 
     for (const po of activeOrders) {
-      const provider = sourcingProviderRegistry[po.providerKey];
+      const provider = sourcingProviderRegistry[po.sourcingProviderKey];
       if (!provider || !po.providerOrderId) continue;
 
       try {
         const update = await provider.getOrderStatus(po.providerOrderId);
-        
-        if (update.providerStatus !== po.status) {
-           await prisma.procurementOrder.update({
-             where: { id: po.id },
-             data: {
-               status: update.providerStatus,
-               trackingNumber: update.providerTrackingId || po.trackingNumber
-             }
-           });
-           
-           // TODO: Implement status mapper to update Customer Order status
-           // e.g. if providerStatus is 'shipped', update Customer Order to 'In Transit'
-           console.log(`📦 Status updated for ${po.id}: ${update.providerStatus}`);
+
+        if (
+          update.providerStatus !== po.providerStatus ||
+          update.providerTrackingId !== po.providerTrackingId ||
+          update.shipmentLabel !== po.shipmentLabel
+        ) {
+          const nextCustomerStatus = mapProcurementStatusToCustomerStatus(update.providerStatus as any);
+
+          await prisma.procurementOrder.update({
+            where: { id: po.id },
+            data: {
+              providerStatus: update.providerStatus,
+              providerTrackingId: update.providerTrackingId || po.providerTrackingId,
+              shipmentLabel: update.shipmentLabel || po.shipmentLabel,
+              customerStatus: nextCustomerStatus,
+            }
+          });
+
+          await prisma.order.update({
+            where: { id: po.orderId },
+            data: {
+              status: nextCustomerStatus,
+            },
+          });
+
+          console.log(`📦 Status updated for ${po.id}: ${update.providerStatus}`);
         }
       } catch (error) {
          console.error(`❌ Failed to poll status for ${po.id}`, error);

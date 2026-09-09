@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { v4 as uuidv4 } from 'uuid';
+import { activeProvider } from '../sourcing';
+import { CJDropshippingProvider } from '../sourcing/cj-dropshipping.provider';
 
 const prisma = new PrismaClient();
 
@@ -13,13 +14,18 @@ export class OrderService {
     const productIds = data.items.map(i => i.productId);
     const products = await prisma.product.findMany({
       where: { id: { in: productIds } },
-      include: { variants: true }
+      include: {
+        variants: true,
+        supplierProduct: true,
+      }
     });
 
     if (products.length !== data.items.length) {
       throw new Error('One or more products not found');
     }
 
+    const cjProvider = activeProvider instanceof CJDropshippingProvider ? activeProvider : null;
+    const cjCheckoutItems: Array<{ vid: string; quantity: number }> = [];
     let subtotal = 0;
     const orderItems = data.items.map(item => {
       const product = products.find(p => p.id === item.productId)!;
@@ -37,6 +43,7 @@ export class OrderService {
         if (variant.images && Array.isArray(variant.images) && variant.images.length > 0) {
           image = variant.images[0];
         }
+
       }
 
       subtotal += unitPrice * item.quantity;
@@ -51,7 +58,38 @@ export class OrderService {
       };
     });
 
-    const shippingCost = 0.00; // Free shipping
+    if (cjProvider) {
+      for (let index = 0; index < data.items.length; index += 1) {
+        const item = data.items[index];
+        const product = products.find((entry) => entry.id === item.productId)!;
+
+        if (!product.supplierProductId || product.sourceType !== 'global-sourcing') {
+          continue;
+        }
+
+        const variant = item.variantId ? product.variants.find((entry) => entry.id === item.variantId) : undefined;
+        const resolvedVariant = await cjProvider.resolveVariantForItem(
+          product.supplierProductId,
+          variant?.sku,
+        );
+        const liveStock = await cjProvider.getStockForVid(resolvedVariant.providerVariantId);
+
+        if (liveStock < item.quantity) {
+          throw new Error(`Insufficient live stock for ${product.title}`);
+        }
+
+        cjCheckoutItems.push({
+          vid: resolvedVariant.providerVariantId,
+          quantity: item.quantity,
+        });
+      }
+    }
+
+    const freightQuote = cjProvider && cjCheckoutItems.length
+      ? await cjProvider.calculateFreightQuote(cjCheckoutItems, data.shippingAddress)
+      : null;
+
+    const shippingCost = freightQuote?.logisticPrice ?? 0.00;
     const tax = subtotal * 0.00; // Assuming 0% for now
     const total = subtotal + shippingCost + tax;
 
@@ -70,14 +108,13 @@ export class OrderService {
         currency: 'USD',
         paymentMethodLabel: data.paymentMethodLabel,
         shippingAddress: data.shippingAddress,
+        notes: freightQuote?.logisticName ? `CJ freight: ${freightQuote.logisticName}` : undefined,
         items: {
           create: orderItems,
         }
       },
       include: { items: true }
     });
-
-    // TODO: Trigger procurement job asynchronously here
 
     return order;
   }

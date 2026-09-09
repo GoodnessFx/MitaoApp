@@ -14,15 +14,17 @@ const createOrderSchema = z.object({
     variantId: z.string().optional(),
     quantity: z.number().min(1),
   })).min(1),
-  shippingAddress: z.any(), // Add stricter validation based on address form
+  shippingAddress: z.any(),
   paymentMethodLabel: z.string(),
 });
 
 orderRoutes.post('/', async (req, res, next) => {
   try {
     const data = createOrderSchema.parse(req.body);
-    // requireAuth ensures req.user is set
-    const order = await OrderService.createOrder(req.user!.id, data);
+    const order = await OrderService.createOrder(req.user!.id, {
+      ...data,
+      shippingAddress: data.shippingAddress ?? {},
+    });
     res.status(201).json(order);
   } catch (error) {
     next(error);

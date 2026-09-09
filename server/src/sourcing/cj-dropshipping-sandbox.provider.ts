@@ -1,80 +1,116 @@
-import { SourcingProvider, ProductSummary, ProductDetail, ProcurementOrder, ProcurementStatus } from './sourcing-provider.interface';
+import { Prisma } from '@prisma/client';
+import { SourcingProvider } from './sourcing-provider.interface';
 
-/**
- * Sandbox implementation for CJDropshipping.
- * 
- * Provides mock data formatted exactly as CJDropshipping's API returns it,
- * allowing Mitao to test the entire sourcing flow without requiring real 
- * CJ API keys or making real purchases.
- */
+const SANDBOX_PRODUCTS = [
+  {
+    providerProductId: 'CJ-PROD-999123',
+    supplierId: 'CJ-SUPP-1',
+    supplierName: 'Guangzhou Fast Fashion Co.',
+    rawTitle: 'Korean Style High Waist Wide Leg Pants',
+    rawWholesalePrice: 35,
+    moq: 1,
+    imageSet: [
+      'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?w=800&h=800&fit=crop',
+    ],
+    categoryHint: "Women's Fashion",
+    variants: [
+      { vid: 'CJ-VID-999123-S-BLK', sku: 'CJ-PROD-999123-S-BLK', size: 'S', color: 'Black', stock: 999, priceCny: 35 },
+      { vid: 'CJ-VID-999123-M-BLK', sku: 'CJ-PROD-999123-M-BLK', size: 'M', color: 'Black', stock: 999, priceCny: 35 },
+    ],
+  },
+  {
+    providerProductId: 'CJ-PROD-999124',
+    supplierId: 'CJ-SUPP-2',
+    supplierName: 'Shenzhen Tech Factory',
+    rawTitle: 'TWS Wireless Earbuds Bluetooth 5.3',
+    rawWholesalePrice: 42,
+    moq: 2,
+    imageSet: [
+      'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&h=800&fit=crop',
+    ],
+    categoryHint: 'Electronics',
+    variants: [
+      { vid: 'CJ-VID-999124-WHT', sku: 'CJ-PROD-999124-WHT', color: 'White', stock: 500, priceCny: 42 },
+      { vid: 'CJ-VID-999124-BLK', sku: 'CJ-PROD-999124-BLK', color: 'Black', stock: 500, priceCny: 42 },
+    ],
+  },
+];
+
+function toDecimal(value: number) {
+  return new Prisma.Decimal(value.toFixed(2));
+}
+
 export class CJDropshippingSandboxProvider implements SourcingProvider {
-  name = 'CJDropshipping Sandbox';
-  key = 'cjdropshipping';
+  readonly key = 'cj_dropshipping_sandbox';
 
-  async searchCatalog(query: string): Promise<ProductSummary[]> {
-    console.log(`[CJDropshipping Sandbox] Searching catalog for "${query}"`);
-    return [
-      {
-        providerProductId: 'CJ-PROD-999123',
-        supplierId: 'CJ-SUPP-1',
-        supplierName: 'Guangzhou Fast Fashion Co.',
-        title: 'Korean Style High Waist Wide Leg Pants',
-        wholesalePriceCny: 35.0, // ~ $4.90 USD
-        imageUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500&h=500&fit=crop',
-        moq: 1,
-        category: 'Women\'s Fashion'
+  async connect(): Promise<boolean> {
+    console.log('[CJDropshipping Sandbox] Connecting...');
+    return true;
+  }
+
+  async fetchCatalog() {
+    console.log('[CJDropshipping Sandbox] Fetching catalog...');
+    return {
+      added: SANDBOX_PRODUCTS.map((product) => ({
+        providerProductId: product.providerProductId,
+        supplierId: product.supplierId,
+        supplierName: product.supplierName,
+        rawTitle: product.rawTitle,
+        rawCurrency: 'CNY',
+        rawWholesalePrice: toDecimal(product.rawWholesalePrice),
+        moq: product.moq,
+        imageSet: product.imageSet,
+        categoryHint: product.categoryHint,
+        sourceUrl: `https://cjdropshipping.com/product/${product.providerProductId}.html`,
+        rawAttributes: {
+          summary: product,
+          variants: product.variants,
+        },
+      })),
+      updated: [],
+      removed: [],
+    };
+  }
+
+  async getProductDetail(providerProductId: string) {
+    const product = SANDBOX_PRODUCTS.find((entry) => entry.providerProductId === providerProductId) ?? SANDBOX_PRODUCTS[0];
+    console.log(`[CJDropshipping Sandbox] Fetching details for ${providerProductId}`);
+    return {
+      providerProductId,
+      supplierId: product.supplierId,
+      supplierName: product.supplierName,
+      rawTitle: product.rawTitle,
+      rawCurrency: 'CNY',
+      rawWholesalePrice: toDecimal(product.rawWholesalePrice),
+      moq: product.moq,
+      imageSet: product.imageSet,
+      categoryHint: product.categoryHint,
+      sourceUrl: `https://cjdropshipping.com/product/${providerProductId}.html`,
+      rawAttributes: {
+        summary: product,
+        description: 'Sandbox product used for local sourcing tests.',
+        variants: product.variants,
+        stockByVariant: Object.fromEntries(product.variants.map((variant) => [variant.vid, variant.stock])),
       },
-      {
-        providerProductId: 'CJ-PROD-999124',
-        supplierId: 'CJ-SUPP-2',
-        supplierName: 'Shenzhen Tech Factory',
-        title: 'TWS Wireless Earbuds Bluetooth 5.3',
-        wholesalePriceCny: 42.0, // ~ $5.80 USD
-        imageUrl: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&h=500&fit=crop',
-        moq: 2,
-        category: 'Electronics'
-      }
-    ];
-  }
-
-  async getProductDetail(providerId: string): Promise<ProductDetail> {
-    console.log(`[CJDropshipping Sandbox] Fetching details for ${providerId}`);
-    return {
-      providerProductId: providerId,
-      supplierId: 'CJ-SUPP-1',
-      supplierName: 'Guangzhou Fast Fashion Co.',
-      title: 'Korean Style High Waist Wide Leg Pants',
-      description: 'High quality wide leg pants for summer. Lightweight and breathable.',
-      wholesalePriceCny: 35.0,
-      moq: 1,
-      images: [
-        'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=800&fit=crop',
-        'https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?w=800&h=800&fit=crop'
-      ],
-      variants: [
-        { sku: `${providerId}-S-BLK`, priceCny: 35.0, attributes: { Size: 'S', Color: 'Black' }, stock: 999 },
-        { sku: `${providerId}-M-BLK`, priceCny: 35.0, attributes: { Size: 'M', Color: 'Black' }, stock: 999 }
-      ]
     };
   }
 
-  async placeOrder(cartItems: any[], shippingAddress: any): Promise<ProcurementOrder> {
-    console.log(`[CJDropshipping Sandbox] Placing order for ${cartItems.length} items`);
+  async placeOrder(orderId: string, items: any[]) {
+    console.log(`[CJDropshipping Sandbox] Placing order for ${orderId}`);
     return {
-      providerOrderId: `CJ-ORD-${Date.now()}`,
-      providerStatus: 'Pending',
-      totalCostCny: cartItems.length * 35.0,
-      estimatedDeliveryDays: '7-12'
+      providerOrderId: `CJ-SANDBOX-${Date.now()}`,
+      costPaid: items.reduce((sum, item) => sum + Number(item.unitPrice || 0) * Number(item.quantity || 1), 0),
+      estimatedDeliveryWindow: '7-12 business days',
     };
   }
 
-  async getOrderStatus(providerOrderId: string): Promise<ProcurementStatus> {
+  async getOrderStatus(providerOrderId: string) {
     console.log(`[CJDropshipping Sandbox] Checking status for ${providerOrderId}`);
     return {
-      providerOrderId,
-      status: 'Shipped', // Mapping: Processing -> Shipped -> Delivered
-      trackingNumber: `CJ-TRK-${Date.now().toString().slice(-6)}`,
-      trackingUrl: 'https://cjdropshipping.com/tracking'
+      providerStatus: 'warehouse_received',
+      providerTrackingId: `CJ-TRK-${Date.now().toString().slice(-6)}`,
+      shipmentLabel: 'CJ Sandbox Shipment',
     };
   }
 }
