@@ -1,6 +1,12 @@
 import { PRODUCTS, type Product } from "../data/products";
 import { CJDropshippingSandboxProvider, type SupplierProduct, type SourcingProviderKey } from "./sourcingProvider";
 
+const API_BASE_URL =
+  (import.meta as any).env?.VITE_API_BASE_URL?.toString() ||
+  (typeof window !== "undefined" && window.location.hostname !== "localhost"
+    ? `${window.location.origin}/api`
+    : "http://localhost:3001/api");
+
 type Listener = () => void;
 
 export interface CatalogSyncJob {
@@ -200,6 +206,74 @@ let syncJobs: CatalogSyncJob[] = safeParse(
   typeof window !== "undefined" ? localStorage.getItem(SYNC_JOBS_KEY) : null,
   []
 );
+
+function mapBackendProductToLocal(product: any): Product {
+  const images = Array.isArray(product?.images) && product.images.length > 0 ? product.images : [product?.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&h=900&fit=crop&auto=format"];
+
+  return {
+    id: Number(product?.id ?? Date.now()),
+    title: product?.title || "Mitao product",
+    titleZh: product?.titleZh || product?.title || "Mitao 商品",
+    price: Number(product?.basePriceUsd ?? product?.price ?? 0),
+    originalPrice: Number(product?.originalPrice ?? product?.basePriceUsd ?? product?.price ?? 0),
+    sold: product?.soldCount || "New",
+    soldZh: product?.soldCount || "新品",
+    rating: Number(product?.rating ?? 0),
+    reviews: Number(product?.reviewCount ?? 0),
+    image: images[0],
+    images,
+    badge: product?.badge || "Global Source",
+    badgeZh: product?.badgeZh || "全球货源",
+    colors: Array.isArray(product?.colorOptions) ? product.colorOptions.length : undefined,
+    colorOptions: product?.colorOptions || ["#0A1931", "#F97316", "#10B981"],
+    merit: product?.merit || "Imported from Mitao sourcing",
+    meritZh: product?.meritZh || "来自 Mitao 采购",
+    brand: product?.brand || "Mitao Global",
+    starSeller: true,
+    tag: product?.tag || "Global sourcing",
+    category: product?.category || "Global Sourcing",
+    description: product?.description || "Product sourced through Mitao.",
+    descriptionZh: product?.descriptionZh || product?.description || "Mitao 采购商品。",
+    specs: product?.specs || {},
+    seller: {
+      name: product?.seller?.name || "Mitao Global Sourcing",
+      rating: Number(product?.seller?.rating ?? 4.9),
+      sales: product?.seller?.sales || "Live inventory",
+      responseTime: product?.seller?.responseTime || "< 1 hour",
+      avatar: product?.seller?.avatar || "MG",
+    },
+    shipping: product?.shipping || "Free shipping",
+    shippingZh: product?.shippingZh || "包邮",
+    stock: Number(product?.stock ?? 0),
+    sourceType: "global-sourcing",
+  };
+}
+
+async function hydrateCatalogFromApi() {
+  if (typeof window === "undefined") return;
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/products?limit=200`);
+    if (!response.ok) return;
+
+    const payload = await response.json();
+    const items = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
+
+    if (!items.length) return;
+
+    importedProducts = items.map(mapBackendProductToLocal);
+    persist();
+    notify();
+  } catch {
+    // Ignore API outages; we keep the local fallback catalog.
+  }
+}
+
+if (typeof window !== "undefined") {
+  queueMicrotask(() => {
+    void hydrateCatalogFromApi();
+  });
+}
 
 const listeners: Set<Listener> = new Set();
 

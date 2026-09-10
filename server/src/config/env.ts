@@ -53,6 +53,8 @@ const envSchema = z.object({
   CJ_ACCESS_TOKEN: z.string().optional(),
   CJ_REFRESH_TOKEN: z.string().optional(),
   FLUTTERWAVE_ENCRYPTION_KEY: z.string().optional(),
+  ONEBOUND_API_KEY: z.string().optional(),
+  ONEBOUND_API_SECRET: z.string().optional(),
 });
 
 const _env = envSchema.safeParse(process.env);

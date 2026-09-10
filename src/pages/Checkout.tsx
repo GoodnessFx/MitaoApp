@@ -5,15 +5,26 @@ import { PRODUCTS } from "../data/products";
 import { import1688Store } from "../store/import1688";
 import { useLocaleStore } from "../store/locale";
 import { formatCurrency } from "../lib/currency";
+import { fetchApi } from "../lib/api";
 
 export default function Checkout() {
   const [items, setItems] = useState<CartItem[]>(cartStore.getItems());
   const [step, setStep] = useState<"info" | "payment" | "confirm">("info");
-  const [form, setForm] = useState({ name: "", email: "", address: "", city: "", zip: "", country: "United States", card: "", expiry: "", cvv: "" });
+  const [form, setForm] = useState({ name: "", email: "", address: "", city: "", zip: "", country: "United States" });
+  const [selectedProvider, setSelectedProvider] = useState<"paystack" | "flutterwave" | "stripe">("paystack");
+  const [paymentError, setPaymentError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const currency = useLocaleStore((s) => s.currency);
   const navigate = useNavigate();
 
   useEffect(() => cartStore.subscribe(() => setItems([...cartStore.getItems()])), []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("status") === "success" || params.get("reference") || params.get("trxref") || params.get("transaction_id")) {
+      setStep("confirm");
+    }
+  }, []);
 
   const cartProducts = items
     .map((item) => ({
@@ -26,6 +37,84 @@ export default function Checkout() {
   const handlePlaceOrder = () => {
     cartStore.clearCart();
     navigate("/orders?success=true");
+  };
+
+  const validateShipping = () => {
+    const required = [
+      ["name", form.name],
+      ["email", form.email],
+      ["address", form.address],
+      ["city", form.city],
+      ["zip", form.zip],
+      ["country", form.country],
+    ] as const;
+
+    const missing = required.find(([, value]) => !String(value).trim());
+    if (missing) {
+      setPaymentError(`${missing[0]} is required before continuing.`);
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      setPaymentError("Enter a valid email address.");
+      return false;
+    }
+
+    setPaymentError("");
+    return true;
+  };
+
+  const handleHostedCheckout = async () => {
+    if (!validateShipping()) return;
+    if (!items.length) {
+      setPaymentError("Your cart is empty.");
+      return;
+    }
+
+    setPaymentError("");
+    setIsSubmitting(true);
+
+    try {
+      const order = await fetchApi<{ id: string; orderNumber: string; total: number; currency: string }>('/orders', {
+        method: 'POST',
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+          })),
+          shippingAddress: {
+            name: form.name,
+            email: form.email,
+            address: form.address,
+            city: form.city,
+            zip: form.zip,
+            country: form.country,
+          },
+          paymentMethodLabel: selectedProvider,
+        }),
+      });
+
+      const init = await fetchApi<{ url?: string; authorization_url?: string; checkoutUrl?: string; status?: string; provider?: string; redirectUrl?: string; message?: string }>('/payments/initiate', {
+        method: 'POST',
+        body: JSON.stringify({
+          orderId: order.id,
+          provider: selectedProvider,
+        }),
+      });
+
+      const redirectUrl = init.url || init.authorization_url || init.checkoutUrl || init.redirectUrl;
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+        return;
+      }
+
+      setStep('confirm');
+      setPaymentError(init.message || 'Payment provider is not configured yet.');
+    } catch (error: any) {
+      setPaymentError(error?.message || 'Unable to start hosted checkout.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -122,7 +211,7 @@ export default function Checkout() {
                 </div>
                 <div className="bg-gray-50 rounded-xl p-4 mb-5">
                   <p className="text-xs font-semibold text-gray-500 mb-2">PAYMENT</p>
-                  <p className="text-sm text-gray-800">•••• •••• •••• {form.card.slice(-4) || "3456"}</p>
+                  <p className="text-sm text-gray-800">Hosted checkout via {selectedProvider}</p>
                 </div>
                 <div className="flex gap-3">
                   <button onClick={() => setStep("payment")} className="px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>

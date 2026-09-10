@@ -1,5 +1,8 @@
 const API_BASE_URL =
-  (import.meta as any).env?.VITE_API_BASE_URL?.toString() || "http://localhost:3001/api";
+  (import.meta as any).env?.VITE_API_BASE_URL?.toString() ||
+  (typeof window !== "undefined" && window.location.hostname !== "localhost"
+    ? `${window.location.origin}/api`
+    : "http://localhost:3001/api");
 
 export class ApiError extends Error {
   constructor(public status: number, message: string, public details?: any) {

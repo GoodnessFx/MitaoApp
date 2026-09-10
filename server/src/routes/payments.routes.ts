@@ -5,6 +5,11 @@ import { z } from 'zod';
 import { env } from '../config/env';
 import { requireAuth } from '../middleware/auth';
 import { ProcurementService } from '../sourcing/procurement.service';
+
+const PAYMENT_PROVIDER_BASE_URLS = {
+  paystack: 'https://api.paystack.co',
+  flutterwave: 'https://api.flutterwave.com',
+} as const;
 import {
   getEventMetadata,
   getEventReference,
@@ -161,6 +166,102 @@ paymentRoutes.post('/initiate', requireAuth, async (req, res, next) => {
 
     const reference = `mitao_${data.provider}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
+    const providerConfig = {
+      paystack: !!env.PAYSTACK_SECRET_KEY,
+      flutterwave: !!env.FLUTTERWAVE_SECRET_KEY && !!env.FLUTTERWAVE_PUBLIC_KEY,
+      stripe: !!env.STRIPE_WEBHOOK_SECRET && !!env.STRIPE_SECRET_KEY,
+    };
+
+    if (!providerConfig[data.provider]) {
+      await prisma.payment.create({
+        data: {
+          orderId: order.id,
+          provider: data.provider,
+          amount: new Prisma.Decimal(order.total.toString()),
+          currency: order.currency,
+          status: 'pending',
+          metadata: {
+            reference,
+            orderId: order.id,
+            provider: data.provider,
+            message: 'Hosted provider not configured in this environment.',
+          },
+        },
+      });
+
+      return res.status(200).json({
+        provider: data.provider,
+        reference,
+        status: 'pending-setup',
+        message: 'Payment provider is configured in the deployment environment but not yet set up in this sandbox build.',
+      });
+    }
+
+    let paymentUrl = '';
+    if (data.provider === 'paystack') {
+      const response = await fetch(`${PAYMENT_PROVIDER_BASE_URLS.paystack}/transaction/initialize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${env.PAYSTACK_SECRET_KEY}`,
+        },
+        body: JSON.stringify({
+          email: req.user?.email || 'customer@mitao.app',
+          amount: Math.round(Number(order.total) * 100),
+          currency: order.currency,
+          reference,
+          callback_url: `${env.FRONTEND_URL}/checkout?status=success&provider=paystack&reference=${encodeURIComponent(reference)}`,
+          metadata: {
+            orderId: order.id,
+            provider: data.provider,
+            orderNumber: order.orderNumber,
+          },
+        }),
+      });
+
+      const payload = await response.json();
+      if (!response.ok || !payload?.data?.authorization_url) {
+        throw new Error(payload?.message || 'Paystack initialization failed.');
+      }
+      paymentUrl = payload.data.authorization_url;
+    }
+
+    if (data.provider === 'flutterwave') {
+      const response = await fetch(`${PAYMENT_PROVIDER_BASE_URLS.flutterwave}/v3/payments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${env.FLUTTERWAVE_SECRET_KEY}`,
+        },
+        body: JSON.stringify({
+          tx_ref: reference,
+          amount: Number(order.total),
+          currency: order.currency,
+          redirect_url: `${env.FRONTEND_URL}/checkout?status=success&provider=flutterwave&reference=${encodeURIComponent(reference)}`,
+          payment_options: 'card',
+          customer: {
+            email: req.user?.email || 'customer@mitao.app',
+            name: req.user?.email || 'Mitao customer',
+          },
+          customizations: {
+            title: 'Mitao Checkout',
+            description: `Order ${order.orderNumber}`,
+            logo: `${env.FRONTEND_URL}/favicon.ico`,
+          },
+        }),
+      });
+
+      const payload = await response.json();
+      if (!response.ok || !payload?.data?.link) {
+        throw new Error(payload?.message || 'Flutterwave initialization failed.');
+      }
+      paymentUrl = payload.data.link;
+    }
+
+    if (data.provider === 'stripe') {
+      paymentUrl = `${env.FRONTEND_URL}/checkout?status=success&provider=stripe&reference=${encodeURIComponent(reference)}`;
+    }
+
     await prisma.payment.create({
       data: {
         orderId: order.id,
@@ -172,24 +273,10 @@ paymentRoutes.post('/initiate', requireAuth, async (req, res, next) => {
           reference,
           orderId: order.id,
           provider: data.provider,
+          redirectUrl: paymentUrl,
         },
       },
     });
-
-    const providerConfig = {
-      paystack: !!env.PAYSTACK_SECRET_KEY,
-      flutterwave: !!env.FLUTTERWAVE_SECRET_HASH,
-      stripe: !!env.STRIPE_WEBHOOK_SECRET && !!env.STRIPE_SECRET_KEY,
-    };
-
-    if (!providerConfig[data.provider]) {
-      return res.status(200).json({
-        provider: data.provider,
-        reference,
-        status: 'pending-setup',
-        message: 'Payment provider is configured in the deployment environment but not yet set up in this sandbox build.',
-      });
-    }
 
     res.status(200).json({
       provider: data.provider,
@@ -198,6 +285,9 @@ paymentRoutes.post('/initiate', requireAuth, async (req, res, next) => {
       orderId: order.id,
       amount: Number(order.total),
       currency: order.currency,
+      url: paymentUrl,
+      authorization_url: paymentUrl,
+      checkoutUrl: paymentUrl,
     });
   } catch (error) {
     next(error);
