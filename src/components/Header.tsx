@@ -201,6 +201,115 @@ export default function Header() {
   const cartCount = useCartCount();
   const [showMega, setShowMega] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
+            </div>
+          ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SupportDropdown({ onClose }: { onClose: () => void }) {
+  const navigate = useNavigate();
+  const items = [
+    { label: "Support center", path: "/support", icon: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
+    { label: "Safety center", path: "/safety", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+    { label: "Chat with Mitao", path: "/chat", icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" },
+    { label: "Mitao purchase protection", path: "/purchase-protection", icon: "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" },
+    { label: "Privacy policy", path: "/privacy", icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" },
+    { label: "Terms of use", path: "/terms", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+  ];
+  return (
+    <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50">
+      {items.map((item) => (
+        <button key={item.label} onClick={() => { navigate(item.path); onClose(); }}
+          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+          </svg>
+          {item.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SignInPopover({ onClose }: { onClose: () => void }) {
+  const navigate = useNavigate();
+  const [showGoogle, setShowGoogle] = useState(false);
+
+  if (showGoogle) {
+    return (
+      <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <div className="flex items-center gap-2">
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+            </svg>
+            <span className="text-xs text-gray-600">Sign in to mitao.com with google.com</span>
+          </div>
+          <button onClick={() => setShowGoogle(false)} className="text-gray-400 hover:text-gray-600">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="p-4">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 mb-4">
+            <div className="w-10 h-10 rounded-full bg-[#0A1931] flex items-center justify-center text-white font-bold text-sm">J</div>
+            <div>
+              <p className="text-sm font-medium text-gray-900">Jamie Chen</p>
+              <p className="text-xs text-gray-500">jamie.chen@gmail.com</p>
+            </div>
+          </div>
+          <button onClick={() => { navigate("/account"); onClose(); }}
+            className="w-full bg-[#0A1931] hover:bg-[#061021] text-white rounded-lg py-2.5 text-sm font-semibold transition-colors mb-3">
+            Continue as Jamie
+          </button>
+          <p className="text-[10px] text-gray-400 text-center leading-relaxed">
+            To continue, google.com will share your name, email address, and profile picture with this site. See this site's{" "}
+            <Link to="/privacy" onClick={onClose} className="text-[#0A1931] underline">privacy policy</Link> and{" "}
+            <Link to="/terms" onClick={onClose} className="text-[#0A1931] underline">terms of service</Link>.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-5 z-50">
+      <h3 className="font-outfit font-bold text-gray-900 text-base mb-4 text-center">Sign in for the best experience</h3>
+      <button onClick={() => setShowGoogle(true)}
+        className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 transition-colors mb-3">
+        <svg className="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+        </svg>
+        Continue with Google
+      </button>
+      <button onClick={() => { navigate("/signin"); onClose(); }}
+        className="w-full border border-gray-900 rounded-lg py-2.5 px-4 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors mb-4">
+        Sign in / Register
+      </button>
+      <p className="text-[10px] text-gray-400 text-center leading-relaxed">
+        By continuing, you agree to our{" "}
+        <Link to="/terms" onClick={onClose} className="text-[#0A1931]">Terms of Use</Link> and acknowledge that you have read our{" "}
+        <Link to="/privacy" onClick={onClose} className="text-[#0A1931]">Privacy Policy</Link>.
+      </p>
+    </div>
+  );
+}
+
+export default function Header() {
+  const cartCount = useCartCount();
+  const [showMega, setShowMega] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [showLocale, setShowLocale] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -209,6 +318,7 @@ export default function Header() {
   const signInRef = useRef<HTMLDivElement>(null);
   const supportRef = useRef<HTMLDivElement>(null);
   const localeRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
   const { language, currency, setLanguage, setCurrency, applyLanguageToDom } = useLocaleStore();
@@ -265,7 +375,7 @@ export default function Header() {
       )}
       <div className="bg-[#08152a]/98 backdrop-blur-md border-b border-white/8 shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-3">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] grid-rows-[auto_auto] gap-3 lg:grid-cols-[auto_1fr_auto] lg:grid-rows-[auto] lg:items-center">
+          <div className="flex items-center gap-4">
             <div className="flex min-w-0 items-center gap-3 lg:gap-5">
               <Link to="/" className="flex min-w-0 items-center gap-2.5 flex-shrink-0">
                 <img
@@ -280,6 +390,64 @@ export default function Header() {
                   </span>
                 </div>
               </Link>
+
+              {/* Search Form */}
+              <form onSubmit={handleSearch} className="flex flex-1 min-w-0 mx-2">
+                <div className="flex items-center rounded-[22px] border border-white/12 bg-white shadow-[0_16px_34px_rgba(3,7,18,0.16)] overflow-hidden ring-1 ring-black/3 flex-grow">
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder={t("search.placeholder")}
+                    className="flex-1 min-w-0 px-5 py-3.5 text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400"
+                  />
+                  <button
+                    type="submit"
+                    className="mr-2 flex h-11 w-11 items-center justify-center rounded-[16px] bg-gradient-to-b from-[#fb923c] to-[#f97316] text-white shadow-[0_10px_22px_rgba(249,115,22,0.28)] transition-all hover:from-[#f97316] hover:to-[#ea580c] hover:shadow-[0_12px_24px_rgba(249,115,22,0.34)]"
+                    aria-label={t("search.submit")}
+                  >
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    className="mr-2 flex h-11 w-11 items-center justify-center rounded-[16px] bg-gray-200 text-gray-800"
+                    onClick={() => fileInputRef.current?.click()}
+                    aria-label="Image search"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onload = async () => {
+                        const imageUrl = reader.result as string;
+                        try {
+                          const res = await fetch('/api/onebound/image-search', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ image_url: imageUrl }),
+                          });
+                          const data = await res.json();
+                          console.log('Image search results:', data);
+                        } catch (err) {
+                          console.error('Image search error', err);
+                        }
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </div>
+              </form>
 
               <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
             <Link to="/best-selling" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Best Sellers</Link>
@@ -402,30 +570,6 @@ export default function Header() {
               <span className="text-xs">{language === "zh" ? "安装" : "Install"}</span>
             </button>
             </div>
-
-            <form onSubmit={handleSearch} className="col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1 min-w-0 lg:px-4">
-              <div className="flex items-center rounded-[22px] border border-white/12 bg-white shadow-[0_16px_34px_rgba(3,7,18,0.16)] overflow-hidden ring-1 ring-black/3">
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder={t("search.placeholder")}
-                  className="flex-1 min-w-0 px-5 py-3.5 text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400"
-                />
-                <button
-                  type="submit"
-                  className="mr-2 flex h-11 w-11 items-center justify-center rounded-[16px] bg-gradient-to-b from-[#fb923c] to-[#f97316] text-white shadow-[0_10px_22px_rgba(249,115,22,0.28)] transition-all hover:from-[#f97316] hover:to-[#ea580c] hover:shadow-[0_12px_24px_rgba(249,115,22,0.34)]"
-                  aria-label={t("search.submit")}
-                >
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }
