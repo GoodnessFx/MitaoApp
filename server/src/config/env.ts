@@ -55,6 +55,7 @@ const envSchema = z.object({
   FLUTTERWAVE_ENCRYPTION_KEY: z.string().optional(),
   ONEBOUND_API_KEY: z.string().optional(),
   ONEBOUND_API_SECRET: z.string().optional(),
+  DEMO_1688_MODE: z.enum(['true','false']).default('true'),
 });
 
 const _env = envSchema.safeParse(process.env);

@@ -122,7 +122,7 @@ function createImportRecords(url: string) {
   const supplierProduct: SupplierProduct = {
     id: `supplier-product-${publicProductId}`,
     publicProductId,
-    provider: "cj_dropshipping_sandbox",
+    provider: "demo_1688",
     providerProductId,
     supplierId,
     supplierName,
