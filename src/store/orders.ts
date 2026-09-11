@@ -1,8 +1,7 @@
 import type { CartItem } from "./cart";
-import { catalogStore } from "./catalog";
+import { catalogStore, sourcingProviderRegistry } from "./catalog";
 import {
   getProcurementSnapshotFromCreatedAt,
-  sourcingProviderRegistry,
   type CustomerOrderStatus,
   type ShippingAddress,
 } from "./sourcingProvider";
@@ -343,8 +342,8 @@ export const ordersStore = {
       const [provider] = groupKey.split(":");
       const createdAt = new Date().toISOString();
       const receipt =
-        provider === "dsfulfill_sandbox"
-          ? await sourcingProviderRegistry.dsfulfill_sandbox.placeOrder(
+        provider === "cj_dropshipping_sandbox"
+          ? await sourcingProviderRegistry.cj_dropshipping_sandbox.placeOrder(
               groupItems.map((item) => ({
                 productId: item.productId,
                 providerProductId: item.providerProductId,
@@ -364,7 +363,7 @@ export const ordersStore = {
       procurementForOrder.push({
         id: shipmentId,
         customerOrderId: orderId,
-        provider: provider === "dsfulfill_sandbox" ? "dsfulfill_sandbox" : "mitao_catalog",
+        provider: provider === "cj_dropshipping_sandbox" ? "cj_dropshipping_sandbox" : "mitao_catalog",
         providerOrderId: receipt.providerOrderId,
         providerTrackingId: receipt.providerTrackingId,
         publicTrackingRef: snapshot.customerStatus === "Processing" ? null : publicTrackingRef(String(orderSeed), shipmentIndex + 1),
