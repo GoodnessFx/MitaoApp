@@ -298,7 +298,7 @@ async function hydrateCatalogFromApi() {
       if (items.length >= 20) { importedProducts = items.map(mapBackendProductToLocal); persist(); notify(); return; }
     }
   } catch {}
-  importedProducts = generateBulkFallback(10000);
+  importedProducts = generateBulkFallback(8000);
   persist();
   notify();
 }

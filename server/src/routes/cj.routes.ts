@@ -60,7 +60,7 @@ function toMitaoProduct(cj: any, idx: number) {
 let cjCache: any[] = [];
 let cjCacheTime = 0;
 const CJ_CACHE_TTL = 1000 * 60 * 60;
-async function warmCjCache(target = 10000) {
+async function warmCjCache(target = 8000) {
   if (cjCache.length >= target && Date.now() - cjCacheTime < CJ_CACHE_TTL) return;
   try {
     const token = await getAccessToken();
