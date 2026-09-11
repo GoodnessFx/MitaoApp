@@ -30,7 +30,7 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
   const visibleSubs = SUBCATEGORIES.filter((s) => suggested.includes(s.label));
 
   return (
-    <div className="absolute top-full left-0 mt-3 z-40 flex w-[min(980px,calc(100vw-2rem))] min-w-[760px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.2)]">
+    <div className="absolute top-full left-0 mt-3 z-40 hidden lg:flex w-[min(980px,calc(100vw-2rem))] min-w-[760px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-[0_22px_60px_rgba(15,23,42,0.2)]">
       <div className="w-72 max-h-[min(72vh,560px)] border-r border-gray-100 overflow-y-auto no-scrollbar bg-[#f8fafc] flex-shrink-0 py-3">
         {CATEGORIES.map((cat) => (
           <button

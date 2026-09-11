@@ -260,9 +260,9 @@ function mapBackendProductToLocal(product: any): Product {
 }
 
 function generateBulkFallback(count: number): Product[] {
-  const titles = ["Retro Dress", "Wireless Earbuds", "Ceramic Cookware", "Running Sneakers", "Vitamin Serum", "Knit Sweater", "Bar Stool", "Sundress", "Flannel Shirt", "Leather Sneaker", "Wall Shelf", "Planner Set", "Hanging Rack", "Watch Luxury", "Storage Box", "Phone Case", "LED Lamp", "Yoga Mat", "Backpack", "Sunglasses"];
-  const cats = ["Women's Clothing","Men's Clothing","Home & Kitchen","Electronics","Beauty & Personal Care","Sports & Outdoors","Jewelry & Accessories"];
-  const imgs = ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1556911220-bff31c812dba?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&h=600&fit=crop"];
+  const titles = ["Retro Dress", "Wireless Earbuds", "Ceramic Cookware", "Running Sneakers", "Vitamin Serum", "Knit Sweater", "Bar Stool", "Sundress", "Flannel Shirt", "Leather Sneaker", "Wall Shelf", "Planner Set", "Hanging Rack", "Watch Luxury", "Storage Box", "Phone Case", "LED Lamp", "Yoga Mat", "Backpack", "Sunglasses", "Linen Curtain", "Coffee Maker", "Gaming Mouse", "Cotton Towel", "Denim Jacket", "Silk Scarf", "Portable Speaker", "Kitchen Knife", "Fitness Band", "Travel Luggage"];
+  const cats = ["Women's Clothing","Men's Clothing","Home & Kitchen","Electronics","Beauty & Personal Care","Sports & Outdoors","Jewelry & Accessories","Toys & Games","Automotive","Pet Supplies"];
+  const imgs = ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1556911220-bff31c812dba?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop","https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600&h=600&fit=crop"];
   const arr: Product[] = [];
   for (let i = 0; i < count; i++) {
     const t = titles[i % titles.length] + " " + (8000 + i);
@@ -276,12 +276,14 @@ function generateBulkFallback(count: number): Product[] {
 async function hydrateCatalogFromApi() {
   if (typeof window === "undefined") return;
   try {
-    const cjRes = await fetch(`${API_BASE_URL}/cj/live?limit=80`);
+    const cjRes = await fetch(`${API_BASE_URL}/cj/live?limit=200`);
     if (cjRes.ok) {
       const cjJson: any = await cjRes.json().catch(() => null);
       const cjItems = Array.isArray(cjJson?.data) ? cjJson.data : [];
       if (cjItems.length >= 20) {
-        importedProducts = cjItems.map(mapBackendProductToLocal);
+        const remaining = 10000 - cjItems.length;
+        const extra = remaining > 0 ? generateBulkFallback(remaining) : [];
+        importedProducts = [...cjItems.map(mapBackendProductToLocal), ...extra];
         persist();
         notify();
         return;
@@ -296,7 +298,7 @@ async function hydrateCatalogFromApi() {
       if (items.length >= 20) { importedProducts = items.map(mapBackendProductToLocal); persist(); notify(); return; }
     }
   } catch {}
-  importedProducts = generateBulkFallback(5000);
+  importedProducts = generateBulkFallback(10000);
   persist();
   notify();
 }
