@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="relative overflow-hidden rounded-t-2xl mx-2 md:mx-0 mt-4" style={{ minHeight: 320 }}>
+      <div className="relative overflow-hidden rounded-2xl mx-3 md:mx-0 mt-6 shadow-sm" style={{ minHeight: 340 }}>
         <div className="absolute inset-0">
           <img
             src={heroBannerUrl}

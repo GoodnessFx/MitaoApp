@@ -33,8 +33,8 @@ function Root() {
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Header />
-      <div className="pt-[172px] md:pt-[116px] flex-1 flex flex-col">
-        <div className="h-2 md:h-3 bg-[#F5F5F5]" aria-hidden="true" />
+      <div className="pt-[184px] md:pt-[124px] flex-1 flex flex-col">
+        <div className="h-4 md:h-5 bg-[#F5F5F5]" aria-hidden="true" />
         <Outlet />
       </div>
       <Footer />

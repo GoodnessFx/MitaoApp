@@ -282,10 +282,10 @@ export function NewIn() {
   const newProducts = [...PRODUCTS].reverse().slice(0, 10);
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-gradient-to-r from-[#0A1931] to-[#3B82F6] text-white py-8 px-6 mb-4">
+      <div className="bg-gradient-to-r from-[#0A1931] to-[#3B82F6] text-white py-10 px-6 mb-6 mt-2 mx-3 md:mx-0 rounded-2xl">
         <div className="max-w-screen-xl mx-auto">
           <h1 className="font-outfit font-black text-3xl">New In</h1>
-          <p className="text-blue-200 text-sm mt-1">Fresh arrivals updated daily</p>
+          <p className="text-blue-200 text-sm mt-2">Fresh arrivals updated daily</p>
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 pb-8">
@@ -301,10 +301,10 @@ export function BestSelling() {
   const sorted = [...PRODUCTS].sort((a, b) => b.reviews - a.reviews);
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-gradient-to-r from-[#F97316] to-[#FB923C] text-white py-8 px-6 mb-4">
+      <div className="bg-gradient-to-r from-[#F97316] to-[#FB923C] text-white py-10 px-6 mb-6 mt-2 mx-3 md:mx-0 rounded-2xl">
         <div className="max-w-screen-xl mx-auto">
           <h1 className="font-outfit font-black text-3xl">Best-Selling Items</h1>
-          <p className="text-orange-100 text-sm mt-1">Top picks loved by millions of shoppers</p>
+          <p className="text-orange-100 text-sm mt-2">Top picks loved by millions of shoppers</p>
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 pb-8">
@@ -320,10 +320,10 @@ export function TopRated() {
   const sorted = [...PRODUCTS].filter((p) => p.rating >= 4.7).sort((a, b) => b.rating - a.rating);
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white py-8 px-6 mb-4">
+      <div className="bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white py-10 px-6 mb-6 mt-2 mx-3 md:mx-0 rounded-2xl">
         <div className="max-w-screen-xl mx-auto">
           <h1 className="font-outfit font-black text-3xl">5-Star Rated</h1>
-          <p className="text-purple-200 text-sm mt-1">Only the highest-rated products make this list</p>
+          <p className="text-purple-200 text-sm mt-2">Only the highest-rated products make this list</p>
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 pb-8">
