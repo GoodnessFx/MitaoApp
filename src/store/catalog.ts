@@ -21,9 +21,9 @@ export interface CatalogSyncJob {
   errors: string[];
 }
 
-const IMPORTED_PRODUCTS_KEY = "mitao.catalog.importedProducts.v2";
-const SUPPLIER_PRODUCTS_KEY = "mitao.catalog.supplierProducts.v2";
-const SYNC_JOBS_KEY = "mitao.catalog.syncJobs.v2";
+const IMPORTED_PRODUCTS_KEY = "mitao.catalog.importedProducts.v3";
+const SUPPLIER_PRODUCTS_KEY = "mitao.catalog.supplierProducts.v3";
+const SYNC_JOBS_KEY = "mitao.catalog.syncJobs.v3";
 
 const PLACEHOLDER_IMAGES = [
   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=900&h=900&fit=crop&auto=format",
