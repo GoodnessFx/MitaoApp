@@ -75,10 +75,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Promo strip */}
       <div className="bg-[#F97316] text-white text-xs py-2 overflow-hidden">
-        <div className="flex gap-8 animate-pulse items-center justify-center">
-          {["🔥 Flash deals live now","📦 Free shipping always","⭐ 4.8 avg rating","🔒 Secure checkout","↩️ 90-day returns","🎁 New deals every hour"].map((t)=>(
+        <div className="flex gap-8 items-center justify-center flex-wrap">
+          {["Flash deals live now","Free shipping always","4.8 avg rating","Secure checkout","90-day returns","New deals every hour"].map((t)=>(
             <span key={t} className="whitespace-nowrap font-medium">{t}</span>
           ))}
         </div>

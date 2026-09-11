@@ -67,8 +67,15 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-3">Download the Mitao App</h4>
             <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mb-4">
-              {[["📉","Price-drop alerts"],["📦","Track orders any time"],["🔒","Faster secure checkout"],["🔔","Low stock alerts"],["🎁","Exclusive offers"],["🏷️","Coupons & offers"]].map(([icon,label])=>(
-                <div key={label} className="flex items-center gap-1.5 text-[11px] text-gray-400"><span>{icon}</span><span>{label}</span></div>
+              {[
+                { label: "Price-drop alerts", icon: <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> },
+                { label: "Track orders any time", icon: <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m-2 8H7a2 2 0 01-2-2V6a2 2 0 012-2h9l3 3v13a2 2 0 01-2 2h-3" /></svg> },
+                { label: "Faster secure checkout", icon: <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
+                { label: "Low stock alerts", icon: <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg> },
+                { label: "Exclusive offers", icon: <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a1 1 0 112 0v2m-2 0H7a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2V10a2 2 0 00-2-2h-5z" /></svg> },
+                { label: "Coupons & offers", icon: <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h10a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2z" /></svg> },
+              ].map((item)=>(
+                <div key={item.label} className="flex items-center gap-1.5 text-[11px] text-gray-400">{item.icon}<span>{item.label}</span></div>
               ))}
             </div>
             <div className="flex flex-col gap-2">

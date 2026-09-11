@@ -29,6 +29,8 @@ export interface Product {
     sales: string;
     responseTime: string;
     avatar: string;
+    location?: string;
+    verified?: boolean;
   };
   shipping: string;
   shippingZh?: string;

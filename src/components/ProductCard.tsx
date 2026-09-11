@@ -27,6 +27,9 @@ export default function ProductCard({ product }: { product: Product }) {
         {badge && (
           <span className="absolute top-2 left-2 bg-[#0A1931] text-white text-[10px] font-bold px-2 py-0.5 rounded-sm font-outfit">{badge}</span>
         )}
+        {((import.meta as any).env?.VITE_DEMO_1688_MODE === 'true' || (import.meta as any).env?.VITE_DEMO_1688_MODE === 'mock' || (product as any).demo) && (
+          <span className="absolute top-2 right-2 bg-yellow-300 text-black text-[10px] font-bold px-2 py-0.5 rounded-sm font-outfit">Demo</span>
+        )}
         {product.colors && (
           <div className="absolute bottom-2 left-2">
             <span className="bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-sm">

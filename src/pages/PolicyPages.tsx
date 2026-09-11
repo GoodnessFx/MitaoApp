@@ -99,13 +99,13 @@ export function Safety() {
     <PolicyLayout title="Safety Center">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         {[
-          { icon: "🔒", title: "Secure Payments", desc: "All transactions encrypted with 256-bit SSL. We never store your full card number." },
-          { icon: "✅", title: "Purchase Protection", desc: "Shop with confidence. If your item doesn't arrive, we'll refund you in full." },
-          { icon: "↩️", title: "90-Day Returns", desc: "Not satisfied? Return any item within 90 days for a full refund." },
-          { icon: "🛡️", title: "Verified sourcing", desc: "Mitao reviews suppliers and listings in our sourcing pipeline and removes items that fail checks." },
+          { title: "Secure Payments", desc: "All transactions encrypted with 256-bit SSL. We never store your full card number.", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
+          { title: "Purchase Protection", desc: "Shop with confidence. If your item doesn't arrive, we'll refund you in full.", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944A11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
+          { title: "90-Day Returns", desc: "Not satisfied? Return any item within 90 days for a full refund.", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M16 17l-5 5-5-5M12 12V3" /></svg> },
+          { title: "Verified sourcing", desc: "Mitao reviews suppliers and listings in our sourcing pipeline and removes items that fail checks.", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944A11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
         ].map((card) => (
           <div key={card.title} className="border border-gray-100 rounded-xl p-4">
-            <span className="text-2xl mb-2 block">{card.icon}</span>
+            <span className="mb-2 block">{card.icon}</span>
             <h3 className="font-outfit font-bold text-gray-900 mb-1">{card.title}</h3>
             <p className="text-sm text-gray-600">{card.desc}</p>
           </div>
@@ -154,13 +154,13 @@ export function Support() {
       <div className="max-w-3xl mx-auto px-6 py-8">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { icon: "📦", label: "Track order", path: "/orders" },
-            { icon: "↩️", label: "Return item", path: "/orders" },
-            { icon: "💬", label: "Live chat", path: "/chat" },
-            { icon: "📋", label: "My orders", path: "/orders" },
+            { label: "Track order", path: "/orders", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 17a3 3 0 11-6 0 3 3 0 016 0zM21 17a3 3 0 11-6 0 3 3 0 016 0zM13 8V6a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1h-1M3 8h8v9a1 1 0 01-1 1H5a2 2 0 01-2-2V8z" /></svg> },
+            { label: "Return item", path: "/orders", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M16 17l-5 5-5-5M12 12V3" /></svg> },
+            { label: "Live chat", path: "/chat", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg> },
+            { label: "My orders", path: "/orders", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg> },
           ].map((a) => (
             <Link key={a.label} to={a.path} className="bg-white rounded-xl p-4 flex flex-col items-center gap-2 hover:shadow-md transition-shadow border border-gray-100">
-              <span className="text-2xl">{a.icon}</span>
+              {a.icon}
               <span className="text-xs font-semibold text-gray-700 text-center">{a.label}</span>
             </Link>
           ))}
@@ -199,7 +199,7 @@ export function PurchaseProtection() {
   return (
     <PolicyLayout title="Mitao Purchase Protection">
       <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-6 flex items-center gap-3">
-        <span className="text-3xl">✅</span>
+        <svg className="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944A11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
         <div>
           <p className="font-outfit font-bold text-gray-900">Every order on Mitao is protected</p>
           <p className="text-sm text-gray-600">Shop with complete confidence.</p>

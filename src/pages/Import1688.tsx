@@ -89,14 +89,14 @@ export default function Import1688() {
 
           <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
-              ["✅", "Mitao checkout", "Cart + payment stay inside your app"],
-              ["💬", "Chat & support", "Talk to Mitao support in one clean thread"],
-              ["🧾", "Clear policies", "Purchase protection + returns flow"],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="bg-[#F5F5F5] rounded-xl p-4 border border-gray-100">
-                <div className="text-2xl mb-2">{icon}</div>
-                <p className="text-sm font-semibold text-gray-900">{title}</p>
-                <p className="text-xs text-gray-500 mt-1 leading-relaxed">{desc}</p>
+              { icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, title: "Mitao checkout", desc: "Cart + payment stay inside your app" },
+              { icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>, title: "Chat & support", desc: "Talk to Mitao support in one clean thread" },
+              { icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>, title: "Clear policies", desc: "Purchase protection + returns flow" },
+            ].map((item) => (
+              <div key={item.title} className="bg-[#F5F5F5] rounded-xl p-4 border border-gray-100">
+                <div className="mb-2">{item.icon}</div>
+                <p className="text-sm font-semibold text-gray-900">{item.title}</p>
+                <p className="text-xs text-gray-500 mt-1 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

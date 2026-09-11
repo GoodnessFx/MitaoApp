@@ -135,11 +135,15 @@ export default function Cart() {
                 </div>
               </div>
 
-              {/* Guarantees */}
               <div className="bg-white rounded-xl p-4 grid grid-cols-2 gap-3">
-                {[["🔒","Secure Payment"],["↩️","90-Day Returns"],["✅","Purchase Protection"],["🚚","Free Shipping"]].map(([icon,label])=>(
-                  <div key={label} className="flex items-center gap-2 text-xs text-gray-500">
-                    <span>{icon}</span><span>{label}</span>
+                {[
+                  { label: "Secure Payment", icon: <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
+                  { label: "90-Day Returns", icon: <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M16 17l-5 5-5-5M12 12V3" /></svg> },
+                  { label: "Purchase Protection", icon: <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944A11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
+                  { label: "Free Shipping", icon: <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a3 3 0 01-3 3H6a3 3 0 01-3-3V8zM9 21h6" /></svg> },
+                ].map((item)=>(
+                  <div key={item.label} className="flex items-center gap-2 text-xs text-gray-500">
+                    {item.icon}<span>{item.label}</span>
                   </div>
                 ))}
               </div>
