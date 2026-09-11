@@ -112,9 +112,9 @@ export default function Home() {
         </div>
 
         {shown.length < filtered.length && (
-          <div className="flex justify-center mt-6 mb-8">
+          <div className="flex justify-center mt-6 mb-8 px-2">
             <button onClick={() => setVisible((v) => v + 60)}
-              className="bg-white border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white font-semibold px-10 py-2.5 rounded-full transition-all text-sm font-outfit">
+              className="w-full sm:w-auto max-w-full bg-white border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white font-semibold px-6 sm:px-10 py-2.5 rounded-full transition-all text-sm font-outfit truncate">
               See more ({filtered.length - shown.length} more) ∨
             </button>
           </div>
