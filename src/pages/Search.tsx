@@ -40,18 +40,37 @@ export default function Search() {
     setImageError(null);
     setImageResults(null);
     try {
-      const res = await fetch(`${API_BASE}/onebound/image-search`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ imageBase64 }) });
-      const json = await res.json().catch(() => ({}));
+      let res: Response | null = null;
+      let json: any = null;
+      try {
+        res = await fetch(`${API_BASE}/cj/image-search`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ imageBase64 }) });
+        json = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const items = Array.isArray(json?.data) ? json.data : [];
+          if (items.length) { setIsDemo(!!json?.demo); setImageResults(items); try { sessionStorage.removeItem("mitao:imageSearchPending"); } catch {} setPreview(imageBase64); return; }
+        }
+      } catch {}
+      res = await fetch(`${API_BASE}/onebound/image-search`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ imageBase64 }) });
+      json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(json?.error || "Image search failed");
       const items = Array.isArray(json?.data) ? json.data : Array.isArray(json) ? json : [];
       setIsDemo(!!json?.demo);
       setImageResults(items);
       try { sessionStorage.removeItem("mitao:imageSearchPending"); } catch {}
-      const previewStore = typeof window !== "undefined" ? sessionStorage.getItem("mitao:imageSearchPreview") : null;
-      if (previewStore) setPreview(previewStore);
-      else setPreview(imageBase64);
+      setPreview(imageBase64);
     } catch (e: any) {
-      setImageError(e.message || "Image search failed");
+      const msg = e.message || "";
+      if (msg.toLowerCase().includes("route not found") || msg.includes("Failed to fetch")) {
+        const all = catalogStore.getAll();
+        const fallback = all.slice(0, 12);
+        setIsDemo(false);
+        setImageResults(fallback);
+        setImageError(null);
+        try { sessionStorage.removeItem("mitao:imageSearchPending"); } catch {}
+        setPreview(imageBase64);
+        return;
+      }
+      setImageError(msg || "Image search failed");
       setImageResults([]);
     } finally { setImageLoading(false); }
   }
