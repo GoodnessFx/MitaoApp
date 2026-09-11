@@ -281,9 +281,9 @@ export default function Header() {
           </div>
         </div>
       )}
-      <div className="bg-[#08152a]/98 backdrop-blur-md border-b border-white/8 shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
-        <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-2.5 lg:py-3">
-          <div className="flex flex-wrap items-center gap-2 lg:gap-3">
+      <div className="bg-[#08152a] border-b border-white/10">
+        <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-2 lg:py-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 order-1">
               <img src={brandLogoUrl} alt="Mitao" className="h-9 w-9 lg:h-11 lg:w-11 object-contain rounded-lg shadow-[0_12px_28px_rgba(2,6,23,0.22)] border border-white/8" />
               <span className="font-outfit font-black text-white text-[18px] lg:text-xl tracking-tight">Mitao</span>
@@ -305,8 +305,8 @@ export default function Header() {
               </div>
             </nav>
 
-            <form onSubmit={handleSearch} className="flex w-full lg:flex-1 lg:max-w-[520px] lg:mx-6 order-3 lg:order-3">
-              <div className="flex items-center flex-1 rounded-[22px] border border-white/12 bg-white shadow-[0_16px_34px_rgba(3,7,18,0.16)] overflow-hidden ring-1 ring-black/3">
+            <form onSubmit={handleSearch} className="flex w-full lg:flex-1 lg:max-w-[520px] lg:mx-4 order-3 lg:order-3">
+              <div className="flex items-center flex-1 rounded-full lg:rounded-[22px] border border-white/12 bg-white shadow-sm overflow-hidden">
                 <input
                   type="text"
                   value={search}

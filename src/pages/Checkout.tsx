@@ -151,27 +151,25 @@ export default function Checkout() {
             )}
 
             {step === "payment" && (
-              <div className="bg-white rounded-xl p-6">
-                <h2 className="font-outfit font-bold text-xl text-gray-900 mb-2">Payment via Paystack</h2>
-                <p className="text-xs text-gray-500 mb-4">Payment is confirmed first. After Paystack success, Mitao keeps 38% margin and forwards product cost + shipping to CJDropshipping. Goods and shipping details are sent to CJ automatically.</p>
-                <div className="border border-[#0A1931] bg-blue-50 rounded-xl p-4 flex gap-3 items-start mb-5">
-                  <svg className="w-6 h-6 text-[#0A1931] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5A9.5 9.5 0 1021.5 12 9.5 9.5 0 0012 2.5zm0 17A7.5 7.5 0 1119.5 12 7.5 7.5 0 0112 19.5zM11 7h2v6h-2zm0 8h2v2h-2z" /></svg>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-[#0A1931]">Paystack Secure Checkout</p>
-                    <p className="text-xs text-gray-600">Card, Bank, USSD, Mobile Money · Paystack will verify payment before we place CJ order</p>
-                    <p className="text-[11px] text-gray-500 mt-1">Pay {formatCurrency(subtotal, currency)} · Mitao retains margin, CJ receives landed cost + freight + shipping address</p>
+              <div className="bg-white rounded-xl p-4 sm:p-6">
+                <h2 className="font-outfit font-bold text-xl text-gray-900 mb-5">Payment</h2>
+                <div className="border border-[#0A1931] bg-blue-50 rounded-xl p-4 flex gap-3 items-center mb-4">
+                  <div className="w-10 h-10 rounded-full bg-[#0A1931] flex items-center justify-center flex-shrink-0">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                   </div>
-                  <div className="w-5 h-5 rounded-full border-2 border-[#0A1931] bg-[#0A1931] flex items-center justify-center"><span className="w-2 h-2 bg-white rounded-full" /></div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[#0A1931]">Paystack</p>
+                    <p className="text-xs text-gray-600 truncate">Secure checkout · {formatCurrency(subtotal, currency)}</p>
+                  </div>
+                  <div className="w-5 h-5 rounded-full border-2 border-[#0A1931] bg-[#0A1931] flex items-center justify-center flex-shrink-0"><span className="w-2 h-2 bg-white rounded-full" /></div>
                 </div>
-                {paymentError && <div className="bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl p-3 mb-4">{paymentError}</div>}
-                <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 mb-4 text-xs text-gray-600">Retail {formatCurrency(subtotal, currency)} = Landed cost + 38% Mitao margin. On success webhook we create CJ order with supplier cost and forward shipping details.</div>
+                {paymentError && <div className="bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl p-3 mb-4 break-words">{paymentError}</div>}
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <button onClick={() => setStep("info")} className="w-full sm:w-auto px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>
-                  <button onClick={handleHostedCheckout} disabled={isSubmitting} className="flex-1 bg-[#0A1931] hover:bg-[#061021] disabled:opacity-40 text-white font-outfit font-bold py-3.5 px-4 rounded-xl transition-colors flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 leading-tight">
-                    {isSubmitting ? <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg><span>Redirecting to Paystack...</span></> : <><svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span className="text-sm">Pay {formatCurrency(subtotal, currency)}</span><span className="text-xs opacity-80 hidden sm:inline">with Paystack</span><span className="text-xs opacity-80 sm:hidden">Paystack Secure</span></>}
+                  <button onClick={() => setStep("info")} className="w-full sm:w-auto px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50">Back</button>
+                  <button onClick={handleHostedCheckout} disabled={isSubmitting} className="flex-1 bg-[#F97316] hover:bg-[#EA580C] disabled:opacity-40 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2">
+                    {isSubmitting ? <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Redirecting...</> : <>Pay {formatCurrency(subtotal, currency)}</>}
                   </button>
                 </div>
-                <p className="text-[11px] text-gray-400 mt-3 text-center">Payment must succeed first — CJ order is placed only after Paystack webhook confirms.</p>
               </div>
             )}
 
