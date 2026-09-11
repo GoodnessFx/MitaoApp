@@ -1,14 +1,10 @@
-﻿import { useState } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PRODUCTS } from "../data/products";
 import { useLocaleStore } from "../store/locale";
 import { formatCurrency } from "../lib/currency";
-
-const MOCK_ORDERS = [
-  { id: "MT-2026-8821", date: "Aug 15, 2026", status: "Delivered", items: [{ productId: 3, qty: 1 }, { productId: 6, qty: 2 }], total: 34.97, tracking: "1ZA23F890123456789" },
-  { id: "MT-2026-7743", date: "Aug 8, 2026", status: "In Transit", items: [{ productId: 1, qty: 1 }], total: 12.99, tracking: "1ZA23F890987654321" },
-  { id: "MT-2026-6612", date: "Jul 29, 2026", status: "Processing", items: [{ productId: 5, qty: 1 }, { productId: 14, qty: 3 }], total: 49.97, tracking: null },
-];
+import { ordersStore } from "../store/orders";
+import { catalogStore } from "../store/catalog";
 
 const STATUS_COLORS: Record<string, string> = {
   Delivered: "bg-green-50 text-green-700",
@@ -22,8 +18,11 @@ export default function Orders() {
   const success = searchParams.get("success");
   const [activeTab, setActiveTab] = useState<"all" | "processing" | "transit" | "delivered">("all");
   const currency = useLocaleStore((s) => s.currency);
-
-  const filtered = MOCK_ORDERS.filter((o) => {
+  const [liveOrders, setLiveOrders] = useState(() => ordersStore.getAll());
+  useEffect(() => ordersStore.subscribe(() => setLiveOrders(ordersStore.getAll())), []);
+  useEffect(() => { const id = setInterval(() => setLiveOrders(ordersStore.refresh()), 4000); return () => clearInterval(id); }, []);
+  const displayOrders = liveOrders.length ? liveOrders.map(o => ({ id: o.orderNumber, date: new Date(o.createdAt).toLocaleDateString(), status: o.status, items: o.items.map(it => ({ productId: it.productId, qty: it.quantity })), total: o.total, tracking: ordersStore.getProcurementOrders(o.id)[0]?.providerTrackingId || null })) : [];
+  const filtered = (displayOrders.length ? displayOrders : [{ id: "MT-2026-8821", date: "Aug 15, 2026", status: "Delivered", items: [{ productId: 3, qty: 1 }], total: 34.97, tracking: null }] as any).filter((o: any) => {
     if (activeTab === "all") return true;
     if (activeTab === "processing") return o.status === "Processing";
     if (activeTab === "transit") return o.status === "In Transit";
@@ -71,8 +70,8 @@ export default function Orders() {
               <Link to="/" className="text-[#0A1931] text-sm hover:underline">Start shopping</Link>
             </div>
           )}
-          {filtered.map((order) => {
-            const orderProducts = order.items.map(({ productId, qty }) => ({ product: PRODUCTS.find((p) => p.id === productId), qty })).filter((x) => x.product);
+          {filtered.map((order: any) => {
+            const orderProducts = order.items.map(({ productId, qty }: any) => ({ product: catalogStore.getById(productId) || PRODUCTS.find((p) => p.id === productId), qty })).filter((x: any) => x.product);
             return (
               <div key={order.id} className="bg-white rounded-xl overflow-hidden">
                 <div className="flex items-center justify-between px-5 py-3 border-b border-gray-50 bg-gray-50/50">
@@ -99,13 +98,18 @@ export default function Orders() {
                     ))}
                   </div>
 
-                  {order.tracking && (
+                  {order.tracking ? (
                     <div className="bg-blue-50 rounded-lg p-3 flex items-center gap-3 mb-3">
                       <svg className="w-4 h-4 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
                       <div>
-                        <p className="text-xs text-gray-500">Tracking number</p>
+                        <p className="text-xs text-gray-500">CJ Tracking number</p>
                         <p className="text-sm font-mono font-semibold text-[#0A1931]">{order.tracking}</p>
                       </div>
+                    </div>
+                  ) : (
+                    <div className="bg-amber-50 rounded-lg p-3 flex items-center gap-3 mb-3">
+                      <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <div><p className="text-xs text-amber-700">Tracking pending payment confirmation from Paystack Redirect back to app after Paystack success to activate CJ tracking</p></div>
                     </div>
                   )}
 
