@@ -9,7 +9,7 @@ import { heroBannerUrl } from "../lib/brandAssets";
 
 export default function Home() {
   const [products, setProducts] = useState(catalogStore.getAll());
-  const [visible, setVisible] = useState(10);
+  const [visible, setVisible] = useState(60);
   const { t } = useTranslation();
   const language = useLocaleStore((s) => s.language);
   const [cookieDismissed, setCookieDismissed] = useState(() => {
@@ -114,9 +114,9 @@ export default function Home() {
 
         {shown.length < filtered.length && (
           <div className="flex justify-center mt-6 mb-8">
-            <button onClick={() => setVisible((v) => v + 5)}
+            <button onClick={() => setVisible((v) => v + 60)}
               className="bg-white border-2 border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white font-semibold px-10 py-2.5 rounded-full transition-all text-sm font-outfit">
-              See more ∨
+              See more ({filtered.length - shown.length} more) ∨
             </button>
           </div>
         )}
