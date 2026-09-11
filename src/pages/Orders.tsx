@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { PRODUCTS } from "../data/products";
 import { useLocaleStore } from "../store/locale";
@@ -93,7 +93,7 @@ export default function Orders() {
                         </Link>
                         <div className="flex-1 min-w-0">
                           <Link to={`/product/${product!.id}`} className="text-sm text-gray-800 hover:text-[#0A1931] transition-colors line-clamp-1">{product!.title}</Link>
-                          <p className="text-xs text-gray-400">Qty: {qty} · {formatCurrency(product!.price, currency)} each</p>
+                          <p className="text-xs text-gray-400">Qty: {qty} {formatCurrency(product!.price, currency)} each</p>
                         </div>
                       </div>
                     ))}
@@ -131,3 +131,4 @@ export default function Orders() {
     </div>
   );
 }
+

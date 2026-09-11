@@ -38,8 +38,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      {/* Hero with image + blue overlay */}
-      <div className="relative overflow-hidden" style={{ minHeight: 320 }}>
+      <div className="h-3" aria-hidden="true" />
+      <div className="relative overflow-hidden mt-2 rounded-t-2xl mx-2 md:mx-0" style={{ minHeight: 320 }}>
         <div className="absolute inset-0">
           <img
             src={heroBannerUrl}

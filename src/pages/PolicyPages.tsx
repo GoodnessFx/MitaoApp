@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router";
 import { PRODUCTS } from "../data/products";
 import ProductCard from "../components/ProductCard";
@@ -231,7 +231,7 @@ export function Returns() {
   return (
     <PolicyLayout title="Return & Refund Policy">
       <Section title="90-Day Return Window">
-        All items are eligible for return within 90 days of purchase. Items must be in original condition — unworn, unwashed, with all tags attached.
+        All items are eligible for return within 90 days of purchase. Items must be in original condition unworn, unwashed, with all tags attached.
       </Section>
       <Section title="How to Initiate a Return">
         <ol className="list-decimal list-inside space-y-1.5">
@@ -256,7 +256,7 @@ export function Shipping() {
   return (
     <PolicyLayout title="Shipping Information">
       <Section title="Free Shipping on All Orders">
-        Mitao offers completely free shipping on every order — no minimum required and no hidden fees.
+        Mitao offers completely free shipping on every order no minimum required and no hidden fees.
       </Section>
       <Section title="Estimated Delivery Times">
         <table className="w-full text-sm border-collapse">
@@ -520,3 +520,4 @@ export function AdChoices() {
     </PolicyLayout>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router";
 import { PRODUCTS } from "../data/products";
 import { cartStore } from "../store/cart";
@@ -12,7 +12,7 @@ import { getCategoryLabel, getProductBadge, getProductDescription, getProductShi
 const REVIEWS = [
   { name: "Sarah M.", rating: 5, date: "Aug 14, 2026", text: "Absolutely love this! The quality exceeded my expectations for the price. Fast shipping too.", verified: true },
   { name: "James T.", rating: 4, date: "Aug 10, 2026", text: "Great product, fits well. Color is exactly as pictured. Would definitely order again.", verified: true },
-  { name: "Priya K.", rating: 5, date: "Aug 5, 2026", text: "Incredible value. I bought two — one for myself and one as a gift. Both arrived quickly and packed well.", verified: true },
+  { name: "Priya K.", rating: 5, date: "Aug 5, 2026", text: "Incredible value. I bought two one for myself and one as a gift. Both arrived quickly and packed well.", verified: true },
   { name: "David L.", rating: 4, date: "Jul 29, 2026", text: "Good quality overall. Slight difference in shade from the photo but still looks great.", verified: false },
   { name: "Emma W.", rating: 5, date: "Jul 22, 2026", text: "This is my third purchase on Mitao. Always reliable and top quality. Highly recommend!", verified: true },
 ];
@@ -103,7 +103,7 @@ export default function ProductDetail() {
               <span className="text-[11px] bg-[#FEF3C7] text-orange-700 px-2 py-0.5 rounded-sm font-semibold">-{discount}% OFF</span>
               <span className="text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded-sm font-semibold flex items-center gap-1">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                {language === "zh" ? "认证 · 工厂直发" : "Verified Factory Direct"}
+                {language === "zh" ? "认证 工厂直发" : "Verified Factory Direct"}
               </span>
             </div>
             <h1 className="font-outfit font-bold text-gray-900 text-xl leading-snug mb-3">{title}</h1>
@@ -148,7 +148,7 @@ export default function ProductDetail() {
             {product.stock < 10 && (
               <div className="flex items-center gap-2 mb-4 bg-red-50 border border-red-100 rounded-lg p-2.5 text-sm text-red-600">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                Only {product.stock} left in stock — order soon!
+                Only {product.stock} left in stock order soon!
               </div>
             )}
 
@@ -224,15 +224,15 @@ export default function ProductDetail() {
         <div className="bg-white rounded-xl p-5 mb-6 border border-gray-100">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
-              <p className="font-outfit font-bold text-gray-900 flex items-center gap-2">Supplier details {product.seller.verified !== false ? <span className="inline-flex items-center gap-1 bg-green-50 text-green-700 border border-green-200 text-[10px] font-bold px-2 py-0.5 rounded-full"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Verified</span> : <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-bold px-2 py-0.5 rounded-full">Unverified · lower priority</span>}</p>
+              <p className="font-outfit font-bold text-gray-900 flex items-center gap-2">Supplier details {product.seller.verified !== false ? <span className="inline-flex items-center gap-1 bg-green-50 text-green-700 border border-green-200 text-[10px] font-bold px-2 py-0.5 rounded-full"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Verified</span> : <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-bold px-2 py-0.5 rounded-full">Unverified lower priority</span>}</p>
               <p className="text-sm font-semibold text-[#0A1931] mt-1">{product.seller.name}</p>
-              <p className="text-xs text-gray-500 flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{product.seller.location || "China · 1688 verified supplier"}</p>
+              <p className="text-xs text-gray-500 flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{product.seller.location || "China 1688 verified supplier"}</p>
               {product.seller.verified === false && <p className="text-xs text-amber-600 mt-1">Mitao filters unreliable suppliers and prioritizes verified ones. This listing is deprioritized.</p>}
             </div>
             <div className="text-right">
               <div className="flex items-center gap-1 justify-end"><Stars rating={product.seller.rating} /><span className="text-sm font-semibold text-gray-900">{product.seller.rating.toFixed(1)}</span></div>
-              <p className="text-xs text-gray-500">{product.seller.sales} · Response {product.seller.responseTime}</p>
-              <p className="text-[11px] text-gray-400 mt-1">Price shown in {currency === "CNY" ? "¥ Yuan (default)" : currency} · switch in header</p>
+              <p className="text-xs text-gray-500">{product.seller.sales} Response {product.seller.responseTime}</p>
+              <p className="text-[11px] text-gray-400 mt-1">Price shown in {currency === "CNY" ? "¥ Yuan (default)" : currency} switch in header</p>
             </div>
           </div>
           <div className="h-px bg-gray-100 mb-4" />
@@ -243,7 +243,7 @@ export default function ProductDetail() {
             <div>
               <p className="font-outfit font-bold text-gray-900">Fulfilled by Mitao</p>
               <p className="text-sm text-gray-500">
-                Sourced via 1688 · Procurement & quality checks handled by Mitao
+                Sourced via 1688 Procurement & quality checks handled by Mitao
               </p>
               <p className="text-xs text-gray-400 mt-0.5">Questions? Chat with our team. Typically responds in under 1 hour.</p>
             </div>
@@ -352,3 +352,4 @@ export default function ProductDetail() {
     </div>
   );
 }
+

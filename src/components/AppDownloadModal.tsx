@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 
 export type StoreKind = "Google Play" | "App Store";
 
 function storeTitle(store: StoreKind) {
-  return store === "Google Play" ? "Mitao for Android — coming soon" : "Mitao for iPhone — coming soon";
+  return store === "Google Play" ? "Mitao for Android coming soon" : "Mitao for iPhone coming soon";
 }
 
 function storeBody(store: StoreKind) {
@@ -117,10 +117,11 @@ export default function AppDownloadModal({
           </div>
 
           <p className="mt-3 text-[11px] text-gray-400">
-            No app store link yet. This is intentional — we’ll publish here once it’s ready.
+            No app store link yet. This is intentional we’ll publish here once it’s ready.
           </p>
         </div>
       </div>
     </div>
   );
 }
+

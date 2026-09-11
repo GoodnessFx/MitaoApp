@@ -1,4 +1,4 @@
-import { PRODUCTS, type Product } from "../data/products";
+﻿import { PRODUCTS, type Product } from "../data/products";
 import { CJDropshippingSandboxProvider, type SupplierProduct, type SourcingProviderKey } from "./sourcingProvider";
 
 const API_BASE_URL =
@@ -61,12 +61,12 @@ const SUPPLIER_NAMES = [
   "Ningbo Bright Factory",
 ];
 const SUPPLIER_LOCATIONS: Record<string, string> = {
-  "Guangzhou Harmony Trading": "Guangzhou, Guangdong · Verified 6 yrs",
-  "Yiwu Nova Source": "Yiwu, Zhejiang · Verified 4 yrs",
-  "Shenzhen Peak Supply": "Shenzhen, Guangdong · Verified 5 yrs",
-  "Hangzhou Velvet Home": "Hangzhou, Zhejiang · Verified 3 yrs",
-  "Quanzhou Motion Goods": "Quanzhou, Fujian · Verified 2 yrs",
-  "Ningbo Bright Factory": "Ningbo, Zhejiang · Verified 7 yrs",
+  "Guangzhou Harmony Trading": "Guangzhou, Guangdong Verified 6 yrs",
+  "Yiwu Nova Source": "Yiwu, Zhejiang Verified 4 yrs",
+  "Shenzhen Peak Supply": "Shenzhen, Guangdong Verified 5 yrs",
+  "Hangzhou Velvet Home": "Hangzhou, Zhejiang Verified 3 yrs",
+  "Quanzhou Motion Goods": "Quanzhou, Fujian Verified 2 yrs",
+  "Ningbo Bright Factory": "Ningbo, Zhejiang Verified 7 yrs",
 };
 
 function safeParse<T>(json: string | null, fallback: T): T {
@@ -192,11 +192,11 @@ function createImportRecords(url: string) {
       sales: `${seededNumber(seed, 18, 88)}k sold`,
       responseTime: "< 1 hour",
       avatar: supplierName.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase(),
-      location: SUPPLIER_LOCATIONS[supplierName] || "China · Verified supplier",
+      location: SUPPLIER_LOCATIONS[supplierName] || "China Verified supplier",
       verified: seed % 7 !== 0,
     },
-    shipping: `Mitao global shipping · Est. delivery ${seededNumber(seed, 7, 10)}-${seededNumber(seed, 11, 16)} business days`,
-    shippingZh: `Mitao 跨境物流 · 预计 ${seededNumber(seed, 7, 10)}–${seededNumber(seed, 11, 16)} 个工作日送达`,
+    shipping: `Mitao global shipping Est. delivery ${seededNumber(seed, 7, 10)}-${seededNumber(seed, 11, 16)} business days`,
+    shippingZh: `Mitao 跨境物流 预计 ${seededNumber(seed, 7, 10)} ${seededNumber(seed, 11, 16)} 个工作日送达`,
     stock: seededNumber(seed, 40, 520),
     sourceType: "global-sourcing",
   };
@@ -397,3 +397,4 @@ export const import1688Store = {
   getSyncJobs: catalogStore.getSyncJobs,
   getSupplierProductByPublicId: catalogStore.getSupplierProductByPublicId,
 };
+

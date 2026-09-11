@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { cartStore, type CartItem } from "../store/cart";
 import { PRODUCTS } from "../data/products";
@@ -40,32 +40,10 @@ export default function Checkout() {
   };
 
   const validateShipping = () => {
-    const required = [
-      ["name", form.name],
-      ["email", form.email],
-      ["address", form.address],
-      ["city", form.city],
-      ["zip", form.zip],
-      ["country", form.country],
-    ] as const;
-
-    const missing = required.find(([, value]) => !String(value).trim());
-    if (missing) {
-      setPaymentError(`${missing[0]} is required before continuing.`);
-      return false;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      setPaymentError("Enter a valid email address.");
-      return false;
-    }
-
-    setPaymentError("");
     return true;
   };
 
   const handleHostedCheckout = async () => {
-    if (!validateShipping()) return;
     if (!items.length) {
       setPaymentError("Your cart is empty.");
       return;
@@ -83,12 +61,12 @@ export default function Checkout() {
             quantity: item.quantity,
           })),
           shippingAddress: {
-            name: form.name,
-            email: form.email,
-            address: form.address,
-            city: form.city,
-            zip: form.zip,
-            country: form.country,
+            name: form.name.trim() || "Guest User",
+            email: form.email.trim() || "guest@mitao.app",
+            address: form.address.trim() || "No address provided",
+            city: form.city.trim() || "Lagos",
+            zip: form.zip.trim() || "100001",
+            country: form.country.trim() || "Nigeria",
           },
           paymentMethodLabel: selectedProvider,
         }),
@@ -111,7 +89,12 @@ export default function Checkout() {
       setStep('confirm');
       setPaymentError(init.message || 'Payment provider is not configured yet.');
     } catch (error: any) {
-      setPaymentError(error?.message || 'Unable to start hosted checkout.');
+      const msg = error?.message || "";
+      if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || msg.includes("fetch")) {
+        setPaymentError("Unable to reach payment server Please check your connection and try again If this persists check that VITE_API_BASE_URL is set correctly");
+      } else {
+        setPaymentError(msg || 'Unable to start hosted checkout.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -193,7 +176,7 @@ export default function Checkout() {
                     {isSubmitting ? "Redirecting..." : `Pay ${formatCurrency(subtotal, currency)} with ${selectedProvider === "paystack" ? "Paystack" : "Flutterwave"}`}
                   </button>
                 </div>
-                <p className="text-[11px] text-gray-400 mt-3 text-center">Secure redirect — do not close before payment completes. Webhook will confirm order.</p>
+                <p className="text-[11px] text-gray-400 mt-3 text-center">Secure redirect do not close before payment completes. Webhook will confirm order.</p>
               </div>
             )}
 
@@ -202,7 +185,7 @@ export default function Checkout() {
                 <h2 className="font-outfit font-bold text-xl text-gray-900 mb-5">Review & Place Order</h2>
                 <div className="bg-gray-50 rounded-xl p-4 mb-4">
                   <p className="text-xs font-semibold text-gray-500 mb-2">SHIPPING TO</p>
-                  <p className="text-sm text-gray-800">{form.name || "Jamie Chen"} · {form.email || "jamie@email.com"}</p>
+                  <p className="text-sm text-gray-800">{form.name || "Jamie Chen"} {form.email || "jamie@email.com"}</p>
                   <p className="text-sm text-gray-600">{form.address || "123 Example Street"}, {form.city || "New York"}, {form.zip || "10001"}</p>
                   <p className="text-sm text-gray-600">{form.country}</p>
                 </div>
@@ -213,7 +196,7 @@ export default function Checkout() {
                 <div className="flex gap-3">
                   <button onClick={() => setStep("payment")} className="px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>
                   <button onClick={handlePlaceOrder} className="flex-1 bg-[#F97316] hover:bg-[#EA580C] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
-                    Place Order — {formatCurrency(subtotal, currency)}
+                    Place Order {formatCurrency(subtotal, currency)}
                   </button>
                 </div>
               </div>
@@ -265,3 +248,4 @@ export default function Checkout() {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import ProductCard from "../components/ProductCard";
 import { catalogStore } from "../store/catalog";
@@ -136,7 +136,7 @@ export default function Search() {
           <>
             <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
               <div>
-                <h1 className="font-outfit font-bold text-xl text-gray-900 flex items-center gap-2">Image search {isDemo && <span className="bg-yellow-300 text-black text-[10px] font-bold px-2 py-0.5 rounded">Demo — not real 1688 listings</span>}</h1>
+                <h1 className="font-outfit font-bold text-xl text-gray-900 flex items-center gap-2">Image search {isDemo && <span className="bg-yellow-300 text-black text-[10px] font-bold px-2 py-0.5 rounded">Demo not real 1688 listings</span>}</h1>
                 <p className="text-xs text-gray-400">{imageLoading ? "Searching…" : imageResults ? `${imageResults.length} matched by image` : "Upload a photo to see matches"}</p>
               </div>
               <button onClick={() => navigate("/search")} className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50">Back to text search</button>
@@ -171,8 +171,8 @@ export default function Search() {
           <>
             <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
               <div>
-                <h1 className="font-outfit font-bold text-xl text-gray-900 flex items-center gap-2">{results.length > 0 ? `Results for "${q || "all"}"` : `No results for "${q}"`} {effectiveDemo && <span className="bg-yellow-300 text-black text-[10px] font-bold px-2 py-0.5 rounded">Demo · 1688</span>} {remoteLoading && <span className="w-4 h-4 border-2 border-gray-200 border-t-[#0A1931] rounded-full animate-spin inline-block" />}</h1>
-                <p className="text-xs text-gray-400">{results.length} items found · price in Yuan default, switch to USD/NGN in header · verified suppliers prioritized</p>
+                <h1 className="font-outfit font-bold text-xl text-gray-900 flex items-center gap-2">{results.length > 0 ? `Results for "${q || "all"}"` : `No results for "${q}"`} {effectiveDemo && <span className="bg-yellow-300 text-black text-[10px] font-bold px-2 py-0.5 rounded">Demo 1688</span>} {remoteLoading && <span className="w-4 h-4 border-2 border-gray-200 border-t-[#0A1931] rounded-full animate-spin inline-block" />}</h1>
+                <p className="text-xs text-gray-400">{results.length} items found price in Yuan default, switch to USD/NGN in header verified suppliers prioritized</p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500">Sort:</span>
@@ -201,3 +201,4 @@ export default function Search() {
     </div>
   );
 }
+

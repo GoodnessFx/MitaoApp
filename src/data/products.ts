@@ -1,4 +1,4 @@
-export interface Product {
+﻿export interface Product {
   id: number;
   title: string;
   titleZh?: string;
@@ -67,10 +67,10 @@ export const PRODUCTS: Product[] = [
     description: "Lightweight and breathable floral midi dress perfect for summer outings, beach days, or casual evenings. Features a flattering A-line silhouette, adjustable spaghetti straps, and a flowy skirt that falls just below the knee.",
     descriptionZh:
       "轻盈透气的碎花中长连衣裙，适合夏日出游、海边或日常。A 字版型修饰身形，可调节细肩带，裙摆飘逸，长度至膝下。",
-    specs: { Material: "95% Polyester, 5% Spandex", Length: "Midi (40–45 in)", Closure: "Zip back", Care: "Machine wash cold", Origin: "Imported" },
+    specs: { Material: "95% Polyester, 5% Spandex", Length: "Midi (40 45 in)", Closure: "Zip back", Care: "Machine wash cold", Origin: "Imported" },
     seller: { name: "SummerBloom Official", rating: 4.9, sales: "124k sales", responseTime: "< 1 hour", avatar: "SB" },
-    shipping: "Free shipping · Est. delivery Aug 28–Sep 3",
-    shippingZh: "包邮 · 预计 8/28–9/3 送达",
+    shipping: "Free shipping Est. delivery Aug 28 Sep 3",
+    shippingZh: "包邮 预计 8/28 9/3 送达",
     stock: 247,
   },
   {
@@ -99,8 +99,8 @@ export const PRODUCTS: Product[] = [
       "专业级陶瓷不粘煎锅套装，PFOA-free 涂层更安心。手柄耐热防烫，炉灶上更安全。适配燃气、电陶、电磁炉等多种灶具。",
     specs: { Material: "Ceramic-coated aluminum", Sizes: "8\", 10\", 12\"", Handle: "Silicone grip", Compatible: "All stovetops incl. induction", Dishwasher: "Safe" },
     seller: { name: "CookMaster Pro", rating: 4.8, sales: "89k sales", responseTime: "< 2 hours", avatar: "CM" },
-    shipping: "Free shipping · Est. delivery Aug 26–Sep 1",
-    shippingZh: "包邮 · 预计 8/26–9/1 送达",
+    shipping: "Free shipping Est. delivery Aug 26 Sep 1",
+    shippingZh: "包邮 预计 8/26 9/1 送达",
     stock: 512,
   },
   {
@@ -131,8 +131,8 @@ export const PRODUCTS: Product[] = [
       "超轻网面跑步鞋，兼顾舒适与性能。透气鞋面长跑也不闷脚，EVA 中底回弹缓震，每一步都更轻松。",
     specs: { Upper: "Breathable mesh", Sole: "Rubber outsole", Midsole: "EVA foam", Closure: "Lace-up", Width: "Medium (B)" },
     seller: { name: "StepFlex Official Store", rating: 4.9, sales: "312k sales", responseTime: "< 30 min", avatar: "SF" },
-    shipping: "Free shipping · Est. delivery Aug 25–Aug 31",
-    shippingZh: "包邮 · 预计 8/25–8/31 送达",
+    shipping: "Free shipping Est. delivery Aug 25 Aug 31",
+    shippingZh: "包邮 预计 8/25 8/31 送达",
     stock: 1024,
   },
   {
@@ -159,8 +159,8 @@ export const PRODUCTS: Product[] = [
       "现代修身版型扣领衬衫，棉混纺面料柔软透气。通勤与日常都好搭配，抗皱更省心，全天保持利落有型。",
     specs: { Material: "60% Cotton, 40% Polyester", Fit: "Slim fit", Collar: "Point collar", Sleeve: "Long sleeve", Care: "Machine washable" },
     seller: { name: "UrbanThread Co.", rating: 4.6, sales: "45k sales", responseTime: "< 3 hours", avatar: "UT" },
-    shipping: "Free shipping · Est. delivery Aug 28–Sep 4",
-    shippingZh: "包邮 · 预计 8/28–9/4 送达",
+    shipping: "Free shipping Est. delivery Aug 28 Sep 4",
+    shippingZh: "包邮 预计 8/28 9/4 送达",
     stock: 388,
   },
   {
@@ -189,8 +189,8 @@ export const PRODUCTS: Product[] = [
       "高质感不锈钢腕表，蓝宝石镜面更耐磨。50 米防水，日本机芯走时精准。设计简洁优雅，适合商务与正式场合。",
     specs: { Case: "316L Stainless steel", Glass: "Sapphire crystal", Movement: "Japanese quartz", Water: "5ATM (50m)", Strap: "Genuine leather" },
     seller: { name: "ChronoLux Official", rating: 4.9, sales: "28k sales", responseTime: "< 1 hour", avatar: "CL" },
-    shipping: "Free shipping · Est. delivery Aug 27–Sep 2",
-    shippingZh: "包邮 · 预计 8/27–9/2 送达",
+    shipping: "Free shipping Est. delivery Aug 27 Sep 2",
+    shippingZh: "包邮 预计 8/27 9/2 送达",
     stock: 84,
   },
   {
@@ -219,8 +219,8 @@ export const PRODUCTS: Product[] = [
       "经测试的维C精华，含 20% 左旋维C（L-抗坏血酸）。淡化暗沉与色斑，均匀肤色并提升胶原生成。搭配玻尿酸复合成分，深层补水保湿更持久。",
     specs: { Size: "30ml / 1 fl oz", "Skin Type": "All skin types", "Key Ingredients": "Vitamin C, Hyaluronic Acid", Fragrance: "Fragrance-free", SPF: "No" },
     seller: { name: "GlowLab Beauty", rating: 4.8, sales: "215k sales", responseTime: "< 1 hour", avatar: "GL" },
-    shipping: "Free shipping · Est. delivery Aug 25–Aug 30",
-    shippingZh: "包邮 · 预计 8/25–8/30 送达",
+    shipping: "Free shipping Est. delivery Aug 25 Aug 30",
+    shippingZh: "包邮 预计 8/25 8/30 送达",
     stock: 2341,
   },
   {
@@ -246,8 +246,8 @@ export const PRODUCTS: Product[] = [
       "柔软亲肤的针织套头毛衣，叠穿更显质感。宽松版型微短款，罗纹袖口与下摆更利落。搭配高腰牛仔裤或半身裙都很好看。",
     specs: { Material: "60% Acrylic, 40% Wool blend", Fit: "Relaxed / Oversized", Length: "Cropped (22 in)", Care: "Hand wash cold", Season: "Fall/Winter" },
     seller: { name: "CozyWear Studio", rating: 4.7, sales: "67k sales", responseTime: "< 2 hours", avatar: "CW" },
-    shipping: "Free shipping · Est. delivery Aug 29–Sep 5",
-    shippingZh: "包邮 · 预计 8/29–9/5 送达",
+    shipping: "Free shipping Est. delivery Aug 29 Sep 5",
+    shippingZh: "包邮 预计 8/29 9/5 送达",
     stock: 193,
   },
   {
@@ -268,13 +268,13 @@ export const PRODUCTS: Product[] = [
     meritZh: "仅剩 3 件",
     brand: "RusticHome",
     category: "Home & Kitchen",
-    description: "Set of 2 industrial-style bar stools with solid mango wood seats and powder-coated steel legs. Counter height (24 in seat height). Non-slip foot pads protect floors. Easy assembly — under 10 minutes.",
+    description: "Set of 2 industrial-style bar stools with solid mango wood seats and powder-coated steel legs. Counter height (24 in seat height). Non-slip foot pads protect floors. Easy assembly under 10 minutes.",
     descriptionZh:
       "工业风吧台椅 2 件套，芒果木坐面搭配喷粉钢架更稳固。24 英寸台面高度，防滑脚垫保护地板。安装简单，约 10 分钟完成。",
     specs: { "Seat Height": "24 inches", Material: "Mango wood + Steel", "Weight Capacity": "330 lbs per stool", Assembly: "Required (hardware included)", Finish: "Rustic brown" },
     seller: { name: "RusticHome Decor", rating: 4.6, sales: "18k sales", responseTime: "< 4 hours", avatar: "RH" },
-    shipping: "Free shipping · Est. delivery Sep 1–Sep 8",
-    shippingZh: "包邮 · 预计 9/1–9/8 送达",
+    shipping: "Free shipping Est. delivery Sep 1 Sep 8",
+    shippingZh: "包邮 预计 9/1 9/8 送达",
     stock: 3,
   },
   {
@@ -303,8 +303,8 @@ export const PRODUCTS: Product[] = [
       "清爽碎花吊带中长裙，裙摆飘逸显瘦。肩带可调节，腰部系带可根据身形收束。适合海边出行、逛街市集与夏日聚会。",
     specs: { Material: "100% Rayon", Length: "Midi", Strap: "Adjustable spaghetti", Closure: "V-neck pullover", Care: "Hand wash cold" },
     seller: { name: "BeachVibe Store", rating: 4.8, sales: "94k sales", responseTime: "< 1 hour", avatar: "BV" },
-    shipping: "Free shipping · Est. delivery Aug 26–Sep 2",
-    shippingZh: "包邮 · 预计 8/26–9/2 送达",
+    shipping: "Free shipping Est. delivery Aug 26 Sep 2",
+    shippingZh: "包邮 预计 8/26 9/2 送达",
     stock: 621,
   },
   {
@@ -330,8 +330,8 @@ export const PRODUCTS: Product[] = [
       "经典格子法兰绒衬衫，宽松版型更好穿。磨毛棉面料柔软保暖，适合秋冬。双胸口袋纽扣设计，可外搭T恤或单穿。",
     specs: { Material: "100% Brushed cotton", Fit: "Regular/relaxed", Collar: "Spread collar", Pocket: "Two chest pockets", Care: "Machine wash" },
     seller: { name: "NorthWild Outdoors", rating: 4.5, sales: "31k sales", responseTime: "< 3 hours", avatar: "NW" },
-    shipping: "Free shipping · Est. delivery Aug 28–Sep 4",
-    shippingZh: "包邮 · 预计 8/28–9/4 送达",
+    shipping: "Free shipping Est. delivery Aug 28 Sep 4",
+    shippingZh: "包邮 预计 8/28 9/4 送达",
     stock: 271,
   },
   {
@@ -360,8 +360,8 @@ export const PRODUCTS: Product[] = [
       "质感皮面运动休闲鞋，冲孔设计更透气。厚底缓震脚感舒适，通勤、逛街或轻运动都能轻松驾驭。",
     specs: { Upper: "Synthetic leather", Sole: "Rubber + EVA", Closure: "Lace-up", Toe: "Round toe", Width: "Standard" },
     seller: { name: "PaceMax Official", rating: 4.9, sales: "78k sales", responseTime: "< 1 hour", avatar: "PM" },
-    shipping: "Free shipping · Est. delivery Aug 26–Sep 1",
-    shippingZh: "包邮 · 预计 8/26–9/1 送达",
+    shipping: "Free shipping Est. delivery Aug 26 Sep 1",
+    shippingZh: "包邮 预计 8/26 9/1 送达",
     stock: 456,
   },
   {
@@ -385,8 +385,8 @@ export const PRODUCTS: Product[] = [
       "壁挂式开放置物架，适合收纳厨房用品、食谱书、绿植或装饰。含安装配件，安装方便。北欧简约风格，经典白色更耐看。",
     specs: { Dimensions: "36W x 10D x 24H inches", Material: "MDF + Steel brackets", "Weight Capacity": "50 lbs", Finish: "White matte", Assembly: "Wall mount included" },
     seller: { name: "ShelfCraft Design", rating: 4.6, sales: "12k sales", responseTime: "< 6 hours", avatar: "SC" },
-    shipping: "Free shipping · Est. delivery Sep 2–Sep 9",
-    shippingZh: "包邮 · 预计 9/2–9/9 送达",
+    shipping: "Free shipping Est. delivery Sep 2 Sep 9",
+    shippingZh: "包邮 预计 9/2 9/9 送达",
     stock: 47,
   },
   {
@@ -415,8 +415,8 @@ export const PRODUCTS: Product[] = [
       "高性能跑鞋，浮动鞋底设计带来更强回弹。工程网面透气舒适，反光细节提升夜跑可视性。",
     specs: { Upper: "Engineered mesh", Sole: "Split rubber pod outsole", Drop: "8mm heel-to-toe", Weight: "8.2 oz (men's 9)", Reflective: "Yes" },
     seller: { name: "PaceMax Official", rating: 4.9, sales: "78k sales", responseTime: "< 1 hour", avatar: "PM" },
-    shipping: "Free shipping · Est. delivery Aug 26–Sep 1",
-    shippingZh: "包邮 · 预计 8/26–9/1 送达",
+    shipping: "Free shipping Est. delivery Aug 26 Sep 1",
+    shippingZh: "包邮 预计 8/26 9/1 送达",
     stock: 389,
   },
   {
@@ -442,8 +442,8 @@ export const PRODUCTS: Product[] = [
       "高质感硬壳 A5 手账本，160 页横线内页，平摊装订书写更舒适。附 6 个金色夹子与 2 条丝带书签。天鹅绒触感封面，紫水晶色更高级。",
     specs: { Size: "A5 (5.5 x 8.5 in)", Pages: "160 ruled pages", Cover: "Hardcover, velvet-touch", Extras: "6 gold clips, 2 bookmarks", Paper: "80gsm cream" },
     seller: { name: "WriteMore Stationery", rating: 4.9, sales: "178k sales", responseTime: "< 2 hours", avatar: "WM" },
-    shipping: "Free shipping · Est. delivery Aug 24–Aug 29",
-    shippingZh: "包邮 · 预计 8/24–8/29 送达",
+    shipping: "Free shipping Est. delivery Aug 24 Aug 29",
+    shippingZh: "包邮 预计 8/24 8/29 送达",
     stock: 1847,
   },
   {
@@ -468,8 +468,8 @@ export const PRODUCTS: Product[] = [
       "落地式挂衣架，挂杆可调节，下层置物架可放鞋包，侧边挂钩收纳配件。喷粉钢架更耐用，承重可达 50kg，适合卧室与玄关。",
     specs: { Dimensions: "47W x 20D x 67H inches", Material: "Steel", "Weight Capacity": "110 lbs", Assembly: "Required", Wheels: "4 locking casters" },
     seller: { name: "HomeOrganize Co.", rating: 4.5, sales: "22k sales", responseTime: "< 4 hours", avatar: "HO" },
-    shipping: "Free shipping · Est. delivery Aug 30–Sep 6",
-    shippingZh: "包邮 · 预计 8/30–9/6 送达",
+    shipping: "Free shipping Est. delivery Aug 30 Sep 6",
+    shippingZh: "包邮 预计 8/30 9/6 送达",
     stock: 5,
   },
 ];
@@ -512,3 +512,4 @@ export const SUBCATEGORIES = [
   { label: "Bags", img: "https://images.unsplash.com/photo-1511556820780-d912e42b4980?w=80&h=80&fit=crop", hot: true },
   { label: "Storage", img: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=80&h=80&fit=crop", hot: false },
 ];
+

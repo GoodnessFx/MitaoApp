@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import { useCartCount } from "./shared";
 import { CATEGORIES, SUBCATEGORIES } from "../data/products";
@@ -296,7 +296,7 @@ export default function Header() {
                 </div>
               </Link>
 
-              <nav className="flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] overflow-x-auto no-scrollbar">
+              <nav className="flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex-wrap">
             <Link to="/best-selling" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Best Sellers</Link>
             <Link to="/top-rated" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Top Rated</Link>
             <Link to="/new-in" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
@@ -409,7 +409,7 @@ export default function Header() {
                     >
                       <span className="flex items-center gap-2">
                         <span className="text-base">🇨🇳</span>
-                        <span className="text-sm font-semibold">中文 · Yuán</span>
+                        <span className="text-sm font-semibold">中文 Yuán</span>
                       </span>
                       <span className="text-xs text-gray-500">¥ CNY (default)</span>
                     </button>
@@ -475,3 +475,4 @@ export default function Header() {
     </header>
   );
 }
+
