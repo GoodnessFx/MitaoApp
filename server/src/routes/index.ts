@@ -7,6 +7,7 @@ import { paymentRoutes } from './payments.routes';
 import { userRoutes } from './user.routes';
 import { adminRoutes } from './admin.routes';
 import oneboundRoutes from './onebound.routes';
+import cjRoutes from './cj.routes';
 
 export const apiRouter = Router();
 
@@ -18,3 +19,4 @@ apiRouter.use('/payments', paymentRoutes);
 apiRouter.use('/user', userRoutes);
 apiRouter.use('/admin', adminRoutes);
 apiRouter.use('/onebound', oneboundRoutes);
+apiRouter.use('/cj', cjRoutes);

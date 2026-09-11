@@ -261,22 +261,29 @@ function mapBackendProductToLocal(product: any): Product {
 
 async function hydrateCatalogFromApi() {
   if (typeof window === "undefined") return;
-
+  try {
+    const cjRes = await fetch(`${API_BASE_URL}/cj/live?limit=20`);
+    if (cjRes.ok) {
+      const cjJson: any = await cjRes.json().catch(() => null);
+      const cjItems = Array.isArray(cjJson?.data) ? cjJson.data : [];
+      if (cjItems.length) {
+        importedProducts = cjItems.map(mapBackendProductToLocal);
+        persist();
+        notify();
+        return;
+      }
+    }
+  } catch {}
   try {
     const response = await fetch(`${API_BASE_URL}/products?limit=200`);
     if (!response.ok) return;
-
     const payload = await response.json();
     const items = Array.isArray(payload?.data) ? payload.data : Array.isArray(payload) ? payload : [];
-
     if (!items.length) return;
-
     importedProducts = items.map(mapBackendProductToLocal);
     persist();
     notify();
-  } catch {
-    // Ignore API outages; we keep the local fallback catalog.
-  }
+  } catch {}
 }
 
 if (typeof window !== "undefined") {
