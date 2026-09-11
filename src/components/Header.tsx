@@ -282,42 +282,30 @@ export default function Header() {
         </div>
       )}
       <div className="bg-[#08152a]/98 backdrop-blur-md border-b border-white/8 shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
-        <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-3">
-          <div className="flex flex-wrap items-center gap-3">
-              <div className="flex min-w-0 items-center gap-2 lg:gap-5 order-1 flex-1 lg:flex-initial">
-              <Link to="/" className="flex min-w-0 items-center gap-2.5 flex-shrink-0">
-                <img
-                  src={brandLogoUrl}
-                  alt="Mitao"
-                  className="h-11 w-11 object-contain rounded-lg shadow-[0_12px_28px_rgba(2,6,23,0.22)] border border-white/8"
-                />
-                <div className="min-w-0">
-                  <span className="font-outfit block truncate font-black text-white text-lg sm:text-xl tracking-tight">Mitao</span>
-                </div>
-              </Link>
+        <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-2.5 lg:py-3">
+          <div className="flex flex-wrap items-center gap-2 lg:gap-3">
+            <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 order-1">
+              <img src={brandLogoUrl} alt="Mitao" className="h-9 w-9 lg:h-11 lg:w-11 object-contain rounded-lg shadow-[0_12px_28px_rgba(2,6,23,0.22)] border border-white/8" />
+              <span className="font-outfit font-black text-white text-[18px] lg:text-xl tracking-tight">Mitao</span>
+            </Link>
 
-              <nav className="flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] flex-wrap">
-            <Link to="/best-selling" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Best Sellers</Link>
-            <Link to="/top-rated" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Top Rated</Link>
-            <Link to="/new-in" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
-            <Link to="/import/1688" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap border border-[#F97316]/40 bg-[#F97316]/10">Import from 1688</Link>
-            <div className="relative" onMouseEnter={() => setShowMega(true)} onMouseLeave={() => setShowMega(false)}>
-              <button className={`text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 whitespace-nowrap ${
-                showMega ? "bg-white/14 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]" : "hover:bg-white/10"
-              }`}>
-                Categories
-                <span className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
-                  showMega ? "border-white/15 bg-white/10" : "border-white/10 bg-white/5"
-                }`}>
-                  <svg className={`w-3 h-3 transition-transform ${showMega ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                </span>
-              </button>
-              {showMega && <MegaMenu onClose={() => setShowMega(false)} />}
-            </div>
-              </nav>
-            </div>
+            <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 order-2 ml-4">
+              <Link to="/best-selling" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap">Best Sellers</Link>
+              <Link to="/top-rated" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap">Top Rated</Link>
+              <Link to="/new-in" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap">New In</Link>
+              <Link to="/import/1688" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 whitespace-nowrap border border-[#F97316]/40 bg-[#F97316]/10">Import from 1688</Link>
+              <div className="relative" onMouseEnter={() => setShowMega(true)} onMouseLeave={() => setShowMega(false)}>
+                <button className={`text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full flex items-center gap-1 whitespace-nowrap ${showMega ? "bg-white/14 text-white" : "hover:bg-white/10"}`}>
+                  Categories
+                  <span className={`flex h-5 w-5 items-center justify-center rounded-full border ${showMega ? "border-white/15 bg-white/10" : "border-white/10 bg-white/5"}`}>
+                    <svg className={`w-3 h-3 transition-transform ${showMega ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </span>
+                </button>
+                {showMega && <MegaMenu onClose={() => setShowMega(false)} />}
+              </div>
+            </nav>
 
-            <form onSubmit={handleSearch} className="flex w-full lg:flex-1 lg:max-w-[640px] lg:mx-6 lg:min-w-[320px] order-3 lg:order-2">
+            <form onSubmit={handleSearch} className="flex w-full lg:flex-1 lg:max-w-[520px] lg:mx-6 order-3 lg:order-3">
               <div className="flex items-center flex-1 rounded-[22px] border border-white/12 bg-white shadow-[0_16px_34px_rgba(3,7,18,0.16)] overflow-hidden ring-1 ring-black/3">
                 <input
                   type="text"
@@ -464,11 +452,13 @@ export default function Header() {
               <span className="text-xs">{language === "zh" ? "安装" : "Install"}</span>
             </button>
             </div>
-            <Link to="/import/1688" className="lg:hidden flex h-10 items-center gap-1.5 rounded-xl border border-[#F97316]/30 bg-[#F97316]/15 px-3 text-white shadow-sm transition-colors hover:bg-[#F97316]/25" title="Import from 1688">
-              <svg className="w-4 h-4 text-[#F97316]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.9}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
-              <span className="text-xs font-semibold hidden sm:inline">Import 1688</span>
-              <span className="text-xs font-semibold sm:hidden">Import</span>
-            </Link>
+          </div>
+          <div className="flex lg:hidden w-full order-4 mt-1 overflow-x-auto no-scrollbar gap-1.5 pb-1">
+            <Link to="/best-selling" className="text-white/90 text-xs px-3 py-1.5 rounded-full bg-white/10 whitespace-nowrap border border-white/10">Best Sellers</Link>
+            <Link to="/top-rated" className="text-white/90 text-xs px-3 py-1.5 rounded-full bg-white/10 whitespace-nowrap border border-white/10">Top Rated</Link>
+            <Link to="/new-in" className="text-white/90 text-xs px-3 py-1.5 rounded-full bg-white/10 whitespace-nowrap border border-white/10">New In</Link>
+            <Link to="/import/1688" className="text-white text-xs px-3 py-1.5 rounded-full bg-[#F97316]/20 whitespace-nowrap border border-[#F97316]/40">Import 1688</Link>
+            <Link to="/categories" className="text-white/90 text-xs px-3 py-1.5 rounded-full bg-white/10 whitespace-nowrap border border-white/10 flex items-center gap-1">Categories <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/></svg></Link>
           </div>
         </div>
       </div>

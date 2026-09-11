@@ -90,8 +90,9 @@ export default function Checkout() {
       setPaymentError(init.message || 'Payment provider is not configured yet.');
     } catch (error: any) {
       const msg = error?.message || "";
-      if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || msg.includes("fetch")) {
-        setPaymentError("Unable to reach payment server Please check your connection and try again If this persists check that VITE_API_BASE_URL is set correctly");
+      const status = error?.status;
+      if (status === 404 || msg.toLowerCase().includes("route not found") || msg.includes("Failed to fetch") || msg.includes("NetworkError")) {
+        setPaymentError("Backend not reachable at " + (import.meta as any).env?.VITE_API_BASE_URL + " Ensure PXXL backend is deployed and VITE_API_BASE_URL points to it");
       } else {
         setPaymentError(msg || 'Unable to start hosted checkout.');
       }
@@ -167,8 +168,7 @@ export default function Checkout() {
                     </button>
                   ))}
                 </div>
-                {paymentError && <div className="bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl p-3 mb-4">{paymentError}</div>}
-                <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-4 text-xs text-amber-800">You need to fill shipping details before paying. You can view payment options without filling, but Pay will be blocked until required fields are valid.</div>
+                {paymentError && <div className="bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl p-3 mb-4">{paymentError.includes("route not found") ? "Payment backend not reachable at this URL Please check VITE_API_BASE_URL and ensure backend is deployed on PXXL" : paymentError}</div>}
                 <div className="flex gap-3">
                   <button onClick={() => setStep("info")} className="px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>
                   <button onClick={handleHostedCheckout} disabled={isSubmitting} className="flex-1 bg-[#F97316] hover:bg-[#EA580C] disabled:opacity-40 text-white font-outfit font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
