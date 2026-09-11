@@ -262,7 +262,7 @@ function mapBackendProductToLocal(product: any): Product {
 async function hydrateCatalogFromApi() {
   if (typeof window === "undefined") return;
   try {
-    const cjRes = await fetch(`${API_BASE_URL}/cj/live?limit=20`);
+    const cjRes = await fetch(`${API_BASE_URL}/cj/live?limit=80`);
     if (cjRes.ok) {
       const cjJson: any = await cjRes.json().catch(() => null);
       const cjItems = Array.isArray(cjJson?.data) ? cjJson.data : [];

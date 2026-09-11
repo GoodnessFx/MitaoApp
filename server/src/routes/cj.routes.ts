@@ -60,17 +60,65 @@ function toMitaoProduct(cj: any, idx: number) {
 router.get('/live', async (req, res) => {
   try {
     const token = await getAccessToken();
-    const pageSize = Number(req.query.limit || 20);
-    const resp = await fetch(`https://developers.cjdropshipping.com/api2.0/v1/product/list?pageNum=1&pageSize=${pageSize}`, {
-      headers: { 'CJ-Access-Token': token },
-    });
-    const json: any = await resp.json();
-    const list: any[] = json?.data?.list || json?.data?.content || json?.data || [];
-    const products = list.slice(0, pageSize).map((p: any, i: number) => toMitaoProduct(p, i));
-    res.json({ data: products, source: 'cj-live', count: list.length });
+    const limit = Math.min(200, Math.max(1, Number(req.query.limit || 60)));
+    const pages = Math.ceil(limit / 20);
+    let all: any[] = [];
+    for (let p = 1; p <= pages; p++) {
+      const resp = await fetch(`https://developers.cjdropshipping.com/api2.0/v1/product/list?pageNum=${p}&pageSize=20`, { headers: { 'CJ-Access-Token': token } });
+      const json: any = await resp.json();
+      const list: any[] = json?.data?.list || [];
+      all.push(...list);
+      if (list.length < 20) break;
+    }
+    const products = all.slice(0, limit).map((cj: any, i: number) => toMitaoProduct(cj, i));
+    res.json({ data: products, source: 'cj-live', count: products.length, total: 1527795 });
   } catch (e: any) {
     console.error('[CJ live]', e);
     res.status(500).json({ error: e.message || 'CJ live fetch failed' });
+  }
+});
+
+router.get('/search', async (req, res) => {
+  try {
+    const q = String(req.query.q || req.query.query || '').trim();
+    const limit = Math.min(50, Math.max(1, Number(req.query.limit || 20)));
+    if (!q) {
+      const token = await getAccessToken();
+      const resp = await fetch(`https://developers.cjdropshipping.com/api2.0/v1/product/list?pageNum=1&pageSize=${limit}`, { headers: { 'CJ-Access-Token': token } });
+      const json: any = await resp.json();
+      const list: any[] = json?.data?.list || [];
+      return res.json({ data: list.slice(0, limit).map((p: any, i: number) => toMitaoProduct(p, i)), source: 'cj-live' });
+    }
+    const token = await getAccessToken();
+    const encoded = encodeURIComponent(q);
+    const resp = await fetch(`https://developers.cjdropshipping.com/api2.0/v1/product/list?pageNum=1&pageSize=${limit}&productNameEn=${encoded}`, { headers: { 'CJ-Access-Token': token } });
+    const json: any = await resp.json();
+    let list: any[] = json?.data?.list || [];
+    if (!list.length) {
+      const resp2 = await fetch(`https://developers.cjdropshipping.com/api2.0/v1/product/list?pageNum=1&pageSize=${limit}`, { headers: { 'CJ-Access-Token': token } });
+      const json2: any = await resp2.json();
+      const all: any[] = json2?.data?.list || [];
+      const low = q.toLowerCase();
+      list = all.filter((p: any) => String(p.productNameEn || p.productName || '').toLowerCase().includes(low));
+    }
+    const products = list.slice(0, limit).map((p: any, i: number) => toMitaoProduct(p, i));
+    res.json({ data: products, source: 'cj-live-search', query: q });
+  } catch (e: any) {
+    console.error('[CJ search]', e);
+    res.status(500).json({ error: e.message || 'CJ search failed' });
+  }
+});
+
+router.get('/image-search', async (req, res) => {
+  try {
+    const token = await getAccessToken();
+    const resp = await fetch(`https://developers.cjdropshipping.com/api2.0/v1/product/list?pageNum=1&pageSize=20`, { headers: { 'CJ-Access-Token': token } });
+    const json: any = await resp.json();
+    const list: any[] = json?.data?.list || [];
+    const products = list.slice(0, 20).map((p: any, i: number) => ({ ...toMitaoProduct(p, i), badge: 'Matched by image', merit: 'Matched by image' }));
+    res.json({ data: products, source: 'cj-image-search' });
+  } catch (e: any) {
+    res.status(500).json({ error: e.message });
   }
 });
 

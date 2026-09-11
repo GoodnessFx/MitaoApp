@@ -78,7 +78,7 @@ export default function Search() {
     if (isImageMode || !q.trim()) { setRemoteResults(null); return; }
     const ctrl = new AbortController();
     setRemoteLoading(true);
-    fetch(`${API_BASE}/onebound/search?q=${encodeURIComponent(q)}`, { signal: ctrl.signal })
+    fetch(`${API_BASE}/cj/search?q=${encodeURIComponent(q)}&limit=30`, { signal: ctrl.signal })
       .then(r => r.json().then(j => ({ ok: r.ok, j })))
       .then(({ ok, j }) => {
         if (!ok) throw new Error(j?.error || "search failed");
@@ -86,7 +86,19 @@ export default function Search() {
         if (items.length) { setRemoteResults(items); setRemoteDemo(!!j?.demo); }
         else setRemoteResults(null);
       })
-      .catch(() => setRemoteResults(null))
+      .catch(() => {
+        fetch(`${API_BASE}/onebound/search?q=${encodeURIComponent(q)}`, { signal: ctrl.signal })
+          .then(r => r.json().then(j => ({ ok: r.ok, j })))
+          .then(({ ok, j }) => {
+            if (!ok) throw new Error();
+            const items = Array.isArray(j?.data) ? j.data : [];
+            if (items.length) { setRemoteResults(items); setRemoteDemo(!!j?.demo); }
+            else setRemoteResults(null);
+          })
+          .catch(() => setRemoteResults(null))
+          .finally(() => setRemoteLoading(false));
+        return;
+      })
       .finally(() => setRemoteLoading(false));
     return () => ctrl.abort();
   }, [q, isImageMode]);
