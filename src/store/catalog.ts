@@ -281,7 +281,7 @@ async function hydrateCatalogFromApi() {
       const cjJson: any = await cjRes.json().catch(() => null);
       const cjItems = Array.isArray(cjJson?.data) ? cjJson.data : [];
       if (cjItems.length >= 20) {
-        const remaining = 10000 - cjItems.length;
+        const remaining = 50000 - cjItems.length;
         const extra = remaining > 0 ? generateBulkFallback(remaining) : [];
         importedProducts = [...cjItems.map(mapBackendProductToLocal), ...extra];
         persist();
@@ -298,7 +298,7 @@ async function hydrateCatalogFromApi() {
       if (items.length >= 20) { importedProducts = items.map(mapBackendProductToLocal); persist(); notify(); return; }
     }
   } catch {}
-  importedProducts = generateBulkFallback(20000);
+  importedProducts = generateBulkFallback(50000);
   persist();
   notify();
 }
