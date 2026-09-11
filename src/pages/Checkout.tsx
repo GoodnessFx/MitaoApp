@@ -166,37 +166,34 @@ export default function Checkout() {
 
             {step === "payment" && (
               <div className="bg-white rounded-xl p-6">
-                <h2 className="font-outfit font-bold text-xl text-gray-900 mb-5">Payment</h2>
-                <div className="flex gap-3 mb-5">
-                  {["💳 Card","🍎 Apple Pay","🔵 PayPal"].map((m)=>(
-                    <button key={m} className={`flex-1 py-2.5 border rounded-lg text-sm transition-colors ${m.includes("Card") ? "border-[#0A1931] bg-blue-50 text-[#0A1931] font-semibold" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>{m}</button>
+                <h2 className="font-outfit font-bold text-xl text-gray-900 mb-2">Payment</h2>
+                <p className="text-xs text-gray-500 mb-5">Choose Paystack or Flutterwave. You will be redirected to complete payment, then return automatically. Payment must succeed before order is confirmed.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                  {[
+                    { id: "paystack", name: "Paystack", desc: "Card, Bank, USSD, Mobile Money", icon: "M12 2.5A9.5 9.5 0 1021.5 12 9.5 9.5 0 0012 2.5zm0 17A7.5 7.5 0 1119.5 12 7.5 7.5 0 0112 19.5zM11 7h2v6h-2zm0 8h2v2h-2z" },
+                    { id: "flutterwave", name: "Flutterwave", desc: "Card, Barter, Bank Transfer", icon: "M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8zm-1-9h2v6h-2zm1-4a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z" },
+                  ].map((p) => (
+                    <button key={p.id} onClick={() => setSelectedProvider(p.id as any)} className={`text-left p-4 border rounded-xl transition-colors flex gap-3 items-start ${selectedProvider === p.id ? "border-[#0A1931] bg-blue-50" : "border-gray-200 hover:border-gray-300 bg-white"}`}>
+                      <svg className={`w-6 h-6 flex-shrink-0 ${selectedProvider === p.id ? "text-[#0A1931]" : "text-gray-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d={p.icon} /></svg>
+                      <div className="flex-1">
+                        <p className={`text-sm font-semibold ${selectedProvider === p.id ? "text-[#0A1931]" : "text-gray-800"}`}>{p.name}</p>
+                        <p className="text-xs text-gray-500">{p.desc}</p>
+                        <p className="text-[11px] text-gray-400 mt-1">Amount: {formatCurrency(subtotal, currency)}</p>
+                      </div>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selectedProvider === p.id ? "border-[#0A1931] bg-[#0A1931]" : "border-gray-300"}`}>{selectedProvider === p.id && <span className="w-2 h-2 bg-white rounded-full" />}</div>
+                    </button>
                   ))}
                 </div>
-                <div className="flex flex-col gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Card number</label>
-                    <input type="text" placeholder="1234 5678 9012 3456" value={form.card} onChange={(e) => setForm((f) => ({ ...f, card: e.target.value }))}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Expiry date</label>
-                      <input type="text" placeholder="MM / YY" value={form.expiry} onChange={(e) => setForm((f) => ({ ...f, expiry: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">CVV</label>
-                      <input type="text" placeholder="123" value={form.cvv} onChange={(e) => setForm((f) => ({ ...f, cvv: e.target.value }))}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-3 mt-6">
+                {paymentError && <div className="bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl p-3 mb-4">{paymentError}</div>}
+                <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-4 text-xs text-amber-800">You need to fill shipping details before paying. You can view payment options without filling, but Pay will be blocked until required fields are valid.</div>
+                <div className="flex gap-3">
                   <button onClick={() => setStep("info")} className="px-6 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors">Back</button>
-                  <button onClick={() => setStep("confirm")} className="flex-1 bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold py-3 rounded-xl transition-colors">
-                    Review Order
+                  <button onClick={handleHostedCheckout} disabled={isSubmitting} className="flex-1 bg-[#F97316] hover:bg-[#EA580C] disabled:opacity-40 text-white font-outfit font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+                    {isSubmitting ? <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> : <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>}
+                    {isSubmitting ? "Redirecting..." : `Pay ${formatCurrency(subtotal, currency)} with ${selectedProvider === "paystack" ? "Paystack" : "Flutterwave"}`}
                   </button>
                 </div>
+                <p className="text-[11px] text-gray-400 mt-3 text-center">Secure redirect — do not close before payment completes. Webhook will confirm order.</p>
               </div>
             )}
 

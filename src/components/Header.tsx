@@ -284,7 +284,7 @@ export default function Header() {
       <div className="bg-[#08152a]/98 backdrop-blur-md border-b border-white/8 shadow-[0_16px_40px_rgba(0,0,0,0.22)]">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-3">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex min-w-0 items-center gap-3 lg:gap-5 order-1">
+              <div className="flex min-w-0 items-center gap-2 lg:gap-5 order-1 flex-1 lg:flex-initial">
               <Link to="/" className="flex min-w-0 items-center gap-2.5 flex-shrink-0">
                 <img
                   src={brandLogoUrl}
@@ -293,13 +293,10 @@ export default function Header() {
                 />
                 <div className="min-w-0">
                   <span className="font-outfit block truncate font-black text-white text-lg sm:text-xl tracking-tight">Mitao</span>
-                  <span className="hidden xl:block text-[11px] text-white/55 leading-none whitespace-nowrap">
-                    {language === "zh" ? "1688 采购与跨境交付" : "1688 sourcing and delivery"}
-                  </span>
                 </div>
               </Link>
 
-              <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+              <nav className="flex items-center gap-1 rounded-full border border-white/8 bg-white/[0.04] px-1.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] overflow-x-auto no-scrollbar">
             <Link to="/best-selling" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Best Sellers</Link>
             <Link to="/top-rated" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">Top Rated</Link>
             <Link to="/new-in" className="text-white/88 hover:text-white text-[13px] px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors whitespace-nowrap">New In</Link>
