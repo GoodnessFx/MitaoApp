@@ -6,14 +6,14 @@ import ProductCard from "../components/ProductCard";
 function PolicyLayout({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-[#0A1931] text-white py-10 px-6">
+      <div className="bg-[#0A1931] text-white py-10 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <h1 className="font-outfit font-black text-3xl">{title}</h1>
           <p className="text-blue-200 text-sm mt-1">Last updated: September 2026</p>
         </div>
       </div>
-      <div className="max-w-3xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-2xl p-8">{children}</div>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+        <div className="bg-white rounded-2xl p-5 sm:p-8">{children}</div>
       </div>
     </div>
   );
@@ -140,7 +140,7 @@ export function Support() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
-      <div className="bg-[#0A1931] text-white py-10 px-6">
+      <div className="bg-[#0A1931] text-white py-10 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <h1 className="font-outfit font-black text-3xl mb-2">Support Center</h1>
           <p className="text-blue-200 text-sm mb-4">Find answers fast or chat with our team.</p>
@@ -151,7 +151,7 @@ export function Support() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-6 py-8">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
             { label: "Track order", path: "/orders", icon: <svg className="w-6 h-6 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M9 17a3 3 0 11-6 0 3 3 0 016 0zM21 17a3 3 0 11-6 0 3 3 0 016 0zM13 8V6a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1h-1M3 8h8v9a1 1 0 01-1 1H5a2 2 0 01-2-2V8z" /></svg> },

@@ -36,7 +36,7 @@ export default function Categories() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
       {/* Hero */}
-      <div className="bg-[#0A1931] text-white py-8 px-6">
+      <div className="bg-[#0A1931] text-white py-8 px-4 sm:px-6">
         <div className="max-w-screen-xl mx-auto">
           <h1 className="font-outfit font-black text-3xl mb-1">{language === "zh" ? "按分类选购" : "Shop by Category"}</h1>
           <p className="text-blue-200 text-sm">{language === "zh" ? "探索海量精选商品，超值好价" : "Explore thousands of products at unbeatable prices"}</p>
@@ -86,7 +86,7 @@ export default function Categories() {
 
         {/* Main */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
             <div>
               <h2 className="font-outfit font-bold text-gray-900">
                 {selected === "All"

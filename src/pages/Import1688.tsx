@@ -42,7 +42,7 @@ export default function Import1688() {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
       <div className="max-w-screen-xl mx-auto px-4 py-6">
-        <div className="flex items-center gap-2 mb-6">
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
           <div className="w-1 h-6 bg-[#F97316] rounded-full" />
           <h1 className="font-outfit font-black text-2xl text-gray-900">Import from 1688</h1>
           <span className="text-gray-400 text-sm ml-1">Shop 1688 inside Mitao, the clean way</span>

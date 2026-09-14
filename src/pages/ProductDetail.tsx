@@ -222,15 +222,15 @@ export default function ProductDetail() {
         </div>
 
         <div className="bg-white rounded-xl p-5 mb-6 border border-gray-100">
-          <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
             <div>
               <p className="font-outfit font-bold text-gray-900 flex items-center gap-2">Supplier details {product.seller.verified !== false ? <span className="inline-flex items-center gap-1 bg-green-50 text-green-700 border border-green-200 text-[10px] font-bold px-2 py-0.5 rounded-full"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Verified</span> : <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-bold px-2 py-0.5 rounded-full">Unverified lower priority</span>}</p>
               <p className="text-sm font-semibold text-[#0A1931] mt-1">{product.seller.name}</p>
               <p className="text-xs text-gray-500 flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{product.seller.location || "China 1688 verified supplier"}</p>
               {product.seller.verified === false && <p className="text-xs text-amber-600 mt-1">Mitao filters unreliable suppliers and prioritizes verified ones. This listing is deprioritized.</p>}
             </div>
-            <div className="text-right">
-              <div className="flex items-center gap-1 justify-end"><Stars rating={product.seller.rating} /><span className="text-sm font-semibold text-gray-900">{product.seller.rating.toFixed(1)}</span></div>
+            <div className="sm:text-right text-left">
+              <div className="flex items-center gap-1 justify-start sm:justify-end"><Stars rating={product.seller.rating} /><span className="text-sm font-semibold text-gray-900">{product.seller.rating.toFixed(1)}</span></div>
               <p className="text-xs text-gray-500">{product.seller.sales} Response {product.seller.responseTime}</p>
               <p className="text-[11px] text-gray-400 mt-1">Price shown in {currency === "CNY" ? "¥ Yuan (default)" : currency} switch in header</p>
             </div>
@@ -293,9 +293,9 @@ export default function ProductDetail() {
             )}
             {activeTab === "reviews" && (
               <div>
-                <div className="flex items-center gap-6 mb-6 p-4 bg-gray-50 rounded-xl">
-                  <div className="text-center">
-                    <p className="font-outfit font-black text-5xl text-[#0A1931]">{product.rating}</p>
+                <div className="flex items-center gap-4 sm:gap-6 mb-6 p-4 bg-gray-50 rounded-xl">
+                  <div className="text-center flex-shrink-0">
+                    <p className="font-outfit font-black text-4xl sm:text-5xl text-[#0A1931]">{product.rating}</p>
                     <Stars rating={product.rating} size="md" />
                     <p className="text-xs text-gray-500 mt-1">{product.reviews.toLocaleString()} reviews</p>
                   </div>

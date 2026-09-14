@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold font-outfit text-gray-900 mb-8">Admin Dashboard</h1>
         

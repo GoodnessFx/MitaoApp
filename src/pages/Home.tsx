@@ -48,7 +48,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[#061021]/65" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#061021]/92 via-[#0A1931]/65 to-transparent" />
         </div>
-        <div className="relative max-w-screen-xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="max-w-xl">
             <p className="text-orange-300 text-sm font-semibold mb-2 font-outfit tracking-wide uppercase">Limited Time Offer</p>
             <h1 className="font-outfit font-black text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-3">
@@ -133,7 +133,7 @@ export default function Home() {
 
       {/* Cookie banner */}
       {!cookieDismissed && (
-        <div className="cookie-banner fixed bottom-4 left-4 z-50 bg-white rounded-xl shadow-2xl p-5 max-w-sm border border-gray-100">
+        <div className="cookie-banner fixed bottom-4 left-4 right-4 sm:right-auto z-50 bg-white rounded-xl shadow-2xl p-5 max-w-sm border border-gray-100">
           <h3 className="font-outfit font-bold text-gray-900 text-sm mb-2">Privacy & cookie setting</h3>
           <p className="text-xs text-gray-600 leading-relaxed mb-4">
             We use cookies to improve your experience, personalize content and ads. By clicking "Accept All", you agree to our{" "}

@@ -12,12 +12,13 @@ export default function AdminOrders() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold font-outfit text-gray-900 mb-8">Order Management</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold font-outfit text-gray-900 mb-8">Order Management</h1>
         
-        <div className="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order No.</th>
@@ -53,6 +54,7 @@ export default function AdminOrders() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

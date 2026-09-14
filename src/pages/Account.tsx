@@ -15,17 +15,17 @@ export default function Account() {
     <div className="min-h-screen bg-[#F5F5F5]">
       <div className="max-w-screen-xl mx-auto px-4 py-6">
         {/* Profile card */}
-        <div className="bg-gradient-to-r from-[#0A1931] to-[#3B82F6] rounded-2xl p-6 mb-6 flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-white font-outfit font-black text-2xl">J</div>
-          <div>
+        <div className="bg-gradient-to-r from-[#0A1931] to-[#3B82F6] rounded-2xl p-6 mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-white font-outfit font-black text-2xl flex-shrink-0">J</div>
+          <div className="flex-1 min-w-0">
             <p className="font-outfit font-black text-white text-xl">Jamie Chen</p>
-            <p className="text-blue-200 text-sm">jamie.chen@gmail.com</p>
-            <div className="flex gap-3 mt-2">
+            <p className="text-blue-200 text-sm truncate">jamie.chen@gmail.com</p>
+            <div className="flex gap-3 mt-2 flex-wrap">
               <span className="text-xs bg-white/20 text-white px-3 py-1 rounded-full">3 orders</span>
               <span className="text-xs bg-white/20 text-white px-3 py-1 rounded-full">Gold member</span>
             </div>
           </div>
-          <button className="ml-auto bg-white/20 hover:bg-white/30 text-white text-sm px-4 py-2 rounded-lg transition-colors">Edit profile</button>
+          <button className="sm:ml-auto w-full sm:w-auto bg-white/20 hover:bg-white/30 text-white text-sm px-4 py-2 rounded-lg transition-colors">Edit profile</button>
         </div>
 
         {/* Stats */}

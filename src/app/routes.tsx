@@ -33,7 +33,7 @@ function Root() {
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Header />
-      <div className="pt-[132px] md:pt-[76px] flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col">
         <Outlet />
       </div>
       <Footer />

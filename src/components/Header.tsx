@@ -112,7 +112,7 @@ function SupportDropdown({ onClose }: { onClose: () => void }) {
     { label: "Terms of use", path: "/terms", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
   ];
   return (
-    <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50">
+    <div className="absolute top-full right-0 mt-2 w-56 max-w-[calc(100vw-1rem)] bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50">
       {items.map((item) => (
         <button key={item.label} onClick={() => { navigate(item.path); onClose(); }}
           className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
@@ -132,7 +132,7 @@ function SignInPopover({ onClose }: { onClose: () => void }) {
 
   if (showGoogle) {
     return (
-      <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
+      <div className="absolute top-full right-0 mt-2 w-80 max-w-[calc(100vw-1rem)] bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -172,7 +172,7 @@ function SignInPopover({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 p-5 z-50">
+    <div className="absolute top-full right-0 mt-2 w-72 max-w-[calc(100vw-1rem)] bg-white rounded-xl shadow-2xl border border-gray-100 p-5 z-50">
       <h3 className="font-outfit font-bold text-gray-900 text-base mb-4 text-center">Sign in for the best experience</h3>
       <button onClick={() => setShowGoogle(true)}
         className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2.5 px-4 text-sm font-medium text-gray-800 hover:bg-gray-50 transition-colors mb-3">
@@ -203,7 +203,6 @@ export default function Header() {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [showLocale, setShowLocale] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const signInRef = useRef<HTMLDivElement>(null);
@@ -214,11 +213,6 @@ export default function Header() {
   const { language, currency, setLanguage, setCurrency, applyLanguageToDom } = useLocaleStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageLoading, setImageLoading] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -257,30 +251,29 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-30">
-      {!scrolled && (
-        <div className="hidden md:block bg-[#111111] text-xs py-2 px-4">
-          <div className="max-w-screen-xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-green-400">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
-              Free shipping on all orders &nbsp;/&nbsp; Limited-time offer
-            </div>
-            <div className="hidden md:flex items-center gap-1.5 text-gray-300">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" /></svg>
-              Return within 90 days &nbsp;/&nbsp; Delivery guarantee
-            </div>
-            <button
-              type="button"
-              onClick={() => window.dispatchEvent(new Event("mitao:open-install"))}
-              className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors"
-              aria-label="Install MitaoApp"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-              {language === "zh" ? "安装 MitaoApp" : "Get the Mitao App"}
-            </button>
+    <>
+      <div className="hidden md:block bg-[#111111] text-xs py-2 px-4">
+        <div className="max-w-screen-xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-1.5 text-green-400">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
+            Free shipping on all orders &nbsp;/&nbsp; Limited-time offer
           </div>
+          <div className="hidden md:flex items-center gap-1.5 text-gray-300">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" /></svg>
+            Return within 90 days &nbsp;/&nbsp; Delivery guarantee
+          </div>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("mitao:open-install"))}
+            className="flex items-center gap-1.5 text-gray-300 hover:text-white transition-colors"
+            aria-label="Install MitaoApp"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+            {language === "zh" ? "安装 MitaoApp" : "Get the Mitao App"}
+          </button>
         </div>
-      )}
+      </div>
+      <header className="sticky top-0 left-0 right-0 z-30">
       <div className="bg-[#08152a] border-b border-white/10">
         <div className="max-w-screen-xl mx-auto px-3 sm:px-4 py-2 lg:py-2.5">
           <div className="flex flex-wrap items-center gap-2">
@@ -345,13 +338,13 @@ export default function Header() {
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event("mitao:open-install"))}
-              className="inline-flex md:hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/8 px-3 py-2 text-[11px] font-semibold text-white shadow-sm transition-colors hover:bg-white/14"
+              className="inline-flex md:hidden items-center gap-1.5 rounded-xl border border-white/10 bg-white/8 px-2.5 sm:px-3 py-2 text-[11px] font-semibold text-white shadow-sm transition-colors hover:bg-white/14"
               aria-label="Install MitaoApp"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.9}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 12l-4-4m4 4l4-4M4 20h16" />
               </svg>
-              {language === "zh" ? "安装" : "Install"}
+              <span className="hidden sm:inline">{language === "zh" ? "安装" : "Install"}</span>
             </button>
 
             <div className="relative" ref={signInRef}>
@@ -383,7 +376,7 @@ export default function Header() {
               </button>
 
               {showLocale && (
-                <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                <div className="absolute top-full right-0 mt-2 w-64 max-w-[calc(100vw-1rem)] bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
                   <div className="px-4 py-3 border-b border-gray-100">
                     <p className="text-xs text-gray-500">{t("locale.title")}</p>
                     <p className="text-sm font-semibold text-gray-900">{t("locale.subtitle")}</p>
@@ -462,7 +455,8 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+      </header>
+      </>
   );
 }
 

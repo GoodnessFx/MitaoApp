@@ -141,8 +141,8 @@ export default function Search() {
               <p className="text-sm font-semibold text-gray-900">Import a 1688 product link</p>
               <p className="text-xs text-gray-400 mt-0.5">Paste a supplier link and shop it inside Mitao (cart, checkout, chat, and tracking stay in-app).</p>
             </div>
-            <div className="flex-1 flex gap-2">
-              <input value={importUrl} onChange={(e) => setImportUrl(e.target.value)} placeholder="https://detail.1688.com/offer/..." className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#0A1931]" />
+<div className="flex-[1.4] flex flex-col sm:flex-row gap-2">
+              <input value={importUrl} onChange={(e) => setImportUrl(e.target.value)} placeholder="https://detail.1688.com/offer/..." className="flex-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#0A1931] min-w-0" />
               <button onClick={() => { if (!importUrl.trim()) return; navigate(`/import/1688?url=${encodeURIComponent(importUrl.trim())}`); }} className="bg-[#0A1931] hover:bg-[#061021] text-white font-outfit font-bold px-4 py-2.5 rounded-xl transition-colors text-sm whitespace-nowrap">Import</button>
             </div>
           </div>

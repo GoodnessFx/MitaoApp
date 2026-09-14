@@ -74,7 +74,7 @@ export default function Orders() {
             const orderProducts = order.items.map(({ productId, qty }: any) => ({ product: catalogStore.getById(productId) || PRODUCTS.find((p) => p.id === productId), qty })).filter((x: any) => x.product);
             return (
               <div key={order.id} className="bg-white rounded-xl overflow-hidden">
-                <div className="flex items-center justify-between px-5 py-3 border-b border-gray-50 bg-gray-50/50">
+                <div className="flex items-start justify-between px-4 sm:px-5 py-3 border-b border-gray-50 bg-gray-50/50 gap-3">
                   <div className="flex flex-wrap gap-4 text-sm">
                     <div><p className="text-xs text-gray-400">Order ID</p><p className="font-semibold text-gray-800">{order.id}</p></div>
                     <div><p className="text-xs text-gray-400">Placed on</p><p className="font-semibold text-gray-800">{order.date}</p></div>
@@ -100,16 +100,16 @@ export default function Orders() {
 
                   {order.tracking ? (
                     <div className="bg-blue-50 rounded-lg p-3 flex items-center gap-3 mb-3">
-                      <svg className="w-4 h-4 text-[#0A1931]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
-                      <div>
+                      <svg className="w-4 h-4 text-[#0A1931] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8l-1 9a1 1 0 001 1h13a1 1 0 001-1L19 8M10 12h4" /></svg>
+                      <div className="min-w-0">
                         <p className="text-xs text-gray-500">CJ Tracking number</p>
-                        <p className="text-sm font-mono font-semibold text-[#0A1931]">{order.tracking}</p>
+                        <p className="text-sm font-mono font-semibold text-[#0A1931] break-all">{order.tracking}</p>
                       </div>
                     </div>
                   ) : (
                     <div className="bg-amber-50 rounded-lg p-3 flex items-center gap-3 mb-3">
-                      <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <div><p className="text-xs text-amber-700">Tracking pending payment confirmation from Paystack Redirect back to app after Paystack success to activate CJ tracking</p></div>
+                      <svg className="w-4 h-4 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <div className="min-w-0"><p className="text-xs text-amber-700">Tracking pending payment confirmation from Paystack Redirect back to app after Paystack success to activate CJ tracking</p></div>
                     </div>
                   )}
 
